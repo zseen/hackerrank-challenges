@@ -6,9 +6,7 @@ import sys
 def solve(grades):
     roundedGrades = []
     for grade in grades:
-        if grade < 38:
-            roundedGrades.append(grade)
-        elif grade % 5 == 0:
+        if grade < 38 or grade % 5 == 0:
             roundedGrades.append(grade)
         elif grade % 5 != 0:
             if (grade + 2) % 5 == 0:
