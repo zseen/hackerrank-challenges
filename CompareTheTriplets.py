@@ -16,7 +16,6 @@ def solve(a0, a1, a2, b0, b1, b2):
 
 def main():
     sys.stdin = open('comparethetriplets_input.txt')
-
     a0, a1, a2 = input().strip().split(' ')
     b0, b1, b2 = input().strip().split(' ')
     result = solve(a0, a1, a2, b0, b1, b2)

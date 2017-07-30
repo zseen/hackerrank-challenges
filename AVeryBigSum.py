@@ -1,7 +1,7 @@
 import sys
 
-def aVeryBigSum():
-    listToSum = list(map(int, input().strip().split(' ')))
+
+def aVeryBigSum(listToSum):
     sumNumbers = 0
     for x in listToSum:
         sumNumbers += x
@@ -11,8 +11,9 @@ def aVeryBigSum():
 
 def main():
     sys.stdin = open('AVeryBigSum_input.txt')
+    listToSum = list(map(int, input().strip().split(' ')))
     HowManyNumbers = int(input().strip())
-    result = aVeryBigSum()
+    result = aVeryBigSum(listToSum)
     print(result)
 
 if __name__ == "__main__":

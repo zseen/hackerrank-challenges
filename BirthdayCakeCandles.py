@@ -6,23 +6,19 @@ import sys
 def birthdayCakeCandles(candleHeight):
     candleHeight.sort()
     height = candleHeight[::-1]
-    sameHeight = []
+    
+    sameHeight = 0
     for item in range(0, len(height)):
-        if item == len(height)-1:
-            sameHeight.append(height[item])
-            break
-        elif height[item] == height[item+1]:
-            sameHeight.append(height[item])
-        elif height[item] != height[item+1]:
-            sameHeight.append(height[item])
+        sameHeight += 1
+        if item == len(height) - 1 or height[item] != height[item + 1]:
             break
 
-    return len(sameHeight)
+    return sameHeight
 
 
 def main():
     sys.stdin = open('birthdaycakecandles_input.txt')
-    #age = int(input().strip())
+    age = int(input().strip())
     candleHeight = list(map(int, input().strip().split(' ')))
     result = birthdayCakeCandles(candleHeight)
     print(result)
