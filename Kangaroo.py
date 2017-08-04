@@ -24,23 +24,28 @@ def kangaroo(kangStart1, kangFast1, kangStart2, kangFast2):
         kangLoc2.append(location)
 
     if len(kangLoc1) > len(kangLoc2):
-        for item in range(0,len(kangLoc2)):
+        for item in range(0, len(kangLoc2)):
             if kangLoc1[item] == kangLoc2[item]:
                 return True
 
     elif len(kangLoc2) > len(kangLoc1):
-        for item in range(0,len(kangLoc1)):
+        for item in range(0, len(kangLoc1)):
             if kangLoc1[item] == kangLoc2[item]:
                 return True
     return False
 
 
-sys.stdin = open('kangaroo_input.txt')
-x1, v1, x2, v2 = input().strip().split(' ')
-kangStart1, kangFast1, kangStart2, kangFast2 = [int(x1), int(v1), int(x2), int(v2)]
-result = kangaroo(x1, v1, x2, v2)
-if result is True:
-    print("YES")
-else:
-    print("NO")
+def main():
+    sys.stdin = open('kangaroo_input.txt')
+    x1, v1, x2, v2 = input().strip().split(' ')
+    kangStart1, kangFast1, kangStart2, kangFast2 = [int(x1), int(v1), int(x2), int(v2)]
+    result = kangaroo(x1, v1, x2, v2)
+    if result is True:
+        print("YES")
+    else:
+        print("NO")
+
+if __name__ == "__main__":
+    main()
+
 
