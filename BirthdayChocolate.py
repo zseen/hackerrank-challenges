@@ -3,15 +3,22 @@
 import sys
 
 
-def solve(numberOfSquares, digitOnSquares, day, month):
+def solve1(numberOfSquares, digitOnSquares, day, month):
+    canGive = 0
+    for itemNumber in range(0, numberOfSquares):
+        if sum(digitOnSquares[itemNumber:itemNumber+month:]) == day:
+            canGive += 1
+    return canGive
+
+
+def solve2(numberOfSquares, digitOnSquares, day, month):
     canGive = 0
 
-    if numberOfSquares == 1:
-        if day == digitOnSquares[0]:
-            canGive += 1
-
-    for itemNumber in range(0, numberOfSquares-1):
-        if sum(digitOnSquares[itemNumber:itemNumber+month:]) == day:
+    for itemNumber in range(0, (numberOfSquares-month)+1):
+        currentSum = 0
+        for index in range(0, month):
+            currentSum += digitOnSquares[itemNumber+index]
+        if currentSum == day:
             canGive += 1
 
     return canGive
@@ -23,7 +30,8 @@ def main():
     digitOnSquares = list(map(int, input().strip().split(' ')))
     day, month = input().strip().split(' ')
     day, month = [int(day), int(month)]
-    result = solve(numberOfSquares, digitOnSquares, day, month)
+    #result = solve1(numberOfSquares, digitOnSquares, day, month)
+    result = solve2(numberOfSquares, digitOnSquares, day, month)
     print(result)
 
 
