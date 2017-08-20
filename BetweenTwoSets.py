@@ -3,33 +3,38 @@
 import sys
 
 
-def numberDividedByElements(numberToDivide, listOfNumbers):
-    for element in listOfNumbers:
-        if numberToDivide % element != 0:
-            return False
-    return True
+class BetweenTheSets(object):
+    def __init__(self, smallNumbers, bigNumbers):
+        self.smallNumbers = smallNumbers
+        self.bigNumbers = bigNumbers
 
+    @staticmethod
+    def numberDividedByElements(numberToDivide, listOfNumbers):
+        for element in listOfNumbers:
+            if numberToDivide % element != 0:
+                return False
+        return True
 
-def elementsDividedByDivisor(divisor, listOfNumbers):
-    for element in listOfNumbers:
-        if element % divisor != 0:
-            return False
-    return True
+    @staticmethod
+    def elementsDividedByDivisor(divisor, listOfNumbers):
+        for element in listOfNumbers:
+            if element % divisor != 0:
+                return False
+        return True
 
+    def getBetweenTwoSetsCount(self):
+        counter = 0
 
-def getBetweenTwoSetsCount(smallNumbers, bigNumbers):
-    counter = 0
+        biggestInA = max(self.smallNumbers)
+        smallestInB = min(self.bigNumbers)
 
-    biggestInA = max(smallNumbers)
-    smallestInB = min(bigNumbers)
+        for item in range(biggestInA, smallestInB + 1):
+            numberA = BetweenTheSets.numberDividedByElements(item, self.smallNumbers)
+            numberB = BetweenTheSets.elementsDividedByDivisor(item, self.bigNumbers)
+            if numberA is True and numberB is True:
+                counter += 1
 
-    for item in range(biggestInA, smallestInB + 1):
-        numberA = numberDividedByElements(item, smallNumbers)
-        numberB = elementsDividedByDivisor(item, bigNumbers)
-        if numberA is True and numberB is True:
-            counter += 1
-
-    return counter
+        return counter
 
 
 def main():
@@ -38,10 +43,10 @@ def main():
     n, m = [int(n), int(m)]
     a = list(map(int, input().strip().split(' ')))
     b = list(map(int, input().strip().split(' ')))
-    total = getBetweenTwoSetsCount(a, b)
+    bts = BetweenTheSets(a, b)
+    total = bts.getBetweenTwoSetsCount()
+
     print(total)
-
-
 
 if __name__ == "__main__":
     main()
