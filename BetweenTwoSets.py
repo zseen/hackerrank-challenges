@@ -4,7 +4,10 @@ import sys
 
 
 class BetweenTheSets(object):
-  
+    def __init__(self, smallNumbers, bigNumbers):
+        self.smallNumbers = smallNumbers
+        self.bigNumbers = bigNumbers
+
     @staticmethod
     def numberDividedByElements(numberToDivide, listOfNumbers):
         for element in listOfNumbers:
@@ -19,16 +22,15 @@ class BetweenTheSets(object):
                 return False
         return True
 
-    @staticmethod
-    def getBetweenTwoSetsCount(smallNumbers, bigNumbers):
+    def getBetweenTwoSetsCount(self):
         counter = 0
 
-        biggestInA = max(smallNumbers)
-        smallestInB = min(bigNumbers)
+        biggestInA = max(self.smallNumbers)
+        smallestInB = min(self.bigNumbers)
 
         for item in range(biggestInA, smallestInB + 1):
-            numberA = BetweenTheSets.numberDividedByElements(item, smallNumbers)
-            numberB = BetweenTheSets.elementsDividedByDivisor(item, bigNumbers)
+            numberA = BetweenTheSets.numberDividedByElements(item, self.smallNumbers)
+            numberB = BetweenTheSets.elementsDividedByDivisor(item, self.bigNumbers)
             if numberA is True and numberB is True:
                 counter += 1
 
@@ -41,7 +43,9 @@ def main():
     n, m = [int(n), int(m)]
     a = list(map(int, input().strip().split(' ')))
     b = list(map(int, input().strip().split(' ')))
-    total = BetweenTheSets.getBetweenTwoSetsCount(a, b)
+    bts = BetweenTheSets(a, b)
+    total = bts.getBetweenTwoSetsCount()
+
     print(total)
 
 if __name__ == "__main__":
