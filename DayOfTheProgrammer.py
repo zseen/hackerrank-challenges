@@ -5,7 +5,6 @@ import sys
 dayOfTheProgrammer = 256
 yearOfCalendarChange = 1918
 differenceIn1918 = -13
-sumOfDays = 0
 
 
 def isYearLeapYear(year):
@@ -32,39 +31,33 @@ def monthsIfNotLeap():
     return monthsIfNotLeapYear
 
 
-def calculateTheDayIfNotLeap(nlp, sumOfDays, year):
-    for item in range(0, len(nlp)):
-        if sumOfDays + nlp[item][1] >= dayOfTheProgrammer:
+def calculateTheDay(listOfMonths, sumOfDays, year):
+    for item in range(0, len(listOfMonths)):
+        if sumOfDays + listOfMonths[item][1] >= dayOfTheProgrammer:
             day = dayOfTheProgrammer - sumOfDays
             return str(day) + "." + str(item + 1).zfill(2) + "." + str(year)
-        sumOfDays += nlp[item][1]
+        sumOfDays += listOfMonths[item][1]
 
 
-def calculateTheDayIfLeap(lp, sumOfDays, year):
-    for item in range(0, len(lp)):
-        if sumOfDays + lp[item][1] >= dayOfTheProgrammer:
-            day = dayOfTheProgrammer - sumOfDays
-            return str(day) + "." + str(item + 1).zfill(2) + "." + str(year)
-        sumOfDays += lp[item][1]
-
-
-def solve(year, sumOfDays):
+def solve(year):
     lp = monthsIfLeap()
     nlp = monthsIfNotLeap()
 
+    sumOfDays = 0
+
     if year == yearOfCalendarChange:
         sumOfDays += differenceIn1918
-        return calculateTheDayIfNotLeap(nlp, sumOfDays, year)
+        return calculateTheDay(nlp, sumOfDays, year)
     elif isYearLeapYear(year) is True:
-        return calculateTheDayIfLeap(lp, sumOfDays, year)
+        return calculateTheDay(lp, sumOfDays, year)
     else:
-        return calculateTheDayIfNotLeap(nlp, sumOfDays, year)
+        return calculateTheDay(nlp, sumOfDays, year)
 
 
 def main():
     sys.stdin = open('dayOfTheProgrammer_input.txt')
     year = int(input().strip())
-    result = solve(year, sumOfDays)
+    result = solve(year)
     print(result)
 
 if __name__ == "__main__":
