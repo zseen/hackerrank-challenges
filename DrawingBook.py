@@ -19,7 +19,7 @@ def bookLayoutFromBeginning():
         return [page[i:i + 2] for i in range(0, len(page), 2)]
 
 
-def bookLayoutFromEnd(l):
+def bookLayoutFromEnd():
     page = generateBookPages(numberOfPages)
 
     if len(page) % 2 == 0:
@@ -35,24 +35,18 @@ def turnPageFromBeginning():
     chunksFromBegin = bookLayoutFromBeginning()
     countFromBeginning = 0
     for item in chunksFromBegin:
-        print(item)
-        print(pageNeeded)
-        if item[0] or item[1] == pageNeeded:
+        if (item[0] == pageNeeded) or (item[1] == pageNeeded):
             return countFromBeginning
-        return countFromBeginning
+        countFromBeginning += 1
 
 
 def turnPageFromEnd():
-    chunksFromEnd = bookLayoutFromEnd(numberOfPages)
+    chunksFromEnd = bookLayoutFromEnd()
     countFromEnd = 0
     for item in chunksFromEnd:
-        print(item)
-        print(pageNeeded)
-        if item[0] or item[1] == pageNeeded:
-            print(countFromEnd)
+        if item[0] == pageNeeded or item[1] == pageNeeded:
             return countFromEnd
         countFromEnd += 1
-        print(countFromEnd)
 
 
 def solve():
