@@ -2,69 +2,54 @@
 
 import sys
 
-def generateBookPages(l):
+
+def generateBookPages(howManyPages):
     pageList = []
-    for item in range (0, l+1):
+    for item in range(0, howManyPages+1):
         pageList.append(item)
     return pageList
 
 
-def bookLayoutFromBeginning():
+def bookLayout(fromEnd, numberOfPages):
     page = generateBookPages(numberOfPages)
 
-    if len(page) % 2 == 0:
-        return [page[i:i + 2] for i in range(0, len(page), 2)]
-    else:
+    if len(page) % 2 != 0:
         page.append(0)
-        return [page[i:i + 2] for i in range(0, len(page), 2)]
 
-
-def bookLayoutFromEnd():
-    page = generateBookPages(numberOfPages)
-
-    if len(page) % 2 == 0:
+    if fromEnd is True:
         page = page[::-1]
-        return [page[i:i + 2] for i in range(0, len(page), 2)]
-    else:
-        page.append(0)
-        page = page[::-1]
-        return [page[i:i + 2] for i in range(0, len(page), 2)]
+
+    return [page[i: i + 2] for i in range(0, len(page), 2)]
 
 
-def turnPageFromBeginning():
-    chunksFromBegin = bookLayoutFromBeginning()
-    countFromBeginning = 0
-    for item in chunksFromBegin:
-        if (item[0] == pageNeeded) or (item[1] == pageNeeded):
-            return countFromBeginning
-        countFromBeginning += 1
-
-
-def turnPageFromEnd():
-    chunksFromEnd = bookLayoutFromEnd()
+def turnPage(chunks, pageNeeded):
     countFromEnd = 0
-    for item in chunksFromEnd:
+    for item in chunks:
         if item[0] == pageNeeded or item[1] == pageNeeded:
             return countFromEnd
         countFromEnd += 1
 
 
-def solve():
-    turnBegin = turnPageFromBeginning()
-    turnEnd = turnPageFromEnd()
-
+def solve(pageNeeded, numberOfPages):
+    chunksFromBeginning = bookLayout(False, numberOfPages)
+    turnBegin = turnPage(chunksFromBeginning, pageNeeded)
+    chunksFromEnd = bookLayout(True, numberOfPages)
+    turnEnd = turnPage(chunksFromEnd, pageNeeded)
 
     if turnBegin > turnEnd:
         return turnEnd
-    elif turnEnd > turnBegin:
+    else:
         return turnBegin
-    return turnBegin
 
 
+def main():
+    sys.stdin = open('drawingBook_input.txt')
+    numberOfPages = int(input().strip())
+    pageNeeded = int(input().strip())
+    result = solve(pageNeeded, numberOfPages)
+    print(result)
+
+if __name__ == "__main__":
+    main()
 
 
-sys.stdin = open('drawingBook_input.txt')
-numberOfPages = int(input().strip())
-pageNeeded = int(input().strip())
-result = solve()
-print(result)
