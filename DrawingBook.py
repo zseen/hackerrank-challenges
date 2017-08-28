@@ -15,52 +15,59 @@ class BookPage(object):
 
 
 class Book:
-    def __init__(self, numberOfPages):
-        self.numberOfPages = numberOfPages
+    def __init__(self, numberOfPages, isReverse):
+        self.__bookPages = None
 
-    def generateBookPages(self, howManyPages):
-        pageList = []
-        for item in range(0, howManyPages+1):
-            pageList.append(item)
-        return pageList
+        rawPages = Book.__getBookPagesListRaw(numberOfPages, isReverse)
+        self.__initPages(rawPages)
 
-    def getBookPagesList(self, fromEnd, numberOfPages):
-        page = self.generateBookPages(numberOfPages)
+    def __initPages(self, rawPages):
+        self.__bookPages = []
+        for i in range(0, len(rawPages), 2):
+            b = BookPage(rawPages[i], rawPages[i + 1])
+            self.__bookPages.append(b)
 
-        if len(page) % 2 != 0:
-            page.append(0)
-
-        if fromEnd is True:
-            page = page[::-1]
-
-        book = []
-        for i in range(0, len(page), 2):
-            b = BookPage(page[i], page[i+1])
-            book.append(b)
-
-        return book
-
-    def turnPage(self, bookPagesList, pageNeeded):
+    def findPage(self, pageNeeded):
         count = 0
-        for bookPage in bookPagesList:
+        for bookPage in self.__bookPages:
             if bookPage.matches(pageNeeded):
                 return count
             count += 1
 
-    def solve(self, pageNeeded, numberOfPages):
-        bookPagesFromBeginning = self.getBookPagesList(False, numberOfPages)
-        turnBegin = self.turnPage(bookPagesFromBeginning, pageNeeded)
+    @staticmethod
+    def __getBookPagesListRaw(numberOfPages, isReverse):
+        page = list(range(numberOfPages + 1))
 
-        bookPagesFromEnd = self.getBookPagesList(True, numberOfPages)
-        turnEnd = self.turnPage(bookPagesFromEnd, pageNeeded)
+        if len(page) % 2 == 1:
+            page.append(0)
 
-        if turnBegin > turnEnd:
-            return turnEnd
-        else:
-            return turnBegin
+        if isReverse is True:
+            page = page[::-1]
+
+        return page
+
+
+class BookLookupFromBothEnds:
+    def __init__(self, numberOfPages):
+        self.numberOfPages = numberOfPages
+
+        self.bookFromBeginning = self.getBookFromBeginning()
+        self.bookFromEnd = self.getBookFromEnd()
+
+    def getBookFromBeginning(self):
+        return self.getBook(False)
+
+    def getBookFromEnd(self):
+        return self.getBook(True)
+
+    def getBook(self, isReverse):
+        return Book(self.numberOfPages, isReverse)
 
     def find(self, pageNeeded):
-        return self.solve(pageNeeded, self.numberOfPages)
+        turnBegin = self.bookFromBeginning.findPage(pageNeeded)
+        turnEnd = self.bookFromEnd.findPage(pageNeeded)
+
+        return min(turnBegin, turnEnd)
 
 
 def main():
@@ -68,7 +75,7 @@ def main():
     numberOfPages = int(input().strip())
     pageNeeded = int(input().strip())
 
-    book = Book(numberOfPages)
+    book = BookLookupFromBothEnds(numberOfPages)
     result = book.find(pageNeeded)
     print(result)
 
