@@ -3,6 +3,17 @@
 import sys
 
 
+class BookPage(object):
+
+    def __init__(self, left=None, right=None):
+        self.__left = left
+        self.__right = right
+
+    def matches(self, page):
+        if page == self.__left or page == self.__right:
+            return True
+        return False
+
 def generateBookPages(howManyPages):
     pageList = []
     for item in range(0, howManyPages+1):
@@ -10,7 +21,7 @@ def generateBookPages(howManyPages):
     return pageList
 
 
-def bookLayout(fromEnd, numberOfPages):
+def getBookPagesList(fromEnd, numberOfPages):
     page = generateBookPages(numberOfPages)
 
     if len(page) % 2 != 0:
@@ -19,22 +30,28 @@ def bookLayout(fromEnd, numberOfPages):
     if fromEnd is True:
         page = page[::-1]
 
-    return [page[i: i + 2] for i in range(0, len(page), 2)]
+    book = []
+    for i in range(0, len(page), 2):
+        b = BookPage(page[i], page[i+1])
+        book.append(b)
+
+    return book
 
 
-def turnPage(chunks, pageNeeded):
-    countFromEnd = 0
-    for item in chunks:
-        if item[0] == pageNeeded or item[1] == pageNeeded:
-            return countFromEnd
-        countFromEnd += 1
+def turnPage(bookPagesList, pageNeeded):
+    count = 0
+    for bookPage in bookPagesList:
+        if bookPage.matches(pageNeeded):
+            return count
+        count += 1
 
 
 def solve(pageNeeded, numberOfPages):
-    chunksFromBeginning = bookLayout(False, numberOfPages)
-    turnBegin = turnPage(chunksFromBeginning, pageNeeded)
-    chunksFromEnd = bookLayout(True, numberOfPages)
-    turnEnd = turnPage(chunksFromEnd, pageNeeded)
+    bookPagesFromBeginning = getBookPagesList(False, numberOfPages)
+    turnBegin = turnPage(bookPagesFromBeginning, pageNeeded)
+
+    bookPagesFromEnd = getBookPagesList(True, numberOfPages)
+    turnEnd = turnPage(bookPagesFromEnd, pageNeeded)
 
     if turnBegin > turnEnd:
         return turnEnd
