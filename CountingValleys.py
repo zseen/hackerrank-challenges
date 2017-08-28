@@ -2,7 +2,7 @@ import sys
 
 
 def countValleys(upAndDown):
-    isDown = 0
+    level = 0
     valley = 0
     upAndDownNumbers = []
 
@@ -13,8 +13,8 @@ def countValleys(upAndDown):
             upAndDownNumbers.append(-1)
 
     for item in upAndDownNumbers:
-        isDown += item
-        if item == 1 and isDown == 0:
+        level += item
+        if item == 1 and level == 0:
             valley += 1
 
     return valley
