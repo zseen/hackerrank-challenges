@@ -11,9 +11,9 @@ def sumVertical(square):
         sumVert2 += item[1]
         sumVert3 += item[2]
 
-
-
-
+    if sumVert1 != 15 or sumVert2 != 15 or sumVert3 != 15:
+        return False
+    return True
 
 
 def sumHorizontal(square):
@@ -21,15 +21,29 @@ def sumHorizontal(square):
     sumHor2 = sum(square[1])
     sumHor3 = sum(square[2])
 
+    if sumHor1 != 15 or sumHor2 != 15 or sumHor3 != 15:
+        return False
+    return True
+
 
 def sumDiagonal(square):
     diag1 = [square[0][0], square[1][1], square[2][2]]
     diag2 = [square[0][2], square[1][1], square[2][0]]
+    if sum(diag1) != 15 or sum(diag2) != 15:
+        return False
+    return True
 
 
+def checkIfMagicSquare(square):
+    diag = sumDiagonal(square)
+    horiz = sumHorizontal(square)
+    vertic = sumVertical(square)
 
-def magisSquare(square):
-    
+    if diag == False or horiz == False or vertic == False:
+        return "Not magic"
+
+
+def makeMagicSquare(square):
 
 
 
@@ -43,11 +57,5 @@ for s_i in range(3):
    square.append(s_t)
 #  Print the minimum cost of converting 's' into a magic square
 
-x = sumVertical(square)
-y = sumHorizontal(square)
-z = sumDiagonal(square)
+x = checkIfMagicSquare(square)
 print(x)
-print(y)
-print(z)
-sumHorizontal(square)
-print(square)
