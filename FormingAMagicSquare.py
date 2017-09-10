@@ -39,14 +39,33 @@ def checkIfMagicSquare(square):
     horiz = sumHorizontal(square)
     vertic = sumVertical(square)
 
+    numbersList = [range(0,10)]
+    for item in square:
+        for i in range(0,3):
+            if item[i] not in numbersList:
+                return "Not magic"
+
     if diag == False or horiz == False or vertic == False:
         return "Not magic"
+    return "It is magic"
 
 
-def makeMagicSquare(square):
+def calculateTheCost(square):
+    magic1 = [8,1,6,3,5,7,4,9,2]
+    magic2 = [6,1,8,7,5,3,2,9,4]
+    magic3 = [4,9,2,3,5,7,8,1,6]
+    magic4 = [2,9,4,7,5,3,6,1,8]
+    magic5 = [8,3,4,1,5,9,6,7,2]
+    magic6 = [4,3,8,9,5,1,2,7,6]
+    magic7 = [6,7,2,1,5,9,8,3,4]
+    magic8 = [2,7,6,9,5,1,4,3,8]
 
 
 
+    squareList = []
+    for item in square:
+        for i in range(0,3):
+            squareList.append(item[i])
 
 
 
@@ -59,3 +78,6 @@ for s_i in range(3):
 
 x = checkIfMagicSquare(square)
 print(x)
+y = calculateTheCost(square)
+print(y)
+
