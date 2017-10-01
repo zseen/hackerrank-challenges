@@ -18,11 +18,11 @@ def rank(scores, alice,n):
         if scores[i-1] != scores[i]:
             scoresUniqueForRank.append(scores[i])
     print(scoresUniqueForRank)
+    print(alice)
 
     for item in alice:
         for i in range(0,n):
-            if item < scoresUniqueForRank[i]:
-                scoresUniqueForRank.insert(item, scoresUniqueForRank[i+1])
-                print(scoresUniqueForRank)
+            scoresUniqueForRank.insert(scoresUniqueForRank[i+1], item)
+            print(scoresUniqueForRank)
 
 rank(scores, alice,n)
