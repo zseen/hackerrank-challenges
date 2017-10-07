@@ -12,17 +12,18 @@ alice = [int(alice_temp) for alice_temp in input().strip().split(' ')]
 
 def rank(scores, alice,n):
     sorted(scores)
-    print(scores)
     scoresUniqueForRank = []
     for i in range(0,n):
         if scores[i-1] != scores[i]:
             scoresUniqueForRank.append(scores[i])
-    print(scoresUniqueForRank)
-    print(alice)
 
     for item in alice:
-        for i in range(0,n):
-            scoresUniqueForRank.insert(scoresUniqueForRank[i+1], item)
-            print(scoresUniqueForRank)
+        scoresUniqueForRank.append(item)
+        y = sorted(scoresUniqueForRank, key=int)
+        y.reverse()
+        x = y.index(item)
+        print(x+1)
+
+
 
 rank(scores, alice,n)
