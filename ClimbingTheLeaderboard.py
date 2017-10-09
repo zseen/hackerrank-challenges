@@ -3,27 +3,32 @@
 import sys
 
 
-sys.stdin = open('climbingTheLeaderboard_input.txt')
-n = int(input().strip())
-scores = [int(scores_temp) for scores_temp in input().strip().split(' ')]
-m = int(input().strip())
-alice = [int(alice_temp) for alice_temp in input().strip().split(' ')]
-# your code goes here
 
-def rank(scores, alice,n):
+
+def rank(scores, alice):
     sorted(scores)
-    scoresUniqueForRank = []
-    for i in range(0,n):
-        if scores[i-1] != scores[i]:
-            scoresUniqueForRank.append(scores[i])
+    scoresUniqueForRank = set(scores)
+
+    aliceRank = []
 
     for item in alice:
-        scoresUniqueForRank.append(item)
-        y = sorted(scoresUniqueForRank, key=int)
-        y.reverse()
-        x = y.index(item)
-        print(x+1)
+        scoresUniqueForRank.add(item)
+        newScores = sorted(scoresUniqueForRank, key=int)
+        newScores.reverse()
+        position = newScores.index(item)
+        aliceRank.append(position+1)
+
+    return aliceRank
 
 
+def main():
+    sys.stdin = open('climbingTheLeaderboard_input.txt')
+    n = int(input().strip())
+    scores = [int(scores_temp) for scores_temp in input().strip().split(' ')]
+    m = int(input().strip())
+    alice = [int(alice_temp) for alice_temp in input().strip().split(' ')]
+    alicePosition = rank(scores,alice)
+    print(*alicePosition,sep='\n')
 
-rank(scores, alice,n)
+if __name__ == "__main__":
+    main()
