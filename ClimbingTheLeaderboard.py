@@ -3,9 +3,7 @@
 import sys
 
 
-
-
-def rank(scores, alice):
+def getRank(scores, alice):
     sorted(scores)
     scoresUniqueForRank = set(scores)
 
@@ -27,8 +25,8 @@ def main():
     scores = [int(scores_temp) for scores_temp in input().strip().split(' ')]
     m = int(input().strip())
     alice = [int(alice_temp) for alice_temp in input().strip().split(' ')]
-    alicePosition = rank(scores,alice)
-    print(*alicePosition,sep='\n')
+    alicePosition = getRank(scores,alice)
+    print(*alicePosition, sep='\n')
 
 if __name__ == "__main__":
     main()
