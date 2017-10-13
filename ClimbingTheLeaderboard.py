@@ -4,7 +4,7 @@ import sys
 
 
 def getRank(scores, alice):
-    sorted(scores)
+    
     scoresUniqueForRank = set(scores)
 
     aliceRank = []
@@ -15,6 +15,7 @@ def getRank(scores, alice):
         newScores.reverse()
         position = newScores.index(item)
         aliceRank.append(position+1)
+        scoresUniqueForRank.remove(item)
 
     return aliceRank
 
