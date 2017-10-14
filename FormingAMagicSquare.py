@@ -2,6 +2,7 @@
 
 import sys
 
+
 def possibleMagicSquares():
     magicSquares = []
     magicSquares.append([[8,1,6],[3,5,7],[4,9,2]])
@@ -15,16 +16,23 @@ def possibleMagicSquares():
 
     return magicSquares
 
-def compareTheSquares(square, magicSquares):
-    costList = []
-    for item in magicSquares:
-        costOfItems = 0
-        for i in range(0,3):
-            for e in range(0,3):
-                costOfItems += abs(item[i][e] - square[i][e])
-        costList.append(costOfItems)
 
-    return min(costList)
+def getMinimalCostDifference(square, magicSquares):
+    minimalCost = sys.maxsize
+    for item in magicSquares:
+        cost = getCostDifference(item, square)
+        if cost < minimalCost:
+            minimalCost = cost
+    return minimalCost
+
+
+def getCostDifference(item, square):
+    costOfItems = 0
+    for i in range(0, 3):
+        for e in range(0, 3):
+            costOfItems += abs(item[i][e] - square[i][e])
+
+    return costOfItems
 
 
 def main():
@@ -35,7 +43,7 @@ def main():
         square.append(s_t)
     # Print the minimum cost of converting 's' into a magic square
     possibleSquares = possibleMagicSquares()
-    cost = compareTheSquares(square, possibleSquares)
+    cost = getMinimalCostDifference(square, possibleSquares)
     print(cost)
 
 if __name__ == "__main__":
