@@ -4,17 +4,18 @@ import sys
 
 
 def possibleMagicSquares():
-    magicSquares = []
-    magicSquares.append([[8,1,6],[3,5,7],[4,9,2]])
-    magicSquares.append([[6,1,8],[7,5,3],[2,9,4]])
-    magicSquares.append([[4,9,2],[3,5,7],[8,1,6]])
-    magicSquares.append([[2,9,4],[7,5,3],[6,1,8]])
-    magicSquares.append([[8,3,4],[1,5,9],[6,7,2]])
-    magicSquares.append([[4,3,8],[9,5,1],[2,7,6]])
-    magicSquares.append([[6,7,2],[1,5,9],[8,3,4]])
-    magicSquares.append([[2,7,6],[9,5,1],[4,3,8]])
+    listOfSquares = []
+    with open('formingAMagicSquare_squares.txt') as file:
+        line = file.readline()
+        while line:
+            square = []
+            for s_i in range(3):
+                s_t = [int(s_temp) for s_temp in line.strip().split(' ')]
+                square.append(s_t)
 
-    return magicSquares
+                line = file.readline()
+            listOfSquares.append(square)
+    return listOfSquares
 
 
 def getMinimalCostDifference(square, magicSquares):
