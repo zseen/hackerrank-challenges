@@ -43,9 +43,12 @@ def main():
         s_t = [int(s_temp) for s_temp in input().strip().split(' ')]
         square.append(s_t)
     # Print the minimum cost of converting 's' into a magic square
-    possibleSquares = possibleMagicSquares()
-    cost = getMinimalCostDifference(square, possibleSquares)
-    print(cost)
+    try:
+        possibleSquares = possibleMagicSquares()
+        cost = getMinimalCostDifference(square, possibleSquares)
+        print(cost)
+    except ValueError as ve:
+        print("Your file format is invalid, please check it: " + str(ve))
 
 if __name__ == "__main__":
     main()
