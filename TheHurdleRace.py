@@ -2,18 +2,22 @@
 
 import sys
 
-sys.stdin = open('theHurdleRace_input.txt')
-numberOfHurdles, maxJumpHeight = input().strip().split(' ')
-numberOfHurdles, maxJumpHeight = [int(numberOfHurdles), int(maxJumpHeight)]
-height = list(map(int, input().strip().split(' ')))
 
-def beveragesToDrink():
-    #print(maxJumpHeight)
-    #print(height)
+def beveragesToDrink(maxJumpHeight, height):
     beverage = 0
     for item in height:
-        if item + beverage > maxJumpHeight:
-            beverage += item - maxJumpHeight
-    print(beverage)
+        if item > maxJumpHeight + beverage:
+            beverage = item - maxJumpHeight
+    return beverage
 
-beveragesToDrink()
+def main():
+    sys.stdin = open('theHurdleRace_input.txt')
+    numberOfHurdles, maxJumpHeight = input().strip().split(' ')
+    numberOfHurdles, maxJumpHeight = [int(numberOfHurdles), int(maxJumpHeight)]
+    height = list(map(int, input().strip().split(' ')))
+    drink = beveragesToDrink(maxJumpHeight, height)
+    print(drink)
+
+
+if __name__ == "__main__":
+    main()
