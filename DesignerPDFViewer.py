@@ -7,15 +7,15 @@ import string
 def getArea(word, heightOfLetters):
     alphabet = list(string.ascii_lowercase)
     letterHeightDict = dict(zip(alphabet, heightOfLetters))
-    biggestLetter = 0
+    maxLetterHeight = 0
     wordList = list(word)
 
-    for key, value in letterHeightDict.items():
-        if key in wordList:
-            if value > biggestLetter:
-                biggestLetter = value
+    for char in wordList:
+        letterHeight = letterHeightDict[char]
+        if letterHeight > maxLetterHeight:
+            maxLetterHeight = letterHeight
 
-    colouredArea = biggestLetter * len(wordList)
+    colouredArea = maxLetterHeight * len(wordList)
     return colouredArea
 
 
