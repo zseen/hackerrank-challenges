@@ -3,19 +3,15 @@
 import sys
 
 
-def getRank(scores, alice):
-    
-    scoresUniqueForRank = set(scores)
-
+def getRank(scores, aliceScores):
     aliceRank = []
+    scoresUniqueList = sorted(set(scores))
+    scoresIndex = 0
 
-    for item in alice:
-        scoresUniqueForRank.add(item)
-        newScores = sorted(scoresUniqueForRank, key=int)
-        newScores.reverse()
-        position = newScores.index(item)
-        aliceRank.append(position+1)
-        scoresUniqueForRank.remove(item)
+    for item in aliceScores:
+        while scoresIndex < len(scoresUniqueList) and scoresUniqueList[scoresIndex] <= item:
+            scoresIndex += 1
+        aliceRank.append(len(scoresUniqueList) - scoresIndex + 1)
 
     return aliceRank
 
