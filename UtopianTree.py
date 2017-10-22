@@ -2,13 +2,14 @@
 
 import sys
 
+
 def growthHalfCycle(n):
-    cH = growthFullCycle(n)
-    return cH * 2
+    currHeight = growthFullCycle(n)
+    return currHeight * 2
 
 def growthFullCycle(n):
     currentHeight = 1
-    for currentHeight in range(0,(n//2)+1):
+    for i in range(1,(n//2)+1):
         currentHeight = currentHeight * 2
         currentHeight += 1
     return currentHeight
@@ -16,13 +17,18 @@ def growthFullCycle(n):
 
 def getHeight(n):
 
-    treeFull = growthFullCycle(n)
-    treeHalf = growthHalfCycle(n)
+
+
+    treeHeights = []
 
     if n % 2 == 0:
-        return treeFull
+        treeFull = growthFullCycle(n)
+        treeHeights.append(treeFull)
     else:
-        return treeHalf
+        treeHalf = growthHalfCycle(n)
+        treeHeights.append(treeHalf)
+
+    return treeHeights
 
 
 
@@ -37,12 +43,15 @@ def getHeight(n):
 def main():
     sys.stdin = open('utopianTree_input.txt')
     t = int(input().strip())
+
     for a0 in range(t):
         n = int(input().strip())
-        print(n)
-    height = getHeight(t)
+        #print(n)
 
-    print(height)
+        height = getHeight(n)
+
+        for item in height:
+            print(item)
 
 if __name__ == "__main__":
     main()
