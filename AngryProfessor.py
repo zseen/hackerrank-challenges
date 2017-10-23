@@ -1,4 +1,5 @@
 #!/bin/python3
+import unittest
 
 import sys
 
@@ -32,9 +33,15 @@ def main():
         else:
             print("NO")
 
+
+class TestWinChecking(unittest.TestCase):
+    def test_getCancelled_4studentsToBePresent_notcancelled(self):
+
+            cancelled = getCancelled(studentsToBePresent, arrivalTime)
+            self.assertTrue(cancelled is False)
+
+
 if __name__ == "__main__":
     main()
-
-
 
 
