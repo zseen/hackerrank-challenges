@@ -35,13 +35,38 @@ def main():
 
 
 class TestWinChecking(unittest.TestCase):
-    def test_getCancelled_4studentsToBePresent_notcancelled(self):
+    def test_getCancelled_6studentsToBePresent_47inTime_notcancelled(self):
+        sys.stdin = open('angryProfessor_unittest1_input.txt')
+        numberOfStudentsAltogether, studentsToBePresent = input().strip().split(' ')
+        numberOfStudentsAltogether, studentsToBePresent = [int(numberOfStudentsAltogether), int(studentsToBePresent)]
+        arrivalTime = [int(a_temp) for a_temp in input().strip().split(' ')]
+        cancelled = getCancelled(studentsToBePresent, arrivalTime)
+        self.assertTrue(cancelled is False)
 
-            cancelled = getCancelled(studentsToBePresent, arrivalTime)
-            self.assertTrue(cancelled is False)
+    def test_getCancelled_77studentsToBePresent_45inTime_cancelled(self):
+        sys.stdin = open('angryProfessor_unittest2_input.txt')
+        numberOfStudentsAltogether, studentsToBePresent = input().strip().split(' ')
+        numberOfStudentsAltogether, studentsToBePresent = [int(numberOfStudentsAltogether), int(studentsToBePresent)]
+        arrivalTime = [int(a_temp) for a_temp in input().strip().split(' ')]
+        cancelled = getCancelled(studentsToBePresent, arrivalTime)
+        self.assertTrue(cancelled is True)
 
+    def test_getCancelled_190studentsToBePresent_445inTime_notCancelled(self):
+        sys.stdin = open('angryProfessor_unittest3_input.txt')
+        numberOfStudentsAltogether, studentsToBePresent = input().strip().split(' ')
+        numberOfStudentsAltogether, studentsToBePresent = [int(numberOfStudentsAltogether), int(studentsToBePresent)]
+        arrivalTime = [int(a_temp) for a_temp in input().strip().split(' ')]
+        x = 0
+        for item in arrivalTime:
+            if item <= 0:
+                x +=1
+        print(x)
+        cancelled = getCancelled(studentsToBePresent, arrivalTime)
+        self.assertTrue(cancelled is False)
 
 if __name__ == "__main__":
-    main()
+    unittest.main()
+    #main()
+
 
 
