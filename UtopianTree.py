@@ -4,11 +4,13 @@ import sys
 
 
 def growthHalfCycle(n):
-    currHeight = growthFullCycle(n)
+    currHeight = growthFullCycle(n - 1)
     return currHeight * 2
 
 
 def growthFullCycle(n):
+    if n % 2 != 0:
+        raise RuntimeError("Method can only be called with an even parameter")
     currentHeight = 1
     for _ in range(0, n//2):
         currentHeight *= 2
@@ -20,11 +22,10 @@ def getHeight(n):
     treeHeights = []
 
     if n % 2 == 0:
-        treeFull = growthFullCycle(n)
-        treeHeights.append(treeFull)
+        treeHeight = growthFullCycle(n)
     else:
-        treeHalf = growthHalfCycle(n)
-        treeHeights.append(treeHalf)
+        treeHeight = growthHalfCycle(n)
+    treeHeights.append(treeHeight)
 
     return treeHeights
 
