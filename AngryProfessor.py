@@ -4,30 +4,35 @@ import unittest
 import sys
 
 
-def arriveInTime(arrivalTime):
-    studentInTime = 0
-    for item in arrivalTime:
+def numArrivedInTime(arrivalTimes):
+    numStudentsInTime = 0
+    for item in arrivalTimes:
         if item <= 0:
-            studentInTime += 1
-    return studentInTime
+            numStudentsInTime += 1
+    return numStudentsInTime
 
 
-def getCancelled(studentsToBePresent, arrivalTime):
-    inTime = arriveInTime(arrivalTime)
+def isCancelled(studentsToBePresent, arrivalTimes):
+    inTime = numArrivedInTime(arrivalTimes)
 
     if inTime >= studentsToBePresent:
         return False
     return True
 
 
+def getHelpWithInput():
+    numberOfStudentsAltogether, studentsToBePresent = input().strip().split(' ')
+    numberOfStudentsAltogether, studentsToBePresent = [int(numberOfStudentsAltogether), int(studentsToBePresent)]
+    arrivalTimes = [int(a_temp) for a_temp in input().strip().split(' ')]
+    cancelled = isCancelled(studentsToBePresent, arrivalTimes)
+    return cancelled
+
+
 def main():
     sys.stdin = open('angryProfessor_input.txt')
     t = int(input().strip())
     for a0 in range(t):
-        numberOfStudentsAltogether, studentsToBePresent = input().strip().split(' ')
-        numberOfStudentsAltogether, studentsToBePresent = [int(numberOfStudentsAltogether), int(studentsToBePresent)]
-        arrivalTime = [int(a_temp) for a_temp in input().strip().split(' ')]
-        cancelled = getCancelled(studentsToBePresent, arrivalTime)
+        cancelled = getHelpWithInput()
         if cancelled is True:
             print("YES")
         else:
@@ -35,34 +40,31 @@ def main():
 
 
 class TestWinChecking(unittest.TestCase):
-    def test_getCancelled_6studentsToBePresent_47inTime_notcancelled(self):
+    def test_isCancelled_6studentsToBePresent_47inTime_notCancelled(self):
         sys.stdin = open('angryProfessor_unittest1_input.txt')
-        numberOfStudentsAltogether, studentsToBePresent = input().strip().split(' ')
-        numberOfStudentsAltogether, studentsToBePresent = [int(numberOfStudentsAltogether), int(studentsToBePresent)]
-        arrivalTime = [int(a_temp) for a_temp in input().strip().split(' ')]
-        cancelled = getCancelled(studentsToBePresent, arrivalTime)
+        cancelled = getHelpWithInput()
         self.assertTrue(cancelled is False)
 
-    def test_getCancelled_77studentsToBePresent_45inTime_cancelled(self):
+    def test_isCancelled_77studentsToBePresent_45inTime_cancelled(self):
         sys.stdin = open('angryProfessor_unittest2_input.txt')
-        numberOfStudentsAltogether, studentsToBePresent = input().strip().split(' ')
-        numberOfStudentsAltogether, studentsToBePresent = [int(numberOfStudentsAltogether), int(studentsToBePresent)]
-        arrivalTime = [int(a_temp) for a_temp in input().strip().split(' ')]
-        cancelled = getCancelled(studentsToBePresent, arrivalTime)
+        cancelled = getHelpWithInput()
         self.assertTrue(cancelled is True)
 
-    def test_getCancelled_190studentsToBePresent_445inTime_notCancelled(self):
+    def test_isCancelled_190studentsToBePresent_445inTime_notCancelled(self):
         sys.stdin = open('angryProfessor_unittest3_input.txt')
-        numberOfStudentsAltogether, studentsToBePresent = input().strip().split(' ')
-        numberOfStudentsAltogether, studentsToBePresent = [int(numberOfStudentsAltogether), int(studentsToBePresent)]
-        arrivalTime = [int(a_temp) for a_temp in input().strip().split(' ')]
-        x = 0
-        for item in arrivalTime:
-            if item <= 0:
-                x +=1
-        print(x)
-        cancelled = getCancelled(studentsToBePresent, arrivalTime)
+        cancelled = getHelpWithInput()
         self.assertTrue(cancelled is False)
+
+    def test_isCancelled_1studentsToBePresent_0inTime_Cancelled(self):
+        sys.stdin = open('angryProfessor_unittest4_input.txt')
+        cancelled = getHelpWithInput()
+        self.assertTrue(cancelled is True)
+
+    def test_isCancelled_2studentsToBePresent_2inTime_notCancelled(self):
+        sys.stdin = open('angryProfessor_unittest5_input.txt')
+        cancelled = getHelpWithInput()
+        self.assertTrue(cancelled is False)
+
 
 if __name__ == "__main__":
     unittest.main()
