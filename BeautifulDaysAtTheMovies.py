@@ -3,7 +3,7 @@ import sys
 
 def reverseDay(startDate, endDate):
     reversedDays = []
-    for day in range(startDate, endDate+1):
+    for day in range(startDate, endDate + 1):
         reversedDays.append(str(day)[::-1])
     return reversedDays
 
@@ -11,18 +11,15 @@ def reverseDay(startDate, endDate):
 def isDayBeautiful(startDate, endDate, divisor):
     revDays = reverseDay(startDate, endDate)
     daysList = []
-    for day in range(startDate,endDate+1):
+    for day in range(startDate, endDate + 1):
         daysList.append(day)
 
     beautiful = 0
     for revDay, day in zip(revDays, daysList):
         if abs(int(revDay)-day) % divisor == 0:
-            beautiful +=1
+            beautiful += 1
 
     return beautiful
-
-
-
 
 
 def main():
