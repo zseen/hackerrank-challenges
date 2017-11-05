@@ -20,10 +20,10 @@ def isCancelled(studentsToBePresent, arrivalTimes):
     return True
 
 
-def getHelpWithInput():
-    numberOfStudentsAltogether, studentsToBePresent = input().strip().split(' ')
+def determineIfCancelledFromStream(streamFunc):
+    numberOfStudentsAltogether, studentsToBePresent = streamFunc().strip().split(' ')
     numberOfStudentsAltogether, studentsToBePresent = [int(numberOfStudentsAltogether), int(studentsToBePresent)]
-    arrivalTimes = [int(a_temp) for a_temp in input().strip().split(' ')]
+    arrivalTimes = [int(a_temp) for a_temp in streamFunc().strip().split(' ')]
     cancelled = isCancelled(studentsToBePresent, arrivalTimes)
     return cancelled
 
@@ -32,37 +32,46 @@ def main():
     sys.stdin = open('angryProfessor_input.txt')
     t = int(input().strip())
     for a0 in range(t):
-        cancelled = getHelpWithInput()
+        cancelled = determineIfCancelledFromStream(input)
         if cancelled is True:
             print("YES")
         else:
             print("NO")
 
+# rename unit test files
+# use new signature for determineIfCancelledFromStream
+# write a unit test for isCancelled
+# correct unit test names
+
 
 class TestWinChecking(unittest.TestCase):
-    def test_isCancelled_6studentsToBePresent_47inTime_notCancelled(self):
-        sys.stdin = open('angryProfessor_unittest1_input.txt')
-        cancelled = getHelpWithInput()
+    def test_determineIfCancelled_6studentsToBePresent_47inTime_notCancelled(self):
+        f = open('angryProfessor_test_determineIfCancelled_6studentsToBePresent_47inTime_notCancelled.txt')
+        cancelled = determineIfCancelledFromStream(f.readline)
         self.assertTrue(cancelled is False)
 
-    def test_isCancelled_77studentsToBePresent_45inTime_cancelled(self):
-        sys.stdin = open('angryProfessor_unittest2_input.txt')
-        cancelled = getHelpWithInput()
+    def test_determineIfCancelled_77studentsToBePresent_45inTime_cancelled(self):
+        f = open('angryProfessor_test_determineIfCancelled_77studentsToBePresent_45inTime_cancelled.txt')
+        cancelled = determineIfCancelledFromStream(f.readline)
         self.assertTrue(cancelled is True)
 
-    def test_isCancelled_190studentsToBePresent_445inTime_notCancelled(self):
-        sys.stdin = open('angryProfessor_unittest3_input.txt')
-        cancelled = getHelpWithInput()
+    def test_determineIfCancelled_190studentsToBePresent_445inTime_notCancelled(self):
+        f = open('angryProfessor_test_determineIfCancelled_190studentsToBePresent_445inTime_notCancelled.txt')
+        cancelled = determineIfCancelledFromStream(f.readline)
         self.assertTrue(cancelled is False)
 
-    def test_isCancelled_1studentsToBePresent_0inTime_Cancelled(self):
-        sys.stdin = open('angryProfessor_unittest4_input.txt')
-        cancelled = getHelpWithInput()
+    def test_determineIfCancelled_1studentsToBePresent_0inTime_Cancelled(self):
+        f = open('angryProfessor_test_determineIfCancelled_1studentsToBePresent_0inTime_Cancelled.txt')
+        cancelled = determineIfCancelledFromStream(f.readline)
         self.assertTrue(cancelled is True)
 
-    def test_isCancelled_2studentsToBePresent_2inTime_notCancelled(self):
-        sys.stdin = open('angryProfessor_unittest5_input.txt')
-        cancelled = getHelpWithInput()
+    def test_determineIfCancelled_2studentsToBePresent_2inTime_notCancelled(self):
+        f = open('angryProfessor_test_determineIfCancelled_2studentsToBePresent_2inTime_notCancelled.txt')
+        cancelled = determineIfCancelledFromStream(f.readline)
+        self.assertTrue(cancelled is False)
+
+    def test_isCancelled(self):
+        cancelled = isCancelled(3, [0, 2, -3, 5, -4])
         self.assertTrue(cancelled is False)
 
 
