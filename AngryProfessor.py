@@ -65,7 +65,7 @@ class TestWinChecking(unittest.TestCase):
         cancelled = determineIfCancelledFromStream(f.readline)
         self.assertTrue(cancelled is False)
 
-    def test_isClassCancelled(self):
+    def test_isClassCancelled_3studentsToBePresent_3inTime_notCancelled(self):
         cancelled = isClassCancelled(3, [0, 2, -3, 5, -4])
         self.assertTrue(cancelled is False)
 
