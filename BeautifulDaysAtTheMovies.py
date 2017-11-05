@@ -1,7 +1,7 @@
 import sys
 
 
-def reverseDay(daysList):
+def getReversedDays(daysList):
     reversedDays = []
     for day in daysList:
         reversedDays.append(int(str(day)[::-1]))
@@ -12,7 +12,7 @@ def isDayBeautiful(startDate, endDate, divisor):
     daysList = []
     for day in range(startDate, endDate + 1):
         daysList.append(day)
-    revDays = reverseDay(daysList)
+    revDays = getReversedDays(daysList)
 
 
     beautiful = 0
