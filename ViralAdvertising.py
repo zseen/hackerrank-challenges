@@ -3,13 +3,20 @@
 import sys
 
 def getHowManyLikes(days, peopleShownFirstDay):
-    newToSee = peopleShownFirstDay // 2
+    allWhoLikes = []
+
+    for _ in range(0, days):
+        newToSee = 
+        shownByNewToSee = newToSee * 3
+        allWhoLikes.append(shownByNewToSee)
+
+    return allWhoLikes
     
 
 
 
 def main():
-    sys.stdin = open('birthdaycakecandles_input.txt')
+    sys.stdin = open('viralAdvertising_input.txt')
     days = int(input().strip())
     peopleShownFirstDay = 5
     result = getHowManyLikes(days, peopleShownFirstDay)
