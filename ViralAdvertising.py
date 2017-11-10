@@ -2,24 +2,22 @@
 
 import sys
 
-def getHowManyLikes(days, peopleShownFirstDay):
-    allWhoLikes = []
 
-    for _ in range(0, days):
-        newToSee = 
-        shownByNewToSee = newToSee * 3
-        allWhoLikes.append(shownByNewToSee)
+def getHowManyLikes(days, peopleShown):
+    liked = 0
 
-    return allWhoLikes
-    
+    for likes in range(0, days):
+        liked += peopleShown // 2
+        peopleShown = peopleShown // 2 * 3
 
+    return liked
 
 
 def main():
     sys.stdin = open('viralAdvertising_input.txt')
     days = int(input().strip())
-    peopleShownFirstDay = 5
-    result = getHowManyLikes(days, peopleShownFirstDay)
+    peopleShown = 5
+    result = getHowManyLikes(days, peopleShown)
     print(result)
 
 if __name__ == "__main__":
