@@ -4,7 +4,6 @@ with open('myResultsPrisoner.txt') as f:
     while line:
         line = line.strip()
         myResults.append(line)
-
         line = f.readline()
 
 
@@ -19,7 +18,8 @@ with open('correctResultsPrisoner.txt') as f:
         line = f.readline()
 
 
-
+c = 0
 for i, x in zip(myResults, correctResults):
     if i != x:
-        print(i,x)
+        c += 1
+print(c)

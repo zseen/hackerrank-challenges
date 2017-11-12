@@ -4,16 +4,8 @@ import sys
 
 
 def saveThePrisoner(numberOfPrisoners, numberOfSweets, prisonerID):
-    if numberOfSweets > numberOfPrisoners:
-        x = numberOfSweets % numberOfPrisoners
-        if x + prisonerID > numberOfPrisoners:
-            warned = numberOfPrisoners - x - 1
-            return warned
-        warned = prisonerID + x - 1
-
-    else:
-        warned = prisonerID + numberOfSweets - 1
-
+    remainingSweets = (numberOfSweets % numberOfPrisoners) - 1
+    warned = prisonerID + remainingSweets
     return warned
 
 
