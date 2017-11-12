@@ -3,14 +3,15 @@
 import sys
 
 
-def getHowManyLikes(days, peopleShown):
-    liked = 0
+def getHowManyLikes(days, initialPeople):
+    totalLikes = 0
+    peopleShown = initialPeople
 
     for likes in range(0, days):
-        liked += peopleShown // 2
+        totalLikes += peopleShown // 2
         peopleShown = peopleShown // 2 * 3
 
-    return liked
+    return totalLikes
 
 
 def main():
