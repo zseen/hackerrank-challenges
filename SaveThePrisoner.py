@@ -4,9 +4,13 @@ import sys
 
 
 def saveThePrisoner(numberOfPrisoners, numberOfSweets, prisonerID):
-    remainingSweets = (numberOfSweets % numberOfPrisoners) - 1
-    warned = prisonerID + remainingSweets
-    return warned
+    remainingSweets = numberOfSweets % numberOfPrisoners
+
+    if prisonerID + remainingSweets > numberOfPrisoners:
+        warned = remainingSweets - (numberOfPrisoners - prisonerID) - 1
+    else:
+        warned = prisonerID + remainingSweets - 1
+    return warned if warned != 0 else numberOfPrisoners
 
 
 sys.stdin = open('saveThePrisoner_input.txt')
