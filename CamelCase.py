@@ -3,7 +3,7 @@
 import sys
 
 
-def wordCounter(camelWord):
+def getWordCount(camelWord):
     counter = 1
     for char in camelWord:
         if char.isupper() is True:
@@ -14,7 +14,7 @@ def wordCounter(camelWord):
 def main():
     sys.stdin = open('camelCase_input.txt')
     s = input().strip()
-    cnt = wordCounter(s)
+    cnt = getWordCount(s)
     print(cnt)
 
 if __name__ == "__main__":
