@@ -12,7 +12,7 @@ def super_reduced_string(s):
             del charList[chIndex]
             chIndex = 0
             if len(charList) == 0:
-                return False
+                return None
         else:
             chIndex += 1
     return ''.join(charList)
@@ -22,7 +22,7 @@ def main():
     sys.stdin = open('superReducedString_input.txt')
     string = input().strip()
     result = super_reduced_string(string)
-    if result is False:
+    if result is None:
         print("Empty String")
     else:
         print(result)
