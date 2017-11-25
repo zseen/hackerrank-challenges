@@ -7,10 +7,12 @@ def super_reduced_string(s):
     charList = list(s)
     chIndex = 0
     while chIndex < len(charList) - 1:
+        if chIndex < 0:
+            chIndex = 0
         if charList[chIndex] == charList[chIndex + 1]:
             del charList[chIndex]
             del charList[chIndex]
-            chIndex = 0
+            chIndex -= 1
             if len(charList) == 0:
                 return None
         else:
