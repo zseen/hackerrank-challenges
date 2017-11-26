@@ -3,19 +3,19 @@
 import sys
 
 
-def getSortedList(n):
-    unsorted = []
-
-    for _ in range(n):
-        unsorted_t = str(input().strip())
-        unsorted.append(unsorted_t)
-    return sorted(unsorted, key=int)
+def getSortedList(unsortedList):
+    return sorted(unsortedList, key=int)
 
 
 def main():
     sys.stdin = open('bigSorting_input.txt')
     n = int(input().strip())
-    sortedList = getSortedList(n)
+    unsorted = []
+
+    for _ in range(n):
+        unsorted_t = str(input().strip())
+        unsorted.append(unsorted_t)
+    sortedList = getSortedList(unsorted)
 
     for item in sortedList:
         print(item)
