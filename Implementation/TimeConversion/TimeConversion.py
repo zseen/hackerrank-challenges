@@ -29,7 +29,7 @@ def deleteLastTwoChar(timeList):
 
 
 def main():
-    sys.stdin = open('timeconversion_input.txt')
+    sys.stdin = open('TimeConversion_input.txt')
     timePmAm = input().strip()
     result = timeConversion(timePmAm)
     print(result)

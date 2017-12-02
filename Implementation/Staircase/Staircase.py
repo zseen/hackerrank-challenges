@@ -12,7 +12,7 @@ def staircase(numberOfStairs):
 
 
 def main():
-    sys.stdin = open('staircase_input.txt')
+    sys.stdin = open('Staircase_input.txt')
     numberOfStairs = int(input().strip())
     staircase(numberOfStairs)
 

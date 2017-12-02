@@ -1,5 +1,5 @@
 myResults = []
-with open('myResultsPrisoner.txt') as f:
+with open('MyResultsPrisoner.txt') as f:
     line = f.readline()
     while line:
         line = line.strip()
@@ -10,7 +10,7 @@ with open('myResultsPrisoner.txt') as f:
 
 
 correctResults = []
-with open('correctResultsPrisoner.txt') as f:
+with open('CorrectResultsPrisoner.txt') as f:
     line = f.readline()
     while line:
         line = line.strip()

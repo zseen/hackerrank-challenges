@@ -18,7 +18,7 @@ def sockMerchant(listOfSocks):
 
 
 def main():
-    sys.stdin = open('sockMerchant_input.txt')
+    sys.stdin = open('SockMerchant_input.txt')
     n = int(input().strip())
     listOfSocks = list(map(int, input().strip().split(' ')))
     result = sockMerchant(listOfSocks)

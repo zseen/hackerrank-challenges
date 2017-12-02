@@ -10,7 +10,7 @@ def simpleArraySum(n, ar):
 
 
 def main():
-    sys.stdin = open('simplearraysum_input.txt') # redirect stdin to be from a file
+    sys.stdin = open('SimpleArraySum_input.txt') # redirect stdin to be from a file
 
     n = int(input().strip())
     ar = list(map(int, input().strip().split(' ')))

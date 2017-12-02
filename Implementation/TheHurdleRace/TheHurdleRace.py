@@ -11,7 +11,7 @@ def beveragesToDrink(maxJumpHeight, height):
     return beverage
 
 def main():
-    sys.stdin = open('theHurdleRace_input.txt')
+    sys.stdin = open('TheHurdleRace_input.txt')
     numberOfHurdles, maxJumpHeight = input().strip().split(' ')
     numberOfHurdles, maxJumpHeight = [int(numberOfHurdles), int(maxJumpHeight)]
     height = list(map(int, input().strip().split(' ')))

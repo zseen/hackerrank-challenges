@@ -12,7 +12,7 @@ def getPrisonerIDToWarn(numberOfPrisoners, numberOfSweets, prisonerID):
     return lastIndexToGet + 1
 
 def main():
-    sys.stdin = open('saveThePrisoner_input.txt')
+    sys.stdin = open('SaveThePrisoner_input.txt')
     t = int(input().strip())
     for a0 in range(t):
         numberOfPrisoners, numberOfSweets, prisonerID = input().strip().split(' ')
