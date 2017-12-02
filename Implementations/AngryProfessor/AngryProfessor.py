@@ -29,7 +29,7 @@ def determineIfCancelledFromStream(streamFunc):
 
 
 def main():
-    sys.stdin = open('angryProfessor_input.txt')
+    sys.stdin = open('AngryProfessor_input.txt')
     t = int(input().strip())
     for a0 in range(t):
         cancelled = determineIfCancelledFromStream(input)
@@ -41,27 +41,27 @@ def main():
 
 class TestWinChecking(unittest.TestCase):
     def test_determineIfCancelled_6studentsToBePresent_47inTime_notCancelled(self):
-        f = open('angryProfessor_test_determineIfCancelled_6studentsToBePresent_47inTime.txt')
+        f = open('AngryProfessor_test_determineIfCancelled_6studentsToBePresent_47inTime.txt')
         cancelled = determineIfCancelledFromStream(f.readline)
         self.assertTrue(cancelled is False)
 
     def test_determineIfCancelled_77studentsToBePresent_45inTime_cancelled(self):
-        f = open('angryProfessor_test_determineIfCancelled_77studentsToBePresent_45inTime.txt')
+        f = open('AngryProfessor_test_determineIfCancelled_77studentsToBePresent_45inTime.txt')
         cancelled = determineIfCancelledFromStream(f.readline)
         self.assertTrue(cancelled is True)
 
     def test_determineIfCancelled_190studentsToBePresent_445inTime_notCancelled(self):
-        f = open('angryProfessor_test_determineIfCancelled_190studentsToBePresent_445inTime.txt')
+        f = open('AngryProfessor_test_determineIfCancelled_190studentsToBePresent_445inTime.txt')
         cancelled = determineIfCancelledFromStream(f.readline)
         self.assertTrue(cancelled is False)
 
     def test_determineIfCancelled_1studentsToBePresent_0inTime_Cancelled(self):
-        f = open('angryProfessor_test_determineIfCancelled_1studentsToBePresent_0inTime.txt')
+        f = open('AngryProfessor_test_determineIfCancelled_1studentsToBePresent_0inTime.txt')
         cancelled = determineIfCancelledFromStream(f.readline)
         self.assertTrue(cancelled is True)
 
     def test_determineIfCancelled_2studentsToBePresent_2inTime_notCancelled(self):
-        f = open('angryProfessor_test_determineIfCancelled_2studentsToBePresent_2inTime.txt')
+        f = open('AngryProfessor_test_determineIfCancelled_2studentsToBePresent_2inTime.txt')
         cancelled = determineIfCancelledFromStream(f.readline)
         self.assertTrue(cancelled is False)
 
