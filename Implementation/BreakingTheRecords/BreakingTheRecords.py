@@ -16,7 +16,7 @@ def getRecord(scores):
 
 
 def main():
-    sys.stdin = open('breakingTheRecord_input.txt')
+    sys.stdin = open('BreakingTheRecords_input.txt')
     n = int(input().strip())
     scores = list(map(int, input().strip().split(' ')))
     result = getRecord(scores)

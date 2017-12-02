@@ -21,7 +21,7 @@ def countValleys(upAndDown):
 
 
 def main():
-    sys.stdin = open('countingValley_input.txt')
+    sys.stdin = open('CountingValleys_input.txt')
     numberOfSteps = int(input().strip())
     upAndDown = list(input())
     numberOfValleys = countValleys(upAndDown)

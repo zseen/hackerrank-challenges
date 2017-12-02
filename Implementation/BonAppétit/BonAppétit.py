@@ -12,7 +12,7 @@ def bonAppetit(n, didNotEat, annaCharged, prices):
 
 
 def main():
-    sys.stdin = open('bonAppétit_input.txt')
+    sys.stdin = open('BonAppétit_input.txt')
     n, didNotEat = input().strip().split(' ')
     n, didNotEat = [int(n), int(didNotEat)]
     prices = list(map(int, input().strip().split(' ')))

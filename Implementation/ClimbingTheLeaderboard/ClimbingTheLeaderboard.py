@@ -17,7 +17,7 @@ def getRank(scores, aliceScores):
 
 
 def main():
-    sys.stdin = open('climbingTheLeaderboard_input.txt')
+    sys.stdin = open('ClimbingTheLeaderboard_input.txt')
     n = int(input().strip())
     scores = [int(scores_temp) for scores_temp in input().strip().split(' ')]
     m = int(input().strip())

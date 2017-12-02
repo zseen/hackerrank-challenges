@@ -28,7 +28,7 @@ def whoWins(catA, catB, mouse):
 
 
 def main():
-    sys.stdin = open('catsAndAMouse_input.txt')
+    sys.stdin = open('CatsAndAMouse_input.txt')
     q = int(input().strip())
     for a0 in range(q):
         x, y, z = input().strip().split(' ')

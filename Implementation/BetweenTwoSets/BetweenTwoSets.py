@@ -38,7 +38,7 @@ class BetweenTheSets(object):
 
 
 def main():
-    sys.stdin = open('betweenTwoSets_input.txt')
+    sys.stdin = open('BetweenTwoSets_input.txt')
     n, m = input().strip().split(' ')
     n, m = [int(n), int(m)]
     a = list(map(int, input().strip().split(' ')))

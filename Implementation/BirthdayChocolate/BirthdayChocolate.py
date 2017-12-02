@@ -25,7 +25,7 @@ def solve2(numberOfSquares, digitOnSquares, day, month):
 
 
 def main():
-    sys.stdin = open('birthdayChocolate_input.txt')
+    sys.stdin = open('BirthdayChocolate_input.txt')
     numberOfSquares = int(input().strip())
     digitOnSquares = list(map(int, input().strip().split(' ')))
     day, month = input().strip().split(' ')

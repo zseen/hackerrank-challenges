@@ -17,7 +17,7 @@ def birthdayCakeCandles(candleHeight):
 
 
 def main():
-    sys.stdin = open('birthdaycakecandles_input.txt')
+    sys.stdin = open('BirthdayCakeCandles_input.txt')
     age = int(input().strip())
     candleHeight = list(map(int, input().strip().split(' ')))
     result = birthdayCakeCandles(candleHeight)
