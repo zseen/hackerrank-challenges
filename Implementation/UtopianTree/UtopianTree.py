@@ -31,7 +31,7 @@ def getHeight(n):
 
 
 def main():
-    sys.stdin = open('utopianTree_input.txt')
+    sys.stdin = open('UtopianTree_input.txt')
     t = int(input().strip())
 
     for a0 in range(t):

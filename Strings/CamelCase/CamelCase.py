@@ -12,7 +12,7 @@ def getWordCount(camelWord):
 
 
 def main():
-    sys.stdin = open('camelCase_input.txt')
+    sys.stdin = open('CamelCase_input.txt')
     s = input().strip()
     cnt = getWordCount(s)
     print(cnt)

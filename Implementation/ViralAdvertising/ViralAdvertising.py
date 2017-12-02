@@ -15,7 +15,7 @@ def getHowManyLikes(days, initialPeople):
 
 
 def main():
-    sys.stdin = open('viralAdvertising_input.txt')
+    sys.stdin = open('ViralAdvertising_input.txt')
     days = int(input().strip())
     peopleShown = 5
     result = getHowManyLikes(days, peopleShown)

@@ -8,7 +8,7 @@ def getSortedList(unsortedList):
 
 
 def main():
-    sys.stdin = open('bigSorting_input.txt')
+    sys.stdin = open('BigSorting_input.txt')
     n = int(input().strip())
     unsorted = []
 

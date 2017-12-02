@@ -20,7 +20,7 @@ def super_reduced_string(s):
 
 
 def main():
-    sys.stdin = open('superReducedString_input.txt')
+    sys.stdin = open('SuperReducedString_input.txt')
     string = input().strip()
     result = super_reduced_string(string)
     if result is None:
