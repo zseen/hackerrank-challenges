@@ -20,7 +20,7 @@ def landOnHouse(appleNumber, appleDistance, appleTreePosition, orangeNumber, ora
 
 
 def main():
-    sys.stdin = open('appleandorange_input.txt')
+    sys.stdin = open('AppleAndOrange_input.txt')
     houseEdge1, houseEdge2 = input().strip().split(' ')
     houseEdge1, houseEdge2 = [int(houseEdge1), int(houseEdge2)]
 

@@ -24,7 +24,7 @@ def isDayBeautiful(startDate, endDate, divisor):
 
 
 def main():
-    sys.stdin = open('beautifulDaysAtTheMovies_input.txt')
+    sys.stdin = open('BeautifulDaysAtTheMovies_input.txt')
     startDate, endDate, divisor = input().strip().split(' ')
     datesAndDivisor = [int(startDate), int(endDate), int(divisor)]
     startDate = datesAndDivisor[0]

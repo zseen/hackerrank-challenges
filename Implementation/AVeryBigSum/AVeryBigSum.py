@@ -11,8 +11,8 @@ def aVeryBigSum(listToSum):
 
 def main():
     sys.stdin = open('AVeryBigSum_input.txt')
-    listToSum = list(map(int, input().strip().split(' ')))
     HowManyNumbers = int(input().strip())
+    listToSum = list(map(int, input().strip().split(' ')))
     result = aVeryBigSum(listToSum)
     print(result)
 
