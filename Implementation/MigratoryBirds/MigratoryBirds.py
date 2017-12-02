@@ -12,7 +12,7 @@ def migratoryBirds(n, ar):
 
 
 def main():
-    sys.stdin = open('migratoryBirds_input.txt')
+    sys.stdin = open('MigratoryBirds_input.txt')
     n = int(input().strip())
     ar = list(map(int, input().strip().split(' ')))
     result = migratoryBirds(n, ar)

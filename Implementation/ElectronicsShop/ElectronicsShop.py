@@ -19,7 +19,7 @@ def getMoneySpent(keyboards, drives, s):
 
 
 def main():
-    sys.stdin = open('electronicsShop_input.txt')
+    sys.stdin = open('ElectronicsShop_input.txt')
     s,n,m = input().strip().split(' ')
     s,n,m = [int(s),int(n),int(m)]
     keyboards = list(map(int, input().strip().split(' ')))

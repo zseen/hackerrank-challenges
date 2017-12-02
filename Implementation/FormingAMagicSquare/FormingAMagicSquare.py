@@ -5,7 +5,7 @@ import sys
 
 def possibleMagicSquares():
     listOfSquares = []
-    with open('formingAMagicSquare_squares.txt') as file:
+    with open('FormingAMagicSquare_squares.txt') as file:
         line = file.readline()
         while line:
             square = []
@@ -37,7 +37,7 @@ def getCostDifference(item, square):
 
 
 def main():
-    sys.stdin = open('formingAMagicSquare_input.txt')
+    sys.stdin = open('FormingAMagicSquare_input.txt')
     square = []
     for s_i in range(3):
         s_t = [int(s_temp) for s_temp in input().strip().split(' ')]

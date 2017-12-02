@@ -20,7 +20,7 @@ def getArea(word, heightOfLetters):
 
 
 def main():
-    sys.stdin = open('designerPDFViewer_input.txt')
+    sys.stdin = open('DesignerPDFViewer_input.txt')
     heightOfLetters = list(map(int, input().strip().split(' ')))
     word = input().strip()
     x = getArea(word, heightOfLetters)

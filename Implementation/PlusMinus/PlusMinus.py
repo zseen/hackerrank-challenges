@@ -22,7 +22,7 @@ def PosNegZeroFractions(howManyNumbers,numbersList):
 
 
 def main():
-    sys.stdin = open('plusMinus_input.txt')
+    sys.stdin = open('PlusMinus_input.txt')
     howManyNumbers = int(input().strip())
     numbersList = [int(arr_temp) for arr_temp in input().strip().split(' ')]
     fraction = PosNegZeroFractions(howManyNumbers, numbersList)

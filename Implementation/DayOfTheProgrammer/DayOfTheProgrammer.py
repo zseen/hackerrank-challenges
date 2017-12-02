@@ -55,7 +55,7 @@ def solve(year):
 
 
 def main():
-    sys.stdin = open('dayOfTheProgrammer_input.txt')
+    sys.stdin = open('DayOfTheProgrammer_input.txt')
     year = int(input().strip())
     result = solve(year)
     print(result)

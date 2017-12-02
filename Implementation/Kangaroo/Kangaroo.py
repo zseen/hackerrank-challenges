@@ -36,7 +36,7 @@ def kangaroo(kangStart1, kangFast1, kangStart2, kangFast2):
 
 
 def main():
-    sys.stdin = open('kangaroo_input.txt')
+    sys.stdin = open('Kangaroo_input.txt')
     x1, v1, x2, v2 = input().strip().split(' ')
     kangStart1, kangFast1, kangStart2, kangFast2 = [int(x1), int(v1), int(x2), int(v2)]
     result = kangaroo(x1, v1, x2, v2)

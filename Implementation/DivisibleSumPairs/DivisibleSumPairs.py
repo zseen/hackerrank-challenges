@@ -14,7 +14,7 @@ def divisibleSumPairs(n, divisor, numbers):
 
 
 def main():
-    sys.stdin = open('divisibleSumPairs_input.txt')
+    sys.stdin = open('DivisibleSumPairs_input.txt')
     n, divisor = input().strip().split(' ')
     n, divisor = [int(n), int(divisor)]
     numbers = list(map(int, input().strip().split(' ')))

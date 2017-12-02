@@ -19,7 +19,7 @@ def solve(grades):
 
 
 def main():
-    sys.stdin = open('gradingstudents_input.txt')
+    sys.stdin = open('GradingStudents_input.txt')
     n = int(input().strip())
     grades = []
     grades_i = 0

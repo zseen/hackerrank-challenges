@@ -17,7 +17,7 @@ def differenceIsLessThanOne(numbersList):
 
 
 def main():
-    sys.stdin = open('pickingNumbers_input.txt')
+    sys.stdin = open('PickingNumbers_input.txt')
     n = int(input().strip())
     numbersList = [int(a_temp) for a_temp in input().strip().split(' ')]
     maxPairs = differenceIsLessThanOne(numbersList)
