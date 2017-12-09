@@ -1,35 +1,41 @@
 import sys
 
 
-def sortList(listToSort):
-    itemToInsert = listToSort[len(listToSort)-1]
-    listToSort.pop()
-    length = len(listToSort) - 1
-    originalListToSort = []
-    listToSort.append(listToSort[len(listToSort) - 1])
-    for item in listToSort:
-        originalListToSort.append(item)
+def printCurrentStrList(listToSort):
     print(' '.join(map(str, listToSort)))
-    
+
+
+def repositionList(listToSort):
+    length = len(listToSort) - 1
+
+    itemToInsert = listToSort[length]
+    listToSort.pop()
+    originalListToSort = listToSort[:]
+    listToSort.append(listToSort[length - 1])
     for index in range(length):
-        if listToSort[length - (index + 1)] > itemToInsert:
-            listToSort[length - index] = listToSort[length - index - 1]
-            print(' '.join(map(str, listToSort)))
-            listToSort[length - index - 1] = originalListToSort[length - index - 1]
-            if length - (index + 1) == 0 and listToSort[length - (index + 1)] > itemToInsert:
-                listToSort[0] = itemToInsert
-                return listToSort
+        currItem = length - index - 1
+        if length - (index + 1) == 0 and listToSort[currItem] > itemToInsert:
+            listToSort[currItem + 1] = listToSort[currItem]
+            printCurrentStrList(listToSort)
+            listToSort[0] = itemToInsert
+            return listToSort
 
         else:
-            listToSort[length - index] = itemToInsert
-            return listToSort
+            if listToSort[currItem] > itemToInsert:
+                listToSort[currItem + 1] = listToSort[currItem]
+                printCurrentStrList(listToSort)
+                listToSort[currItem] = originalListToSort[currItem]
+
+            else:
+                listToSort[currItem + 1] = itemToInsert
+                return listToSort
 
 
 def main():
     sys.stdin = open('InsertionSortPart1_input.txt')
     n = int(input().strip())
     listToSort = list(map(int, input().strip().split(' ')))
-    sortedList = sortList(listToSort)
+    sortedList = repositionList(listToSort)
     print(' '.join(map(str, sortedList)))
 
 
