@@ -1,4 +1,6 @@
 import sys
+from copy import deepcopy
+
 
 
 def printCurrentStrList(listToSort):
@@ -6,29 +8,19 @@ def printCurrentStrList(listToSort):
 
 
 def repositionList(listToSort):
-    length = len(listToSort) - 1
+    deepCopyListToSort = deepcopy(listToSort)
+    itemToInsert = deepCopyListToSort[-1]
 
-    itemToInsert = listToSort[length]
-    listToSort.pop()
-    originalListToSort = listToSort[:]
-    listToSort.append(listToSort[length - 1])
-    for index in range(length):
-        currItem = length - index - 1
-        if length - (index + 1) == 0 and listToSort[currItem] > itemToInsert:
-            listToSort[currItem + 1] = listToSort[currItem]
-            printCurrentStrList(listToSort)
-            listToSort[0] = itemToInsert
-            return listToSort
-
+    for index in range((len(deepCopyListToSort)-1), -1, -1):
+        #placement found
+        if deepCopyListToSort[index - 1] < itemToInsert or index == 0:
+            deepCopyListToSort[index] = itemToInsert
+            break
+        #need to duplicate item
         else:
-            if listToSort[currItem] > itemToInsert:
-                listToSort[currItem + 1] = listToSort[currItem]
-                printCurrentStrList(listToSort)
-                listToSort[currItem] = originalListToSort[currItem]
-
-            else:
-                listToSort[currItem + 1] = itemToInsert
-                return listToSort
+            deepCopyListToSort[index] = deepCopyListToSort[index-1]
+            printCurrentStrList(deepCopyListToSort)
+    return deepCopyListToSort
 
 
 def main():
@@ -36,7 +28,7 @@ def main():
     n = int(input().strip())
     listToSort = list(map(int, input().strip().split(' ')))
     sortedList = repositionList(listToSort)
-    print(' '.join(map(str, sortedList)))
+    printCurrentStrList(sortedList)
 
 
 if __name__ == "__main__":
