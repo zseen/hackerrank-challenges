@@ -1,5 +1,6 @@
 import sys
 from copy import deepcopy
+import unittest
 
 
 
@@ -28,8 +29,21 @@ def main():
     n = int(input().strip())
     listToSort = list(map(int, input().strip().split(' ')))
     sortedList = repositionList(listToSort)
-    printCurrentStrList(sortedList)
+    print(sortedList)
+
+
+class TestIfCorrectlySorted(unittest.TestCase):
+    def test_5elements_3goesBetween2and4_noEdgeCase(self):
+        listToSort = [2, 4, 6, 8, 3]
+        sortedList = repositionList(listToSort)
+        if sortedList == [2, 3, 4, 6, 8]:
+            return True
+
+        self.assertTrue(sortedList is True)
+
 
 
 if __name__ == "__main__":
-    main()
+    #main()
+    unittest.main()
+
