@@ -33,14 +33,33 @@ def main():
 
 
 class TestIfCorrectlySorted(unittest.TestCase):
-    def test_5elements_3goesBetween2and4_noEdgeCase(self):
+    def test_5elements_3goesBetween2and4_noEdgeCase_True(self):
         listToSort = [2, 4, 6, 8, 3]
         sortedList = repositionList(listToSort)
         if sortedList == [2, 3, 4, 6, 8]:
             return True
-
         self.assertTrue(sortedList is True)
 
+    def test_6elements_1shouldMoveToFirstPlace_EdgeCase_True(self):
+        listToSort = [2, 4, 6, 8, 9, 1]
+        sortedList = repositionList(listToSort)
+        if sortedList == [1, 2, 4, 6, 8, 9]:
+            return True
+        self.assertTrue(sortedList is True)
+
+    def test_7elements_7shouldMoveBetween6and8_NoEdgeCase_False(self):
+        listToSort = [2, 4, 5, 6, 8, 9, 7]
+        sortedList = repositionList(listToSort)
+        if sortedList == [2, 4, 5, 6, 8, 7, 9]:
+            return True
+        self.assertFalse(sortedList is False)
+
+    def test_6elements_lastItemIsAlreadyGoodPosition_EdgeCase_True(self):
+        listToSort = [1, 2, 4, 6, 8, 9]
+        sortedList = repositionList(listToSort)
+        if sortedList == [1, 2, 4, 6, 8, 9]:
+            return True
+        self.assertTrue(sortedList is True)
 
 
 if __name__ == "__main__":
