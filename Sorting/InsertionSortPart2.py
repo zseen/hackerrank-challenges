@@ -1,9 +1,17 @@
 import sys
 
 def sortList(listToBeSorted):
-    for index in range(0,len(listToBeSorted)):
-       if listToBeSorted[index] < listToBeSorted[index + 1]:
-           listToBeSorted
+    index = 0
+    while index < len(listToBeSorted) - 1:
+        if listToBeSorted[index] > listToBeSorted[index + 1]:
+            listToBeSorted[index], listToBeSorted[index + 1] = listToBeSorted[index + 1], listToBeSorted[index]
+            index -= 1
+            print(listToBeSorted)
+        else:
+            index += 1
+            #print(listToBeSorted)
+    return listToBeSorted
+
 
 
 
