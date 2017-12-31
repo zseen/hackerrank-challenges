@@ -6,20 +6,11 @@ def sortList(listToBeSorted):
         if listToBeSorted[index] > listToBeSorted[index + 1]:
             listToBeSorted[index], listToBeSorted[index + 1] = listToBeSorted[index + 1], listToBeSorted[index]
             index -= 1
-            print(listToBeSorted)
+            #print(listToBeSorted)
         else:
             index += 1
             #print(listToBeSorted)
     return listToBeSorted
-
-
-
-
-
-
-
-
-
 
 
 
