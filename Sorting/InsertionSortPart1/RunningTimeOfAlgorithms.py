@@ -2,26 +2,17 @@ import sys
 from copy import deepcopy
 
 
-
-def printCurrentStrList(listToSort):
-    print(' '.join(map(str, listToSort)))
-
-
-def repositionList(listToSort):
-    deepCopyListToSort = deepcopy(listToSort)
-    itemToInsert = deepCopyListToSort[-1]
+def repositionList(listToBeSorted):
+    i = 1
     counter = 0
 
-    for index in range((len(deepCopyListToSort)-1), -1, -1):
-        #placement found
-        if deepCopyListToSort[index - 1] < itemToInsert or index == 0:
-            deepCopyListToSort[index] = itemToInsert
-            break
-        #need to duplicate item
-        else:
-            deepCopyListToSort[index] = deepCopyListToSort[index-1]
-            #printCurrentStrList(deepCopyListToSort)
-            counter += 1
+    while i < len(listToBeSorted):
+        for j in range(i, 0, -1):
+            if listToBeSorted[j] < listToBeSorted[j-1]:
+                listToBeSorted[j - 1], listToBeSorted[j] = listToBeSorted[j], listToBeSorted[j - 1]
+                counter += 1
+        i += 1
+
     return counter
 
 
