@@ -2,13 +2,11 @@ import sys
 
 
 def insertionSort2(listToBeSorted):
-    i = 1
 
-    while i < len(listToBeSorted):
+    for i in range(1, len(listToBeSorted)):
         for j in range(i, 0, -1):
             if listToBeSorted[j] < listToBeSorted[j-1]:
                 listToBeSorted[j - 1], listToBeSorted[j] = listToBeSorted[j], listToBeSorted[j - 1]
-        i += 1
         print(' '.join(map(str, listToBeSorted)))
 
     return listToBeSorted
