@@ -3,15 +3,13 @@ from copy import deepcopy
 
 
 def repositionList(listToBeSorted):
-    i = 1
     counter = 0
 
-    while i < len(listToBeSorted):
+    for i in range(1, len(listToBeSorted)):
         for j in range(i, 0, -1):
             if listToBeSorted[j] < listToBeSorted[j-1]:
                 listToBeSorted[j - 1], listToBeSorted[j] = listToBeSorted[j], listToBeSorted[j - 1]
                 counter += 1
-        i += 1
 
     return counter
 
