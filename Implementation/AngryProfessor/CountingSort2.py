@@ -1,24 +1,18 @@
 #!/bin/python3
 
-from collections import *
 
 import sys
 
 
 def countingSort(listOfNumbers):
-    cnt = Counter(listOfNumbers)
-    cntValueList = []
-    keyValueList=[]
-    print(cnt)
+    countList = []
 
     for i in range(0, 100):
-        cntValueList.append(cnt[i])
+        itemCount = listOfNumbers.count(i)
+        for _ in range(0, itemCount):
+            countList.append(i)
 
-    
-
-    return cntValueList
-
-
+    return countList
 
 
 def main():
@@ -26,9 +20,7 @@ def main():
     n = int(input().strip())
     listOfNumbers = list(map(int, input().strip().split(' ')))
     result = countingSort(listOfNumbers)
-    #print(" ".join(map(str, result)))
-    print(result)
-
+    print(" ".join(map(str, result)))
 
 
 if __name__ == "__main__":
