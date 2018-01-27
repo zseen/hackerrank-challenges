@@ -5,14 +5,20 @@ import sys
 
 
 def countingSort(listOfNumbers):
-    countList = []
+    sortedListOfNumbers = []
 
-    for i in range(0, 100):
-        itemCount = listOfNumbers.count(i)
-        for _ in range(0, itemCount):
-            countList.append(i)
+    biggestNum = max(listOfNumbers)
 
-    return countList
+    counter = [0] * (biggestNum + 1)
+
+    for item in listOfNumbers:
+        counter[item] += 1
+
+    for index in range(0, biggestNum + 1):
+        for amount in range(0, counter[index]):
+            sortedListOfNumbers.append(index)
+
+    return sortedListOfNumbers
 
 
 def main():
