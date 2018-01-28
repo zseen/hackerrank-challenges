@@ -3,11 +3,12 @@
 import sys
 
 
+def organiseStrings(allNumStrList):
+    for i in range(0, (len(allNumStrList) // 2)):
+        allNumStrList[i] = "-"
+    print(allNumStrList)
 
-def organiseStrings(numberAndStringDict):
-    i = 0
-    for key, value in numberAndStringDict.item():
-        print()
+
 
 
 
@@ -21,14 +22,21 @@ def organiseStrings(numberAndStringDict):
 def main():
     sys.stdin = open('TheFullCountingSort_input.txt')
     n = int(input().strip())
-    numberAndStringDict = {}
+    numStrTuple = ()
+    allNumStrList = []
+
 
     for a0 in range(n):
         number, string = input().strip().split(' ')
         number, string = [int(number), str(string)]
-        numberAndStringDict.update({string:number})
-    print(numberAndStringDict)
-    #organiseStrings(numberAndStringDict)
+        numStrTuple = (number, string)
+        allNumStrList.append(numStrTuple)
+
+
+    organiseStrings(allNumStrList)
+
+
+
 
 
 if __name__ == "__main__":
