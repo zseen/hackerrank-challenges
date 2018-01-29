@@ -4,9 +4,28 @@ import sys
 
 
 def organiseStrings(allNumStrList):
-    for i in range(0, (len(allNumStrList) // 2)):
-        allNumStrList[i] = "-"
-    print(allNumStrList)
+    sortedListOfNumbers = []
+
+    biggestNum = 0
+    for item in allNumStrList:
+        if item[0] > biggestNum:
+            biggestNum = item[0]
+
+    counter = [0] * (biggestNum + 1)
+
+    for item in allNumStrList:
+        counter[item[0]] += 1
+
+    for index in range(0, biggestNum + 1):
+        for amount in range(0, counter[index]):
+            sortedListOfNumbers.append(index)
+
+    print(sortedListOfNumbers)
+
+
+
+
+    #print(allNumStrList)
 
 
 
@@ -29,6 +48,8 @@ def main():
     for a0 in range(n):
         number, string = input().strip().split(' ')
         number, string = [int(number), str(string)]
+        if a0 < n // 2:
+            string = "-"
         numStrTuple = (number, string)
         allNumStrList.append(numStrTuple)
 
