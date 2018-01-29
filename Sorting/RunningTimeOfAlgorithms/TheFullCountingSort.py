@@ -20,6 +20,7 @@ def organiseStrings(allNumStrList):
         for amount in range(0, counter[index]):
             sortedListOfNumbers.append(index)
 
+
     print(sortedListOfNumbers)
 
 
