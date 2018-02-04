@@ -11,33 +11,22 @@ def organiseStrings(allNumStrList):
         if item[0] > biggestNum:
             biggestNum = item[0]
 
-    counter = [0] * (biggestNum + 1)
+    counter = []
+    for _ in range(biggestNum + 1):
+        counter.append([])
 
     for item in allNumStrList:
-        counter[item[0]] += 1
+        counter[item[0]].append(item[1])
 
     for index in range(0, biggestNum + 1):
-        for amount in range(0, counter[index]):
-            sortedListOfNumbers.append(index)
+        for item in counter[index]:
+            sortedListOfNumbers.append(item)
 
     print(sortedListOfNumbers)
 
-    for item in sortedListOfNumbers:
-        if item == 
 
 
-
-    #print(allNumStrList)
-
-
-
-
-
-
-
-
-
-
+    print(allNumStrList)
 
 
 def main():
@@ -57,9 +46,6 @@ def main():
 
 
     organiseStrings(allNumStrList)
-
-
-
 
 
 if __name__ == "__main__":
