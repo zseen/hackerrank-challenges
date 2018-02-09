@@ -12,7 +12,8 @@ def organiseStrings(allNumStrList):
             biggestNum = item[0]
 
     counter = []
-    for _ in range(biggestNum + 1):
+
+    for _ in range(0, biggestNum + 1):
         counter.append([])
 
     for item in allNumStrList:
@@ -22,19 +23,13 @@ def organiseStrings(allNumStrList):
         for item in counter[index]:
             sortedListOfNumbers.append(item)
 
-    print(sortedListOfNumbers)
-
-
-
-    print(allNumStrList)
+    return sortedListOfNumbers
 
 
 def main():
     sys.stdin = open('TheFullCountingSort_input.txt')
     n = int(input().strip())
-    numStrTuple = ()
     allNumStrList = []
-
 
     for a0 in range(n):
         number, string = input().strip().split(' ')
@@ -44,8 +39,9 @@ def main():
         numStrTuple = (number, string)
         allNumStrList.append(numStrTuple)
 
-
-    organiseStrings(allNumStrList)
+    sortedWords = organiseStrings(allNumStrList)
+    for item in sortedWords:
+        print(item, end=' ')
 
 
 if __name__ == "__main__":
