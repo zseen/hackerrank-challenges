@@ -27,6 +27,7 @@ def closestNumbers(listOfNumbers):
     sortedListOfNumbers = sortListOfNumbers(listOfNumbers)
 
     differenceBetweenNumbers = 1000000
+
     for index in range(1, len(sortedListOfNumbers)):
         biggerNum = sortedListOfNumbers[index]
         smallerNum = sortedListOfNumbers[index - 1]
@@ -34,6 +35,7 @@ def closestNumbers(listOfNumbers):
             differenceBetweenNumbers = biggerNum - smallerNum
 
     lowestDifferenceNumbersList = []
+
     for index in range(1, len(sortedListOfNumbers)):
         biggerNum = sortedListOfNumbers[index]
         smallerNum = sortedListOfNumbers[index - 1]
@@ -42,13 +44,13 @@ def closestNumbers(listOfNumbers):
             lowestDifferenceNumbersList.append(biggerNum)
     return lowestDifferenceNumbersList
 
+
 def main():
     sys.stdin = open('ClosestNumbers_input.txt')
     n = int(input().strip())
     listOfNumbers = list(map(int, input().strip().split(' ')))
     result = closestNumbers(listOfNumbers)
-    print (" ".join(map(str, result)))
-
+    print(" ".join(map(str, result)))
 
 
 if __name__ == "__main__":
