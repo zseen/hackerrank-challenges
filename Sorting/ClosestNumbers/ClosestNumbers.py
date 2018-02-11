@@ -9,37 +9,31 @@ def sortListOfNumbers(listOfNumbers):
     biggestNum = max(listOfNumbers)
     smallestNum = min(listOfNumbers)
 
-    if smallestNum < 0:
-        counter = [0] * (biggestNum - smallestNum + 1)
-    else:
-        counter = [0] * (biggestNum + 1)
+    counter = [0] * (biggestNum - smallestNum + 1)
 
     for item in listOfNumbers:
-        counter[item] += 1
+        counter[item - smallestNum] += 1
 
-    for index in range(smallestNum, biggestNum + 1):
+    for index in range(0, len(counter)):
         for amount in range(0, counter[index]):
-            sortedListOfNumbers.append(index)
+            sortedListOfNumbers.append(index + smallestNum)
     return sortedListOfNumbers
 
 
 def closestNumbers(listOfNumbers):
-    sortedListOfNumbers = sortListOfNumbers(listOfNumbers)
+    sortedNumList = sortListOfNumbers(listOfNumbers)
 
-    differenceBetweenNumbers = 1000000
+    minDiff = sys.maxsize
 
-    for index in range(1, len(sortedListOfNumbers)):
-        biggerNum = sortedListOfNumbers[index]
-        smallerNum = sortedListOfNumbers[index - 1]
-        if biggerNum - smallerNum < differenceBetweenNumbers:
-            differenceBetweenNumbers = biggerNum - smallerNum
+    for index in range(1, len(sortedNumList)):
+        minDiff = min(minDiff, sortedNumList[index] - sortedNumList[index - 1])
 
     lowestDifferenceNumbersList = []
 
-    for index in range(1, len(sortedListOfNumbers)):
-        biggerNum = sortedListOfNumbers[index]
-        smallerNum = sortedListOfNumbers[index - 1]
-        if biggerNum - differenceBetweenNumbers == smallerNum:
+    for index in range(1, len(sortedNumList)):
+        biggerNum = sortedNumList[index]
+        smallerNum = sortedNumList[index - 1]
+        if biggerNum - smallerNum == minDiff:
             lowestDifferenceNumbersList.append(smallerNum)
             lowestDifferenceNumbersList.append(biggerNum)
     return lowestDifferenceNumbersList
