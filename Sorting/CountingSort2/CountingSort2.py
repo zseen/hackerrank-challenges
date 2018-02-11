@@ -2,30 +2,14 @@
 
 
 import sys
-
-
-def countingSort(listOfNumbers):
-    sortedListOfNumbers = []
-
-    biggestNum = max(listOfNumbers)
-
-    counter = [0] * (biggestNum + 1)
-
-    for item in listOfNumbers:
-        counter[item] += 1
-
-    for index in range(0, biggestNum + 1):
-        for amount in range(0, counter[index]):
-            sortedListOfNumbers.append(index)
-
-    return sortedListOfNumbers
+from Library.Sorting import CountingSort
 
 
 def main():
     sys.stdin = open('CountingSort2_input.txt')
     n = int(input().strip())
     listOfNumbers = list(map(int, input().strip().split(' ')))
-    result = countingSort(listOfNumbers)
+    result = CountingSort.sortListOfNumbers(listOfNumbers)
     print(" ".join(map(str, result)))
 
 
