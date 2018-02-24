@@ -2,40 +2,41 @@
 
 import sys
 
-def mergeSort(listToBeSorted):
+
+def merge(left, right):
     counter = 0
-    if len(listToBeSorted) > 1:
-        mid = len(listToBeSorted) // 2
-        leftHalf = listToBeSorted[:mid]
-        rightHalf = listToBeSorted[mid:]
+    leftIndex = 0
+    rightIndex = 0
+    sortedList = []
+    while leftIndex < len(left) and rightIndex < len(right):
+        if left[leftIndex] < right[rightIndex]:
+            sortedList.append(left[leftIndex])
+            leftIndex += 1
 
-        mergeSort(leftHalf)
-        mergeSort(rightHalf)
+        else:
+            sortedList.append(right[rightIndex])
+            rightIndex += 1
+     
 
-        leftListIndex = 0
-        rightListIndex = 0
-        originalListIndex = 0
-        while leftListIndex < len(leftHalf) and rightListIndex < len(rightHalf):
-            if leftHalf[leftListIndex] < rightHalf[rightListIndex]:
-                listToBeSorted[originalListIndex] = leftHalf[leftListIndex]
-                leftListIndex += 1
-                counter += 1
-            else:
-                listToBeSorted[originalListIndex] = rightHalf[rightListIndex]
-                rightListIndex += 1
-                counter += 1
-            originalListIndex += 1
+    sortedList += left[leftIndex:]
+    sortedList += right[rightIndex:]
+    print(counter)
+    return sortedList
 
-        while leftListIndex < len(leftHalf):
-            listToBeSorted[originalListIndex] = leftHalf[leftListIndex]
-            leftListIndex += 1
-            originalListIndex += 1
 
-        while rightListIndex < len(rightHalf):
-            listToBeSorted[originalListIndex] = rightHalf[rightListIndex]
-            rightListIndex += 1
-            originalListIndex += 1
-    return listToBeSorted
+def mergeSort(numbersList):
+
+    if len(numbersList) <= 1:
+        return numbersList
+
+    half = len(numbersList) // 2
+    left = mergeSort(numbersList[:half])
+    right = mergeSort(numbersList[half:])
+
+    return merge(left, right)
+
+
+
 
 
 
