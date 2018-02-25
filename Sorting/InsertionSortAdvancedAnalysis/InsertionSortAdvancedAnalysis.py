@@ -28,12 +28,13 @@ def mergeSort(numbersList):
         return numbersList, 0
 
     half = len(numbersList) // 2
+
     left, leftCounter = mergeSort(numbersList[:half])
-
     right, rightCounter = mergeSort(numbersList[half:])
-    mergedList, mergedCounter = merge(left, right)
 
-    return mergedList, rightCounter + leftCounter + mergedCounter
+    mergedList, mergingCounter = merge(left, right)
+
+    return mergedList, rightCounter + leftCounter + mergingCounter
 
 
 def main():
