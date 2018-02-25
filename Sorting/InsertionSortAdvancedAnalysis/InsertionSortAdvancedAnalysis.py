@@ -9,30 +9,31 @@ def merge(left, right):
     rightIndex = 0
     sortedList = []
     while leftIndex < len(left) and rightIndex < len(right):
-        if left[leftIndex] < right[rightIndex]:
+        if left[leftIndex] <= right[rightIndex]:
             sortedList.append(left[leftIndex])
             leftIndex += 1
         else:
             sortedList.append(right[rightIndex])
             rightIndex += 1
-            
+            counter += len(left) - leftIndex
 
     sortedList += left[leftIndex:]
     sortedList += right[rightIndex:]
 
-    return sortedList
+    return sortedList, counter
 
 
 def mergeSort(numbersList):
     if len(numbersList) <= 1:
-        return numbersList
+        return numbersList, 0
 
     half = len(numbersList) // 2
-    left = mergeSort(numbersList[:half])
+    left, leftCounter = mergeSort(numbersList[:half])
 
-    right = mergeSort(numbersList[half:])
+    right, rightCounter = mergeSort(numbersList[half:])
+    mergedList, mergedCounter = merge(left, right)
 
-    return merge(left, right)
+    return mergedList, rightCounter + leftCounter + mergedCounter
 
 
 def main():
@@ -41,8 +42,8 @@ def main():
     for a0 in range(t):
         n = int(input().strip())
         numbersList = list(map(int, input().strip().split(' ')))
-        result = mergeSort(numbersList)
-        print(result)
+        result, resultCounter = mergeSort(numbersList)
+        print(resultCounter)
 
 
 if __name__ == "__main__":
