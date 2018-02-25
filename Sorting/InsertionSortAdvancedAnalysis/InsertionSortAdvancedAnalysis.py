@@ -12,36 +12,30 @@ def merge(left, right):
         if left[leftIndex] < right[rightIndex]:
             sortedList.append(left[leftIndex])
             leftIndex += 1
-
         else:
             sortedList.append(right[rightIndex])
             rightIndex += 1
-     
+            
 
     sortedList += left[leftIndex:]
     sortedList += right[rightIndex:]
-    print(counter)
+
     return sortedList
 
 
 def mergeSort(numbersList):
-
     if len(numbersList) <= 1:
         return numbersList
 
     half = len(numbersList) // 2
     left = mergeSort(numbersList[:half])
+
     right = mergeSort(numbersList[half:])
 
     return merge(left, right)
 
 
-
-
-
-
-
-if __name__ == "__main__":
+def main():
     sys.stdin = open('InsertionSortAdvancedAnalysis_input.txt')
     t = int(input().strip())
     for a0 in range(t):
@@ -49,3 +43,7 @@ if __name__ == "__main__":
         numbersList = list(map(int, input().strip().split(' ')))
         result = mergeSort(numbersList)
         print(result)
+
+
+if __name__ == "__main__":
+    main()
