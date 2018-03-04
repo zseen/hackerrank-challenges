@@ -3,6 +3,7 @@
 import sys
 from Library.Sorting import CountingSort as cs
 
+
 def activityNotifications(moneySpentDaily, daysPrior):
     notificationsCount = 0
     daysPriorIndex = daysPrior - 1
@@ -10,16 +11,31 @@ def activityNotifications(moneySpentDaily, daysPrior):
     initialMedianSpentList = []
     for i in range(0, daysPrior):
         initialMedianSpentList.append(moneySpentDaily[i])
-    sortedInitialSpent = cs.sortListOfNumbers(initialMedianSpentList)
-    initialMedianSpent = sortedInitialSpent[len(sortedInitialSpent) // 2]
 
 
 
-    for index in range(daysPriorIndex, len(moneySpentDaily) - daysPriorIndex):
-        moneySpentForDaysPrior = []
+    moneySpentForDaysPrior = []
+    for index in range(0, len(moneySpentDaily) - daysPrior):
+
         for i in range(0, daysPrior):
             moneySpentForDaysPrior.append(moneySpentDaily[index + i])
-        return moneySpentForDaysPrior
+    #print(moneySpentForDaysPrior)
+
+    subListMoneySpentPrior = [moneySpentForDaysPrior[n:n + 5] for n in range(0, len(moneySpentForDaysPrior), 5)]
+    print(subListMoneySpentPrior)
+
+    sortedInitialSpent = cs.sortListOfNumbers(subListMoneySpentPrior[1])
+    initialMedianSpent = sortedInitialSpent[len(sortedInitialSpent) // 2]
+    print(initialMedianSpent)
+
+    counter = 0
+
+    for index in range(1, len(subListMoneySpentPrior)):
+        sortedInitialSpent = cs.sortListOfNumbers(subListMoneySpentPrior[index])
+        initialMedianSpent = sortedInitialSpent[len(sortedInitialSpent) // 2]
+        if initialMedianSpent < moneySpentForDaysPrior[index * 5]:
+            counter += 1
+    return counter
 
 
 if __name__ == "__main__":
