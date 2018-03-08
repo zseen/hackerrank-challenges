@@ -23,11 +23,14 @@ def activityNotifications(moneySpentDaily, daysPrior):
             counter += 1
     return counter
 
-
-if __name__ == "__main__":
+def main():
     sys.stdin = open('FraudulentActivityNotifications_input.txt')
     daysNumData, daysPrior = input().strip().split(' ')
     daysNumData, daysPrior = [int(daysNumData), int(daysPrior)]
     moneySpentDaily = list(map(int, input().strip().split(' ')))
     result = activityNotifications(moneySpentDaily, daysPrior)
     print(result)
+
+
+if __name__ == "__main__":
+    main()
