@@ -5,22 +5,20 @@ from Library.Sorting import CountingSort as cs
 
 
 def activityNotifications(moneySpentDaily, daysPrior):
-    moneySpentForDaysPrior = []
+    counter = -1
+
     for index in range(0, len(moneySpentDaily) - daysPrior):
+        moneySpentForDaysPrior = []
         for i in range(0, daysPrior):
             moneySpentForDaysPrior.append(moneySpentDaily[index + i])
-    print(moneySpentForDaysPrior)
+            if len(moneySpentForDaysPrior) == daysPrior:
+                sortedDailySpent = cs.sortListOfNumbers(moneySpentForDaysPrior)
+                medianSpent = sortedDailySpent[len(sortedDailySpent) // 2]
+                if medianSpent < moneySpentDaily[index + 5]:
+                    counter += 1
 
-    subListMoneySpentPrior = [moneySpentForDaysPrior[n:n + 5] for n in range(0, len(moneySpentForDaysPrior), 5)]
-    #print(subListMoneySpentPrior)
-
-    counter = 0
-
-    for index in range(1, len(subListMoneySpentPrior)):
-        sortedDailySpent = cs.sortListOfNumbers(subListMoneySpentPrior[index])
-        medianSpent = sortedDailySpent[len(sortedDailySpent) // 2]
-        if medianSpent < moneySpentDaily[index + 5]:
-            counter += 1
+    if counter < 0:
+        return counter + 1
     return counter
 
 def main():
