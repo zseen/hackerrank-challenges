@@ -4,21 +4,37 @@ import sys
 from Library.Sorting import CountingSort
 
 
-def activityNotifications(moneySpentDaily, daysPrior):
-    counter = 0
+def getNumCounter(moneySpentDaily, daysPrior):
+    daysPriorSpent = []
+    for index in range(0, daysPrior):
+        daysPriorSpent.append(moneySpentDaily[index])
 
-    for index in range(0, len(moneySpentDaily) - daysPrior):
-        # print(index / (len(moneySpentDaily) - daysPrior) * 100)
-        moneySpentForDaysPrior = []
-        for i in range(0, daysPrior):
-            moneySpentForDaysPrior.append(moneySpentDaily[index + i])
+    biggestNum = max(daysPriorSpent)
+    smallestNum = min(daysPriorSpent)
 
-        sortedDailySpent = CountingSort.sortListOfNumbers(moneySpentForDaysPrior)
-        medianSpent = sortedDailySpent[len(sortedDailySpent) // 2]
-        if medianSpent * 2 <= moneySpentDaily[index + daysPrior]:
-            counter += 1
+    counter = [0] * (biggestNum - smallestNum + 1)
+
+    for item in daysPriorSpent:
+        counter[item - smallestNum] += 1
 
     return counter
+
+
+def daysPriorIsOddMedian(moneySpentDaily, daysPrior):
+    medianItem = (daysPrior // 2) + 1
+    listSum = 0
+    counter = getNumCounter(moneySpentDaily, daysPrior)
+    for item in counter:
+        listSum += item
+        if listSum >= medianItem:
+            median = medianItem
+            return median
+
+
+
+
+
+
 
 
 def main():
@@ -26,7 +42,7 @@ def main():
     daysNumData, daysPrior = input().strip().split(' ')
     daysNumData, daysPrior = [int(daysNumData), int(daysPrior)]
     moneySpentDaily = list(map(int, input().strip().split(' ')))
-    result = activityNotifications(moneySpentDaily, daysPrior)
+    result = daysPriorIsOddMedian(moneySpentDaily, daysPrior)
     print(result)
 
 
