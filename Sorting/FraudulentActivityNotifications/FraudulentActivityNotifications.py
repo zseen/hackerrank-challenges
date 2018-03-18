@@ -1,25 +1,25 @@
 #!/bin/python3
 
 import sys
-from Library.Sorting import CountingSort as cs
+from Library.Sorting import CountingSort
 
 
 def activityNotifications(moneySpentDaily, daysPrior):
-    counter = -1
+    counter = 0
 
     for index in range(0, len(moneySpentDaily) - daysPrior):
+        # print(index / (len(moneySpentDaily) - daysPrior) * 100)
         moneySpentForDaysPrior = []
         for i in range(0, daysPrior):
             moneySpentForDaysPrior.append(moneySpentDaily[index + i])
-            if len(moneySpentForDaysPrior) == daysPrior:
-                sortedDailySpent = cs.sortListOfNumbers(moneySpentForDaysPrior)
-                medianSpent = sortedDailySpent[len(sortedDailySpent) // 2]
-                if medianSpent < moneySpentDaily[index + 5]:
-                    counter += 1
 
-    if counter < 0:
-        return counter + 1
+        sortedDailySpent = CountingSort.sortListOfNumbers(moneySpentForDaysPrior)
+        medianSpent = sortedDailySpent[len(sortedDailySpent) // 2]
+        if medianSpent * 2 <= moneySpentDaily[index + daysPrior]:
+            counter += 1
+
     return counter
+
 
 def main():
     sys.stdin = open('FraudulentActivityNotifications_input.txt')
