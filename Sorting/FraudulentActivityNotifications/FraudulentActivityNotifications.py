@@ -30,6 +30,15 @@ def daysPriorIsOddMedian(moneySpentDaily, daysPrior):
             median = medianItem
             return median
 
+def daysPriorIsEvenMedian(moneySpentDaily, daysPrior):
+    medianItem = (daysPrior // 2 + (daysPrior // 2 + 1)) // 2
+    listSum = 0
+    counter = getNumCounter(moneySpentDaily, daysPrior)
+    for item in counter:
+        listSum += item
+        if listSum >= medianItem:
+            median = medianItem
+            return median
 
 
 
@@ -42,7 +51,10 @@ def main():
     daysNumData, daysPrior = input().strip().split(' ')
     daysNumData, daysPrior = [int(daysNumData), int(daysPrior)]
     moneySpentDaily = list(map(int, input().strip().split(' ')))
-    result = daysPriorIsOddMedian(moneySpentDaily, daysPrior)
+    if daysPrior % 2 != 0:
+        result = daysPriorIsOddMedian(moneySpentDaily, daysPrior)
+        print(result)
+    result = daysPriorIsEvenMedian(moneySpentDaily, daysPrior)
     print(result)
 
 
