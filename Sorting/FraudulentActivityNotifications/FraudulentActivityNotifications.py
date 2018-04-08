@@ -30,14 +30,17 @@ def daysPriorIsOddMedian(moneySpentDaily, daysPrior):
             median = medianItem
             return median
 
+
 def daysPriorIsEvenMedian(moneySpentDaily, daysPrior):
-    medianItem = (daysPrior // 2 + (daysPrior // 2 + 1)) // 2
+    medianItem1 = daysPrior // 2
+    medianItem2 = daysPrior // 2 + 1
+    medianItemAv = (medianItem1 + medianItem2) / 2
     listSum = 0
     counter = getNumCounter(moneySpentDaily, daysPrior)
     for item in counter:
         listSum += item
-        if listSum >= medianItem:
-            median = medianItem
+        if listSum >= medianItemAv:
+            median = medianItemAv
             return median
 
 
