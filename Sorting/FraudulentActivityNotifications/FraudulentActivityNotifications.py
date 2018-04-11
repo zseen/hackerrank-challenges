@@ -1,7 +1,6 @@
 #!/bin/python3
 
 import sys
-from Library.Sorting import CountingSort
 
 
 def getNumCounter(moneySpentDaily, daysPrior):
@@ -20,33 +19,41 @@ def getNumCounter(moneySpentDaily, daysPrior):
     return counter
 
 
-def daysPriorIsOddMedian(moneySpentDaily, daysPrior):
-    medianItem = (daysPrior // 2) + 1
-    listSum = 0
+def getMedian(moneySpentDaily, daysPrior):
     counter = getNumCounter(moneySpentDaily, daysPrior)
-    for item in counter:
-        listSum += item
-        if listSum >= medianItem:
-            median = medianItem
-            return median
+
+    if daysPrior % 2 != 0:
+        medianItem = (daysPrior // 2) + 1
+        listSum = 0
+
+        for item in counter:
+            listSum += item
+            if listSum >= medianItem:
+                median = medianItem
+                return median
+    else:
+        medianItem1 = daysPrior // 2
+        medianItem2 = daysPrior // 2 + 1
+        medianItemAv = (medianItem1 + medianItem2) / 2
+        listSum = 0
+        for item in counter:
+            listSum += item
+            if listSum >= medianItemAv:
+                median = medianItemAv
+                return median
 
 
-def daysPriorIsEvenMedian(moneySpentDaily, daysPrior):
-    medianItem1 = daysPrior // 2
-    medianItem2 = daysPrior // 2 + 1
-    medianItemAv = (medianItem1 + medianItem2) / 2
-    listSum = 0
-    counter = getNumCounter(moneySpentDaily, daysPrior)
-    for item in counter:
-        listSum += item
-        if listSum >= medianItemAv:
-            median = medianItemAv
-            return median
+def countNotifications(moneySpentDaily, daysPrior):
+    notificationCounter = 0
 
-
-
-
-
+    for index in range(0, len(moneySpentDaily) - daysPrior):
+        moneySpentForDaysPrior = []
+        for i in range(0, daysPrior):
+            moneySpentForDaysPrior.append(moneySpentDaily[index + i])
+        median = getMedian(moneySpentForDaysPrior, daysPrior)
+        if moneySpentDaily[index + daysPrior] >= median * 2:
+            notificationCounter += 1
+    return notificationCounter
 
 
 def main():
@@ -54,11 +61,9 @@ def main():
     daysNumData, daysPrior = input().strip().split(' ')
     daysNumData, daysPrior = [int(daysNumData), int(daysPrior)]
     moneySpentDaily = list(map(int, input().strip().split(' ')))
-    if daysPrior % 2 != 0:
-        result = daysPriorIsOddMedian(moneySpentDaily, daysPrior)
-        print(result)
-    result = daysPriorIsEvenMedian(moneySpentDaily, daysPrior)
-    print(result)
+
+    notifications = countNotifications(moneySpentDaily, daysPrior)
+    print(notifications)
 
 
 if __name__ == "__main__":
