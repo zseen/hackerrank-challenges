@@ -69,9 +69,7 @@ def main():
     #should be 633
 
 
-if __name__ == "__main__":
-    #main()
-    unittest.main()
+
 
 
 class TestNotificationCount(unittest.TestCase):
@@ -96,3 +94,10 @@ class TestNotificationCount(unittest.TestCase):
 
     def t4(self):
         self.assertTrue(0 == 0)
+
+
+if __name__ == "__main__":
+    #main()
+    c = TestNotificationCount()
+
+    unittest.main()
