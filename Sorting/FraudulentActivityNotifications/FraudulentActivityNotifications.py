@@ -4,10 +4,17 @@ import sys
 import unittest
 
 
-def getNumCounter(moneySpentDaily):
+def iterateSubArray(moneySpentDaily, daysPrior):
+    for index in range(0, len(moneySpentDaily) - daysPrior - 1):
+        currentArray = moneySpentDaily[index : index + daysPrior]
+        cnt  = getNumCounter(currentArray, daysPrior)
+        if
+
+
+def getNumCounter(listSpent, priorDays):
     daysPriorSpent = []
-    for index in range(0, len(moneySpentDaily)):
-        daysPriorSpent.append(moneySpentDaily[index])
+    for index in range(0, priorDays):
+        daysPriorSpent.append(listSpent[index])
 
     biggestNum = max(daysPriorSpent)
     smallestNum = min(daysPriorSpent)
@@ -17,30 +24,17 @@ def getNumCounter(moneySpentDaily):
     for item in daysPriorSpent:
         counter[item - smallestNum] += 1
 
-    return counter
+    sortedChunk = []
+    for index in range(0, len(counter)):
+        for amount in range(0, counter[index]):
+            sortedChunk.append(index + smallestNum)
+    return sortedChunk
 
 
-def getMedian(daysPrior, counter):
+def getMedian(daysPrior, counter, moneySpentDaily):
+    sortedChunk = getNumCounter()
 
-    if daysPrior % 2 != 0:
-        medianItem = (daysPrior // 2) + 1
-        listSum = 0
 
-        for item in counter:
-            listSum += item
-            if listSum >= medianItem:
-                median = medianItem
-                return median
-    else:
-        medianItem1 = daysPrior // 2
-        medianItem2 = daysPrior // 2 + 1
-        medianItemAv = (medianItem1 + medianItem2) / 2
-        listSum = 0
-        for item in counter:
-            listSum += item
-            if listSum >= medianItemAv:
-                median = medianItemAv
-                return median
 
 
 def countNotifications(moneySpentDaily, daysPrior):
@@ -51,7 +45,7 @@ def countNotifications(moneySpentDaily, daysPrior):
         for i in range(0, daysPrior):
             moneySpentForDaysPrior.append(moneySpentDaily[index + i])
         counter = getNumCounter(moneySpentForDaysPrior)
-        median = getMedian(daysPrior, counter)
+        median = getMedian(daysPrior, counter, moneySpentDaily)
         if moneySpentDaily[index + daysPrior] >= median * 2:
             notificationCounter += 1
     return notificationCounter
@@ -90,8 +84,12 @@ def main():
     daysNumData, daysPrior = [int(daysNumData), int(daysPrior)]
     moneySpentDaily = list(map(int, input().strip().split(' ')))
 
-    notifications = countNotifications(moneySpentDaily, daysPrior)
-    print(notifications)
+    #notifications = countNotifications(moneySpentDaily, daysPrior)
+    #print(notifications)
+    cnt = getNumCounter(moneySpentDaily, daysPrior)
+    #print(cnt)
+    currentArray = iterateSubArray(moneySpentDaily, daysPrior)
+    print(currentArray)
 
 
 class TestNotificationCount(unittest.TestCase):
@@ -161,5 +159,5 @@ class TestNotificationCount(unittest.TestCase):
         self.assertTrue(notifications == 0)
 
 if __name__ == "__main__":
-    #main()
-    unittest.main()
+    main()
+    #unittest.main()
