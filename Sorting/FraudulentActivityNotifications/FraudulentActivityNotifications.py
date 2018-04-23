@@ -24,15 +24,10 @@ def getNumCounter(listSpent, priorDays):
     for item in daysPriorSpent:
         counter[item - smallestNum] += 1
 
-    sortedChunk = []
-    for index in range(0, len(counter)):
-        for amount in range(0, counter[index]):
-            sortedChunk.append(index + smallestNum)
-    return sortedChunk
-
+    return counter
 
 def getMedian(daysPrior, counter, moneySpentDaily):
-    sortedChunk = getNumCounter()
+
 
 
 
