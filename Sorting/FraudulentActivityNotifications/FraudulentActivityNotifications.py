@@ -8,7 +8,6 @@ def iterateSubArray(moneySpentDaily, daysPrior):
     for index in range(0, len(moneySpentDaily) - daysPrior - 1):
         currentArray = moneySpentDaily[index : index + daysPrior]
         cnt  = getNumCounter(currentArray, daysPrior)
-        if
 
 
 def getNumCounter(listSpent, priorDays):
@@ -19,14 +18,38 @@ def getNumCounter(listSpent, priorDays):
     biggestNum = max(daysPriorSpent)
     smallestNum = min(daysPriorSpent)
 
-    counter = [0] * (biggestNum - smallestNum + 1)
+    counter = [0] * 200
 
     for item in daysPriorSpent:
-        counter[item - smallestNum] += 1
+        counter[item] += 1
 
     return counter
 
-def getMedian(daysPrior, counter, moneySpentDaily):
+def getMedian(daysPrior, moneySpentDaily):
+    counter = getNumCounter(moneySpentDaily, daysPrior)
+    median = 0
+    medHelp = (len(moneySpentDaily) // 2)
+
+    if len(moneySpentDaily) % 2 != 0:
+        medianIndex = medHelp  + 1
+        index = 0
+        for item in counter:
+            index += item
+            if index == medianIndex:
+                median = counter[index]
+                return median
+    else:
+        medianIndexAv = (medHelp + medHelp + 1) / 2
+        index = 0
+        for item in counter:
+            index += item
+            if index >= medianIndexAv:
+                median = (counter[medHelp] + counter[medHelp + 1]) / 2
+                return median
+
+
+
+
 
 
 
@@ -39,8 +62,8 @@ def countNotifications(moneySpentDaily, daysPrior):
         moneySpentForDaysPrior = []
         for i in range(0, daysPrior):
             moneySpentForDaysPrior.append(moneySpentDaily[index + i])
-        counter = getNumCounter(moneySpentForDaysPrior)
-        median = getMedian(daysPrior, counter, moneySpentDaily)
+        counter = getNumCounter(daysPrior, moneySpentForDaysPrior)
+        median = getMedian(daysPrior, moneySpentDaily)
         if moneySpentDaily[index + daysPrior] >= median * 2:
             notificationCounter += 1
     return notificationCounter
