@@ -39,13 +39,16 @@ def getMedian(daysPrior, moneySpentDaily):
                 median = counter[index]
                 return median
     else:
-        medianIndexAv = (medHelp + medHelp + 1) / 2
+        medianIndex1 = medHelp
         index = 0
         for item in counter:
             index += item
-            if index >= medianIndexAv:
-                median = (counter[medHelp] + counter[medHelp + 1]) / 2
-                return median
+            if index >= medianIndex1:
+                for i in range(medianIndex1, 200 - medianIndex1):
+                    if counter[i] > 0:
+                        medianIndex2 = counter[i]
+                    median = (counter[index] + counter[i]) / 2
+                    return median
 
 
 
@@ -175,6 +178,9 @@ class TestNotificationCount(unittest.TestCase):
         moneySpentDaily = [10000, 10001, 15000, 20000, 27000, 39000]
         notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
         self.assertTrue(notifications == 0)
+
+    def test_median_odd(self):
+        
 
 if __name__ == "__main__":
     main()
