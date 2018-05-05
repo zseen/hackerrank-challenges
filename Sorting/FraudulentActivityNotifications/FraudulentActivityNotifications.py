@@ -4,16 +4,11 @@ import sys
 import unittest
 
 
-def iterateSubArray(moneySpentDaily, daysPrior):
-    for index in range(0, len(moneySpentDaily) - daysPrior - 1):
-        currentArray = moneySpentDaily[index : index + daysPrior]
-        cnt  = getNumCounter(currentArray, daysPrior)
-
-
 def getNumCounter(listSpent, priorDays):
     daysPriorSpent = []
     for index in range(0, priorDays):
         daysPriorSpent.append(listSpent[index])
+
 
     biggestNum = max(daysPriorSpent)
     smallestNum = min(daysPriorSpent)
@@ -25,7 +20,7 @@ def getNumCounter(listSpent, priorDays):
 
     return counter
 
-def getMedian(daysPrior, moneySpentDaily):
+def getMedian(moneySpentDaily, daysPrior):
     counter = getNumCounter(moneySpentDaily, daysPrior)
     median = 0
     medHelp = (len(moneySpentDaily) // 2)
@@ -56,6 +51,10 @@ def getMedian(daysPrior, moneySpentDaily):
 
 
 
+def iterateSubArray(moneySpentDaily, daysPrior):
+    for index in range(0, len(moneySpentDaily) - daysPrior - 1):
+        currentArray = moneySpentDaily[index : index + daysPrior]
+        cnt  = getNumCounter(currentArray, daysPrior)
 
 
 def countNotifications(moneySpentDaily, daysPrior):
@@ -65,8 +64,8 @@ def countNotifications(moneySpentDaily, daysPrior):
         moneySpentForDaysPrior = []
         for i in range(0, daysPrior):
             moneySpentForDaysPrior.append(moneySpentDaily[index + i])
-        counter = getNumCounter(daysPrior, moneySpentForDaysPrior)
-        median = getMedian(daysPrior, moneySpentDaily)
+        counter = getNumCounter(moneySpentForDaysPrior, daysPrior)
+        median = getMedian(moneySpentDaily, daysPrior)
         if moneySpentDaily[index + daysPrior] >= median * 2:
             notificationCounter += 1
     return notificationCounter
@@ -179,9 +178,9 @@ class TestNotificationCount(unittest.TestCase):
         notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
         self.assertTrue(notifications == 0)
 
-    def test_median_odd(self):
+    #def test_median_odd(self):
         
 
 if __name__ == "__main__":
-    main()
-    #unittest.main()
+    #main()
+    unittest.main()
