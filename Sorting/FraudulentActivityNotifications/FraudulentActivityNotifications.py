@@ -9,7 +9,7 @@ def getNumCounter(listSpent, priorDays):
     for index in range(0, priorDays):
         daysPriorSpent.append(listSpent[index])
 
-    counter = [0] * 200
+    counter = [0] * 201
 
     for item in daysPriorSpent:
         counter[item] += 1
@@ -24,8 +24,10 @@ def getMedian(moneySpentDaily, daysPrior):
 
     if daysPrior % 2 != 0:
         medianIndex = medHelp + 1
-        for i in range(0, daysPrior):
-            if i == medianIndex:
+        index = 0
+        for i in range(0, 200):
+            index += counter[i]
+            if index >= medianIndex:
                 median = i
                 return median
     else:
@@ -47,7 +49,7 @@ def getMedian(moneySpentDaily, daysPrior):
 def iterateSubArray(moneySpentDaily, daysPrior):
     for index in range(0, len(moneySpentDaily) - daysPrior - 1):
         currentArray = moneySpentDaily[index : index + daysPrior]
-        cnt  = getNumCounter(currentArray, daysPrior)
+        cnt = getNumCounter(currentArray, daysPrior)
         countNotif = countNotifications(currentArray, daysPrior)
         return countNotif
 
@@ -178,8 +180,30 @@ class TestNotificationCount(unittest.TestCase):
         daysPrior = 3
         moneySpentDaily = [20, 40, 30]
         median = getMedian(moneySpentDaily, daysPrior)
+        print(median)
         self.assertTrue(median == 30)
-        
+
+    def test_median_odd_longerArray(self):
+        daysPrior = 9
+        moneySpentDaily = [20, 78, 1, 1, 1, 20, 40, 30, 199]
+        median = getMedian(moneySpentDaily, daysPrior)
+        print(median)
+        self.assertTrue(median == 20)
+
+    def test_median_odd_sameNumbers(self):
+        daysPrior = 5
+        moneySpentDaily = [45, 45, 45, 45, 45]
+        median = getMedian(moneySpentDaily, daysPrior)
+        print(median)
+        self.assertTrue(median == 45)
+
+    def test_median_odd_onlyBigNumbers(self):
+        daysPrior = 5
+        moneySpentDaily = [200, 198, 197, 199, 196]
+        median = getMedian(moneySpentDaily, daysPrior)
+        print(median)
+        self.assertTrue(median == 198)
+
 
 if __name__ == "__main__":
     #main()
