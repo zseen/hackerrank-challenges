@@ -32,13 +32,19 @@ def getMedian(moneySpentDaily, daysPrior):
                 return median
     else:
         medianIndex1 = medHelp
-        for i in range(0, daysPrior):
-            if i >= medianIndex1:
-                for index in range(medianIndex1 + 1, 200 - medianIndex1):
-                    if index > 0:
-                        medianIndex2 = index
-                        median = (i + medianIndex2) / 2
+        medianIndex2 = 0
+        index = 0
+        for i in range(0, 200):
+            index += counter[i]
+            if index >= medianIndex1:
+                median1 = i
+                for idx in range(i + 1, 200 - i):
+                    if counter[idx] > 0:
+                        medianIndex2 = counter[idx]
+                        median2 = idx
+                        median = (median1 + median2) / 2
                         return median
+
 
 
 
@@ -175,34 +181,49 @@ class TestNotificationCount(unittest.TestCase):
     #     moneySpentDaily = [10000, 10001, 15000, 20000, 27000, 39000]
     #     notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
     #     self.assertTrue(notifications == 0)
+    #
+    # def test_median_odd(self):
+    #     daysPrior = 3
+    #     moneySpentDaily = [20, 40, 30]
+    #     median = getMedian(moneySpentDaily, daysPrior)
+    #     print(median)
+    #     self.assertTrue(median == 30)
+    #
+    # def test_median_odd_longerArray(self):
+    #     daysPrior = 9
+    #     moneySpentDaily = [20, 78, 1, 1, 1, 20, 40, 30, 199]
+    #     median = getMedian(moneySpentDaily, daysPrior)
+    #     print(median)
+    #     self.assertTrue(median == 20)
+    #
+    # def test_median_odd_sameNumbers(self):
+    #     daysPrior = 5
+    #     moneySpentDaily = [45, 45, 45, 45, 45]
+    #     median = getMedian(moneySpentDaily, daysPrior)
+    #     print(median)
+    #     self.assertTrue(median == 45)
+    #
+    # def test_median_odd_onlyBigNumbers(self):
+    #     daysPrior = 5
+    #     moneySpentDaily = [200, 198, 197, 199, 196]
+    #     median = getMedian(moneySpentDaily, daysPrior)
+    #     print(median)
+    #     self.assertTrue(median == 198)
 
-    def test_median_odd(self):
-        daysPrior = 3
-        moneySpentDaily = [20, 40, 30]
+    # def test_median_even_2DifferentMedNums_medFraction(self):
+    #     daysPrior = 4
+    #     moneySpentDaily = [2, 3, 3, 2]
+    #     median = getMedian(moneySpentDaily, daysPrior)
+    #     print(median)
+    #     self.assertTrue(median == 2.5)
+
+    def test_median_even_biggerRangeNums2DiffMedNums_medWhole(self):
+        daysPrior = 6
+        moneySpentDaily = [4, 20, 62, 3, 100, 0]
         median = getMedian(moneySpentDaily, daysPrior)
         print(median)
-        self.assertTrue(median == 30)
+        self.assertTrue(median == 12)
 
-    def test_median_odd_longerArray(self):
-        daysPrior = 9
-        moneySpentDaily = [20, 78, 1, 1, 1, 20, 40, 30, 199]
-        median = getMedian(moneySpentDaily, daysPrior)
-        print(median)
-        self.assertTrue(median == 20)
-
-    def test_median_odd_sameNumbers(self):
-        daysPrior = 5
-        moneySpentDaily = [45, 45, 45, 45, 45]
-        median = getMedian(moneySpentDaily, daysPrior)
-        print(median)
-        self.assertTrue(median == 45)
-
-    def test_median_odd_onlyBigNumbers(self):
-        daysPrior = 5
-        moneySpentDaily = [200, 198, 197, 199, 196]
-        median = getMedian(moneySpentDaily, daysPrior)
-        print(median)
-        self.assertTrue(median == 198)
 
 
 if __name__ == "__main__":
