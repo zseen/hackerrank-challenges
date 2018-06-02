@@ -2,6 +2,7 @@
 
 import sys
 import unittest
+import math
 
 
 def getNumCounter(listSpent, priorDays):
@@ -31,19 +32,21 @@ def getMedian(moneySpentDaily, daysPrior):
                 median = i
                 return median
     else:
-        medianIndex1 = medHelp
-        medianIndex2 = 0
+        medianSmallerIndex = medHelp
         index = 0
         for i in range(0, 200):
             index += counter[i]
-            if index >= medianIndex1:
+            if index >= medianSmallerIndex:
                 median1 = i
-                for idx in range(i + 1, 200 - i):
-                    if counter[idx] > 0:
-                        medianIndex2 = counter[idx]
-                        median2 = idx
-                        median = (median1 + median2) / 2
-                        return median
+                if index >= medianSmallerIndex + 1:
+                    median = i
+                    return median
+                else:
+                    for idx in range(i + 1, 200 - i):
+                        if counter[idx] > 0:
+                            median2 = idx
+                            median = (median1 + median2) / 2
+                            return median
 
 
 
@@ -54,8 +57,7 @@ def getMedian(moneySpentDaily, daysPrior):
 
 def iterateSubArray(moneySpentDaily, daysPrior):
     for index in range(0, len(moneySpentDaily) - daysPrior - 1):
-        currentArray = moneySpentDaily[index : index + daysPrior]
-        cnt = getNumCounter(currentArray, daysPrior)
+        currentArray = moneySpentDaily[index: index + daysPrior]
         countNotif = countNotifications(currentArray, daysPrior)
         return countNotif
 
@@ -210,12 +212,12 @@ class TestNotificationCount(unittest.TestCase):
     #     print(median)
     #     self.assertTrue(median == 198)
 
-    # def test_median_even_2DifferentMedNums_medFraction(self):
-    #     daysPrior = 4
-    #     moneySpentDaily = [2, 3, 3, 2]
-    #     median = getMedian(moneySpentDaily, daysPrior)
-    #     print(median)
-    #     self.assertTrue(median == 2.5)
+    def test_median_even_2DifferentMedNums_medFraction(self):
+        daysPrior = 4
+        moneySpentDaily = [2, 3, 3, 2]
+        median = getMedian(moneySpentDaily, daysPrior)
+        print(median)
+        self.assertTrue(median == 2.5)
 
     def test_median_even_biggerRangeNums2DiffMedNums_medWhole(self):
         daysPrior = 6
@@ -223,6 +225,13 @@ class TestNotificationCount(unittest.TestCase):
         median = getMedian(moneySpentDaily, daysPrior)
         print(median)
         self.assertTrue(median == 12)
+
+    def test_median_even_sameMedianNums(self):
+        daysPrior = 6
+        moneySpentDaily = [20, 20, 62, 3, 100, 0]
+        median = getMedian(moneySpentDaily, daysPrior)
+        print(median)
+        self.assertTrue(median == 20)
 
 
 
