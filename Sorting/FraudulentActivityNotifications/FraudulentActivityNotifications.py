@@ -2,7 +2,7 @@
 
 import sys
 import unittest
-import math
+
 
 
 def getNumCounter(listSpent, priorDays):
@@ -54,26 +54,22 @@ def getMedian(moneySpentDaily, daysPrior):
 
 
 
-
-def iterateSubArray(moneySpentDaily, daysPrior):
-    for index in range(0, len(moneySpentDaily) - daysPrior - 1):
-        currentArray = moneySpentDaily[index: index + daysPrior]
-        countNotif = countNotifications(currentArray, daysPrior)
-        return countNotif
+#
 
 
 def countNotifications(moneySpentDaily, daysPrior):
     notificationCounter = 0
 
     for index in range(0, len(moneySpentDaily) - daysPrior):
-        moneySpentForDaysPrior = []
+
         for i in range(0, daysPrior):
-            moneySpentForDaysPrior.append(moneySpentDaily[index + i])
-        counter = getNumCounter(moneySpentForDaysPrior, daysPrior)
-        median = getMedian(moneySpentDaily, daysPrior)
-        if moneySpentDaily[index + daysPrior] >= median * 2:
-            notificationCounter += 1
-    return notificationCounter
+            moneySpentForDaysPrior = moneySpentDaily[i: daysPrior + i]
+            counter = getNumCounter(moneySpentForDaysPrior, daysPrior)
+            median = getMedian(moneySpentDaily, daysPrior)
+            x = moneySpentDaily[index + daysPrior]
+            if moneySpentDaily[index + daysPrior] >= median * 2: #### This does not work properly!!!
+                notificationCounter += 1
+        return notificationCounter
 
 
 # FOR TESTING ONLY
@@ -109,13 +105,13 @@ def main():
     daysNumData, daysPrior = [int(daysNumData), int(daysPrior)]
     moneySpentDaily = list(map(int, input().strip().split(' ')))
 
-    #notifications = countNotifications(moneySpentDaily, daysPrior)
-    #print(notifications)
+    notifications = countNotifications(moneySpentDaily, daysPrior)
+    print(notifications)
     #cnt = getNumCounter(moneySpentDaily, daysPrior)
     #print(cnt)
     #currentArray = iterateSubArray(moneySpentDaily, daysPrior)
-    median = getMedian(moneySpentDaily, daysPrior)
-    print(median)
+    #median = getMedian(moneySpentDaily, daysPrior)
+    #print(median)
 
 
 class TestNotificationCount(unittest.TestCase):
@@ -153,64 +149,64 @@ class TestNotificationCount(unittest.TestCase):
     #     moneySpentDaily = [1, 2, 3, 4, 4, 7]
     #     notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
     #     self.assertTrue(notifications == 1)
+
+    def test_evenDaysPriorSameElementInMiddle_1notification(self):
+        daysPrior = 4
+        moneySpentDaily = [1, 2, 4, 4, 4, 8]
+        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        self.assertTrue(notifications == 1)
+
+    def test_slightlyLongerArray_2notifications(self):
+        daysPrior = 5
+        moneySpentDaily = [2, 3, 4, 2, 3, 6, 8, 4, 5]
+        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        self.assertTrue(notifications == 2)
     #
-    # def test_evenDaysPriorSameElementInMiddle_1notification(self):
-    #     daysPrior = 4
-    #     moneySpentDaily = [1, 2, 4, 4, 4, 8]
-    #     notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
-    #     self.assertTrue(notifications == 1)
-    #
-    # def test_slightlyLongerArray_2notifications(self):
-    #     daysPrior = 5
-    #     moneySpentDaily = [2, 3, 4, 2, 3, 6, 8, 4, 5]
-    #     notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
-    #     self.assertTrue(notifications == 2)
-    #
-    # def test_incrementingElements_0notifications(self):
-    #     daysPrior = 3
-    #     moneySpentDaily = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-    #     notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
-    #     self.assertTrue(notifications == 0)
-    #
-    # def test_incrementingElements_1notification(self):
-    #     daysPrior = 3
-    #     moneySpentDaily = [2, 3, 4, 5, 6, 7, 8, 1000, 9, 10, 11, 12, 13]
-    #     notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
-    #     self.assertTrue(notifications == 1)
-    #
-    # def test_largeNumbers_0notification(self):
-    #     daysPrior = 2
-    #     moneySpentDaily = [10000, 10001, 15000, 20000, 27000, 39000]
-    #     notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
-    #     self.assertTrue(notifications == 0)
-    #
-    # def test_median_odd(self):
-    #     daysPrior = 3
-    #     moneySpentDaily = [20, 40, 30]
-    #     median = getMedian(moneySpentDaily, daysPrior)
-    #     print(median)
-    #     self.assertTrue(median == 30)
-    #
-    # def test_median_odd_longerArray(self):
-    #     daysPrior = 9
-    #     moneySpentDaily = [20, 78, 1, 1, 1, 20, 40, 30, 199]
-    #     median = getMedian(moneySpentDaily, daysPrior)
-    #     print(median)
-    #     self.assertTrue(median == 20)
-    #
-    # def test_median_odd_sameNumbers(self):
-    #     daysPrior = 5
-    #     moneySpentDaily = [45, 45, 45, 45, 45]
-    #     median = getMedian(moneySpentDaily, daysPrior)
-    #     print(median)
-    #     self.assertTrue(median == 45)
-    #
-    # def test_median_odd_onlyBigNumbers(self):
-    #     daysPrior = 5
-    #     moneySpentDaily = [200, 198, 197, 199, 196]
-    #     median = getMedian(moneySpentDaily, daysPrior)
-    #     print(median)
-    #     self.assertTrue(median == 198)
+    def test_incrementingElements_0notifications(self):
+        daysPrior = 3
+        moneySpentDaily = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        self.assertTrue(notifications == 0)
+
+    def wrongTestcase_tooLargeNumber_test_incrementingElements_1notification(self):
+        daysPrior = 3
+        moneySpentDaily = [2, 3, 4, 5, 6, 7, 8, 1000, 9, 10, 11, 12, 13]
+        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        self.assertTrue(notifications == 1)
+
+    def wrongTestcase_tooLargeNumbers_test_largeNumbers_0notification(self):
+        daysPrior = 2
+        moneySpentDaily = [10000, 10001, 15000, 20000, 27000, 39000]
+        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        self.assertTrue(notifications == 0)
+
+    def test_median_odd(self):
+        daysPrior = 3
+        moneySpentDaily = [20, 40, 30]
+        median = getMedian(moneySpentDaily, daysPrior)
+        print(median)
+        self.assertTrue(median == 30)
+
+    def test_median_odd_longerArray(self):
+        daysPrior = 9
+        moneySpentDaily = [20, 78, 1, 1, 1, 20, 40, 30, 199]
+        median = getMedian(moneySpentDaily, daysPrior)
+        print(median)
+        self.assertTrue(median == 20)
+
+    def test_median_odd_sameNumbers(self):
+        daysPrior = 5
+        moneySpentDaily = [45, 45, 45, 45, 45]
+        median = getMedian(moneySpentDaily, daysPrior)
+        print(median)
+        self.assertTrue(median == 45)
+
+    def test_median_odd_onlyBigNumbers(self):
+        daysPrior = 5
+        moneySpentDaily = [200, 198, 197, 199, 196]
+        median = getMedian(moneySpentDaily, daysPrior)
+        print(median)
+        self.assertTrue(median == 198)
 
     def test_median_even_2DifferentMedNums_medFraction(self):
         daysPrior = 4
@@ -236,5 +232,5 @@ class TestNotificationCount(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    #main()
-    unittest.main()
+    main()
+    #unittest.main()

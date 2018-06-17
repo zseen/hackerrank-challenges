@@ -1,0 +1,17 @@
+diff a/Sorting/FraudulentActivityNotifications/FraudulentActivityNotifications.py b/Sorting/FraudulentActivityNotifications/FraudulentActivityNotifications.py	(rejected hunks)
+@@ -30,6 +30,15 @@
+             median = medianItem
+             return median
+ 
++def daysPriorIsEvenMedian(moneySpentDaily, daysPrior):
++    medianItem = (daysPrior // 2 + (daysPrior // 2 + 1)) // 2
++    listSum = 0
++    counter = getNumCounter(moneySpentDaily, daysPrior)
++    for item in counter:
++        listSum += item
++        if listSum >= medianItem:
++            median = medianItem
++            return median
+ 
+ 
+ 
