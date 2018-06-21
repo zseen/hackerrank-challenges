@@ -62,10 +62,10 @@ def countNotifications(moneySpentDaily, daysPrior):
 
     for index in range(0, len(moneySpentDaily) - daysPrior):
 
-        #for i in range(0, daysPrior):
+
             moneySpentForDaysPrior = moneySpentDaily[index: daysPrior + index]
             counter = getNumCounter(moneySpentForDaysPrior, daysPrior)
-            median = getMedian(moneySpentDaily, daysPrior)
+            median = getMedian(moneySpentForDaysPrior, daysPrior)
             y = moneySpentForDaysPrior
             x = moneySpentDaily[index + daysPrior]
             if moneySpentDaily[index + daysPrior] >= median * 2: #### This does not work properly!!!
@@ -108,11 +108,6 @@ def main():
 
     notifications = countNotifications(moneySpentDaily, daysPrior)
     print(notifications)
-    #cnt = getNumCounter(moneySpentDaily, daysPrior)
-    #print(cnt)
-    #currentArray = iterateSubArray(moneySpentDaily, daysPrior)
-    #median = getMedian(moneySpentDaily, daysPrior)
-    #print(median)
 
 
 class TestNotificationCount(unittest.TestCase):
@@ -121,35 +116,35 @@ class TestNotificationCount(unittest.TestCase):
 
         self.countNotificationsImpl = countNotifications
 
-    # def test_moreDaysPriorThanDays_0notifications(self):
-    #     daysPrior = 6
-    #     moneySpentDaily = [1, 2, 3, 4, 5]
-    #     notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
-    #     self.assertTrue(notifications == 0)
-    #
-    # def test_sameMoneySpent_0notifications(self):
-    #     daysPrior = 3
-    #     moneySpentDaily = [2, 2, 2, 2, 2]
-    #     notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
-    #     self.assertTrue(notifications == 0)
-    #
-    # def test_evenDaysPrior_0notifications(self):
-    #     daysPrior = 4
-    #     moneySpentDaily = [1, 2, 3, 4, 4]
-    #     notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
-    #     self.assertTrue(notifications == 0)
-    #
-    # def test_oddDaysPrior_1notifications(self):
-    #     daysPrior = 3
-    #     moneySpentDaily = [1, 2, 3, 4, 5]
-    #     notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
-    #     self.assertTrue(notifications == 1)
-    #
-    # def test_evenDaysPriorDifferentElementsInMiddle_1notification(self):
-    #     daysPrior = 4
-    #     moneySpentDaily = [1, 2, 3, 4, 4, 7]
-    #     notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
-    #     self.assertTrue(notifications == 1)
+    def test_moreDaysPriorThanDays_0notifications(self):
+        daysPrior = 6
+        moneySpentDaily = [1, 2, 3, 4, 5]
+        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        self.assertTrue(notifications == 0)
+
+    def test_sameMoneySpent_0notifications(self):
+        daysPrior = 3
+        moneySpentDaily = [2, 2, 2, 2, 2]
+        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        self.assertTrue(notifications == 0)
+
+    def test_evenDaysPrior_0notifications(self):
+        daysPrior = 4
+        moneySpentDaily = [1, 2, 3, 4, 4]
+        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        self.assertTrue(notifications == 0)
+
+    def test_oddDaysPrior_1notifications(self):
+        daysPrior = 3
+        moneySpentDaily = [1, 2, 3, 4, 5]
+        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        self.assertTrue(notifications == 1)
+
+    def test_evenDaysPriorDifferentElementsInMiddle_1notification(self):
+        daysPrior = 4
+        moneySpentDaily = [1, 2, 3, 4, 4, 7]
+        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        self.assertTrue(notifications == 1)
 
     def test_evenDaysPriorSameElementInMiddle_1notification(self):
         daysPrior = 4
@@ -162,7 +157,7 @@ class TestNotificationCount(unittest.TestCase):
         moneySpentDaily = [2, 3, 4, 2, 3, 6, 8, 4, 5]
         notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
         self.assertTrue(notifications == 2)
-    #
+
     def test_incrementingElements_0notifications(self):
         daysPrior = 3
         moneySpentDaily = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
@@ -233,5 +228,5 @@ class TestNotificationCount(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    main()
-    #unittest.main()
+    #main()
+    unittest.main()
