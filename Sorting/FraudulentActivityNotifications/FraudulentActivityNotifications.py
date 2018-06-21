@@ -62,14 +62,15 @@ def countNotifications(moneySpentDaily, daysPrior):
 
     for index in range(0, len(moneySpentDaily) - daysPrior):
 
-        for i in range(0, daysPrior):
-            moneySpentForDaysPrior = moneySpentDaily[i: daysPrior + i]
+        #for i in range(0, daysPrior):
+            moneySpentForDaysPrior = moneySpentDaily[index: daysPrior + index]
             counter = getNumCounter(moneySpentForDaysPrior, daysPrior)
             median = getMedian(moneySpentDaily, daysPrior)
+            y = moneySpentForDaysPrior
             x = moneySpentDaily[index + daysPrior]
             if moneySpentDaily[index + daysPrior] >= median * 2: #### This does not work properly!!!
                 notificationCounter += 1
-        return notificationCounter
+    return notificationCounter
 
 
 # FOR TESTING ONLY
