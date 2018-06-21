@@ -3,6 +3,7 @@
 import sys
 import unittest
 
+maxMoneySpentADay = 200
 
 
 def getNumCounter(listSpent, priorDays):
@@ -10,7 +11,7 @@ def getNumCounter(listSpent, priorDays):
     for index in range(0, priorDays):
         daysPriorSpent.append(listSpent[index])
 
-    counter = [0] * 201
+    counter = [0] * (maxMoneySpentADay + 1)
 
     for item in daysPriorSpent:
         counter[item] += 1
@@ -18,87 +19,61 @@ def getNumCounter(listSpent, priorDays):
     return counter
 
 
-def getMedian(moneySpentDaily, daysPrior):
+def getMedianOdd(moneySpentDaily, daysPrior):
     counter = getNumCounter(moneySpentDaily, daysPrior)
-    median = 0
-    medHelp = (daysPrior // 2)
+    medianItem = (daysPrior // 2)
 
-    if daysPrior % 2 != 0:
-        medianIndex = medHelp + 1
-        index = 0
-        for i in range(0, 200):
-            index += counter[i]
-            if index >= medianIndex:
+    medianIndex = medianItem + 1
+    index = 0
+    for i in range(0, maxMoneySpentADay):
+        index += counter[i]
+        if index >= medianIndex:
+            median = i
+            return median
+
+
+def getMedianEven(moneySpentDaily, daysPrior):
+    counter = getNumCounter(moneySpentDaily, daysPrior)
+    medianItem = (daysPrior // 2)
+
+    medianSmallerIndex = medianItem
+    index = 0
+    for i in range(0, maxMoneySpentADay):
+        index += counter[i]
+        if index >= medianSmallerIndex:
+            median1 = i
+            if index >= medianSmallerIndex + 1:
                 median = i
                 return median
+            else:
+                for idx in range(i + 1, maxMoneySpentADay - i):
+                    if counter[idx] > 0:
+                        median2 = idx
+                        median = (median1 + median2) / 2
+                        return median
+
+
+def getMedian(moneySpentDaily, daysPrior):
+    if daysPrior % 2 != 0:
+        median = getMedianOdd(moneySpentDaily, daysPrior)
+        return median
+
     else:
-        medianSmallerIndex = medHelp
-        index = 0
-        for i in range(0, 200):
-            index += counter[i]
-            if index >= medianSmallerIndex:
-                median1 = i
-                if index >= medianSmallerIndex + 1:
-                    median = i
-                    return median
-                else:
-                    for idx in range(i + 1, 200 - i):
-                        if counter[idx] > 0:
-                            median2 = idx
-                            median = (median1 + median2) / 2
-                            return median
-
-
-
-
-
-
-
-#
+        median = getMedianEven(moneySpentDaily, daysPrior)
+        return median
 
 
 def countNotifications(moneySpentDaily, daysPrior):
     notificationCounter = 0
 
     for index in range(0, len(moneySpentDaily) - daysPrior):
-
-
-            moneySpentForDaysPrior = moneySpentDaily[index: daysPrior + index]
-            counter = getNumCounter(moneySpentForDaysPrior, daysPrior)
-            median = getMedian(moneySpentForDaysPrior, daysPrior)
-            y = moneySpentForDaysPrior
-            x = moneySpentDaily[index + daysPrior]
-            if moneySpentDaily[index + daysPrior] >= median * 2: #### This does not work properly!!!
-                notificationCounter += 1
+        moneySpentForDaysPrior = moneySpentDaily[index: daysPrior + index]
+        counter = getNumCounter(moneySpentForDaysPrior, daysPrior)
+        median = getMedian(moneySpentForDaysPrior, daysPrior)
+        if moneySpentDaily[index + daysPrior] >= median * 2:
+            notificationCounter += 1
     return notificationCounter
 
-
-# FOR TESTING ONLY
-def getMedianFromSortedArray(sortedDailySpent):
-    midIndex = len(sortedDailySpent) // 2
-    midElem = sortedDailySpent[midIndex]
-    if len(sortedDailySpent) % 2 != 0:
-        medianSpent = midElem
-    else:
-        leftToMidElem = sortedDailySpent[midIndex - 1]
-        medianSpent = (midElem + leftToMidElem) / 2
-    return medianSpent
-
-def countNotificationsSimple(moneySpentDaily, daysPrior):
-    counter = 0
-
-    for index in range(0, len(moneySpentDaily) - daysPrior):
-        moneySpentForDaysPrior = []
-        for i in range(0, daysPrior):
-            moneySpentForDaysPrior.append(moneySpentDaily[index + i])
-
-        sortedDailySpent = sorted(moneySpentForDaysPrior)
-        medianSpent = getMedianFromSortedArray(sortedDailySpent)
-
-        if medianSpent * 2 <= moneySpentDaily[index + daysPrior]:
-            counter += 1
-
-    return counter
 
 def main():
     sys.stdin = open('FraudulentActivityNotifications_input.txt')
@@ -226,7 +201,6 @@ class TestNotificationCount(unittest.TestCase):
         self.assertTrue(median == 20)
 
 
-
 if __name__ == "__main__":
-    #main()
-    unittest.main()
+    main()
+    #unittest.main()
