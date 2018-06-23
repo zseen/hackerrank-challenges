@@ -2,6 +2,8 @@
 
 import sys
 import unittest
+import timeit
+
 
 maxMoneySpentADay = 200
 
@@ -83,6 +85,7 @@ def main():
 
     notifications = countNotifications(moneySpentDaily, daysPrior)
     print(notifications)
+    print(timeit.timeit('"-".join(str(n) for n in range(100))', number=10000))
 
 
 class TestNotificationCount(unittest.TestCase):
