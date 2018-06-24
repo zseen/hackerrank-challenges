@@ -2,18 +2,19 @@
 
 import sys
 import unittest
-import timeit
 
 
-maxMoneySpentADay = 200
+MAX_MONEY_SPENT_A_DAY = 200
 
 
 def getNumCounter(listSpent, priorDays):
+    if len(listSpent) < priorDays:
+        return 0
     daysPriorSpent = []
     for index in range(0, priorDays):
         daysPriorSpent.append(listSpent[index])
 
-    counter = [0] * (maxMoneySpentADay + 1)
+    counter = [0] * (MAX_MONEY_SPENT_A_DAY + 1)
 
     for item in daysPriorSpent:
         counter[item] += 1
@@ -21,26 +22,23 @@ def getNumCounter(listSpent, priorDays):
     return counter
 
 
-def getMedianOdd(moneySpentDaily, daysPrior):
-    counter = getNumCounter(moneySpentDaily, daysPrior)
-    medianItem = (daysPrior // 2)
+def getMedianOdd(counter, numItems):
+    medianItem = (numItems // 2)
 
     medianIndex = medianItem + 1
     index = 0
-    for i in range(0, maxMoneySpentADay):
+    for i in range(0, MAX_MONEY_SPENT_A_DAY):
         index += counter[i]
         if index >= medianIndex:
-            median = i
-            return median
+            return i
 
 
-def getMedianEven(moneySpentDaily, daysPrior):
-    counter = getNumCounter(moneySpentDaily, daysPrior)
-    medianItem = (daysPrior // 2)
+def getMedianEven(counter, numItems):
+    medianItem = (numItems // 2)
 
     medianSmallerIndex = medianItem
     index = 0
-    for i in range(0, maxMoneySpentADay):
+    for i in range(0, MAX_MONEY_SPENT_A_DAY):
         index += counter[i]
         if index >= medianSmallerIndex:
             median1 = i
@@ -48,32 +46,38 @@ def getMedianEven(moneySpentDaily, daysPrior):
                 median = i
                 return median
             else:
-                for idx in range(i + 1, maxMoneySpentADay - i):
+                for idx in range(i + 1, MAX_MONEY_SPENT_A_DAY - i):
                     if counter[idx] > 0:
                         median2 = idx
                         median = (median1 + median2) / 2
                         return median
 
 
-def getMedian(moneySpentDaily, daysPrior):
-    if daysPrior % 2 != 0:
-        median = getMedianOdd(moneySpentDaily, daysPrior)
-        return median
+def getMedian(counter,numItems):
+    if numItems % 2 != 0:
+        median = getMedianOdd(counter, numItems)
 
     else:
-        median = getMedianEven(moneySpentDaily, daysPrior)
-        return median
+        median = getMedianEven(counter, numItems)
+
+    return median
 
 
 def countNotifications(moneySpentDaily, daysPrior):
     notificationCounter = 0
 
+    moneySpentForDaysPrior = moneySpentDaily[0: daysPrior]
+    counter = getNumCounter(moneySpentForDaysPrior, daysPrior)
+
     for index in range(0, len(moneySpentDaily) - daysPrior):
-        moneySpentForDaysPrior = moneySpentDaily[index: daysPrior + index]
-        counter = getNumCounter(moneySpentForDaysPrior, daysPrior)
-        median = getMedian(moneySpentForDaysPrior, daysPrior)
+        median = getMedian(counter, daysPrior)
         if moneySpentDaily[index + daysPrior] >= median * 2:
             notificationCounter += 1
+
+        if index < len(moneySpentDaily) - daysPrior - 1:
+            counter[moneySpentDaily[index]] -= 1
+            counter[moneySpentDaily[index + daysPrior]] += 1
+
     return notificationCounter
 
 
@@ -82,10 +86,12 @@ def main():
     daysNumData, daysPrior = input().strip().split(' ')
     daysNumData, daysPrior = [int(daysNumData), int(daysPrior)]
     moneySpentDaily = list(map(int, input().strip().split(' ')))
+    if daysNumData < daysPrior:
+        print(0)
+        return False
 
     notifications = countNotifications(moneySpentDaily, daysPrior)
     print(notifications)
-    print(timeit.timeit('"-".join(str(n) for n in range(100))', number=10000))
 
 
 class TestNotificationCount(unittest.TestCase):
@@ -157,49 +163,56 @@ class TestNotificationCount(unittest.TestCase):
     def test_median_odd(self):
         daysPrior = 3
         moneySpentDaily = [20, 40, 30]
-        median = getMedian(moneySpentDaily, daysPrior)
+        counter = getNumCounter(moneySpentDaily, daysPrior)
+        median = getMedian(counter, daysPrior)
         print(median)
         self.assertTrue(median == 30)
 
     def test_median_odd_longerArray(self):
         daysPrior = 9
         moneySpentDaily = [20, 78, 1, 1, 1, 20, 40, 30, 199]
-        median = getMedian(moneySpentDaily, daysPrior)
+        counter = getNumCounter(moneySpentDaily, daysPrior)
+        median = getMedian(counter, daysPrior)
         print(median)
         self.assertTrue(median == 20)
 
     def test_median_odd_sameNumbers(self):
         daysPrior = 5
         moneySpentDaily = [45, 45, 45, 45, 45]
-        median = getMedian(moneySpentDaily, daysPrior)
+        counter = getNumCounter(moneySpentDaily, daysPrior)
+        median = getMedian(counter, daysPrior)
         print(median)
         self.assertTrue(median == 45)
 
     def test_median_odd_onlyBigNumbers(self):
         daysPrior = 5
         moneySpentDaily = [200, 198, 197, 199, 196]
-        median = getMedian(moneySpentDaily, daysPrior)
+        counter = getNumCounter(moneySpentDaily, daysPrior)
+        median = getMedian(counter, daysPrior)
         print(median)
         self.assertTrue(median == 198)
 
     def test_median_even_2DifferentMedNums_medFraction(self):
         daysPrior = 4
         moneySpentDaily = [2, 3, 3, 2]
-        median = getMedian(moneySpentDaily, daysPrior)
+        counter = getNumCounter(moneySpentDaily, daysPrior)
+        median = getMedian(counter, daysPrior)
         print(median)
         self.assertTrue(median == 2.5)
 
     def test_median_even_biggerRangeNums2DiffMedNums_medWhole(self):
         daysPrior = 6
         moneySpentDaily = [4, 20, 62, 3, 100, 0]
-        median = getMedian(moneySpentDaily, daysPrior)
+        counter = getNumCounter(moneySpentDaily, daysPrior)
+        median = getMedian(counter, daysPrior)
         print(median)
         self.assertTrue(median == 12)
 
     def test_median_even_sameMedianNums(self):
         daysPrior = 6
         moneySpentDaily = [20, 20, 62, 3, 100, 0]
-        median = getMedian(moneySpentDaily, daysPrior)
+        counter = getNumCounter(moneySpentDaily, daysPrior)
+        median = getMedian(counter, daysPrior)
         print(median)
         self.assertTrue(median == 20)
 
