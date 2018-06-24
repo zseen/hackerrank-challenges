@@ -43,8 +43,7 @@ def getMedianEven(counter, numItems):
         if index >= medianSmallerIndex:
             median1 = i
             if index >= medianSmallerIndex + 1:
-                median = i
-                return median
+                return i
             else:
                 for idx in range(i + 1, MAX_MONEY_SPENT_A_DAY - i):
                     if counter[idx] > 0:
@@ -53,7 +52,7 @@ def getMedianEven(counter, numItems):
                         return median
 
 
-def getMedian(counter,numItems):
+def getMedian(counter, numItems):
     if numItems % 2 != 0:
         median = getMedianOdd(counter, numItems)
 
@@ -65,7 +64,6 @@ def getMedian(counter,numItems):
 
 def countNotifications(moneySpentDaily, daysPrior):
     notificationCounter = 0
-
     moneySpentForDaysPrior = moneySpentDaily[0: daysPrior]
     counter = getNumCounter(moneySpentForDaysPrior, daysPrior)
 
@@ -87,8 +85,7 @@ def main():
     daysNumData, daysPrior = [int(daysNumData), int(daysPrior)]
     moneySpentDaily = list(map(int, input().strip().split(' ')))
     if daysNumData < daysPrior:
-        print(0)
-        return False
+        return 0
 
     notifications = countNotifications(moneySpentDaily, daysPrior)
     print(notifications)
