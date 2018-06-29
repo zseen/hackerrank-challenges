@@ -22,15 +22,25 @@ def takeTurns(listForTurn):
 
 
 def deleteMaxNumAndAllRight(numsList):
-    maxItem = 0
+    #maxItem = 0
+    #maxItemIndex = 0
+
+    # for i in range(0, len(numsList)):
+    #     if numsList[i] > maxItem:
+    #         maxItem = numsList[i]
+    #         maxItemIndex = i
+
+
+    maxItem = numsList[0]
     maxItemIndex = 0
 
-    for i in range(0, len(numsList)):
+    for i in range(1, len(numsList)):
         if numsList[i] > maxItem:
             maxItem = numsList[i]
             maxItemIndex = i
 
     numsList = numsList[0: maxItemIndex]
+
     return numsList
 
 

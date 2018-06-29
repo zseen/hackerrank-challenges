@@ -7,10 +7,10 @@ import sys
 # Complete the gamingArray function below.
 
 
-def takeTurns(arr):
+def takeTurns(listForTurn):
     countTurns = 0
 
-    listForTurn = arr
+
     while len(listForTurn) > 0:
         listForTurn = getMaxItemAndDeleteRight(listForTurn)
         countTurns += 1
@@ -23,17 +23,27 @@ def takeTurns(arr):
 
 
 
-def getMaxItemAndDeleteRight(arr):
-    maxItem = 0
+def getMaxItemAndDeleteRight(numsList):
+    #maxItem = 0
+    #maxItemIndex = 0
+
+    # for i in range(0, len(numsList)):
+    #     if numsList[i] > maxItem:
+    #         maxItem = numsList[i]
+    #         maxItemIndex = i
+
+
+    maxItem = numsList[0]
     maxItemIndex = 0
 
-    for i in range(0, len(arr)):
-        if arr[i] > maxItem:
-            maxItem = arr[i]
+    for i in range(1, len(numsList)):
+        if numsList[i] > maxItem:
+            #maxItem = numsList[i]
             maxItemIndex = i
 
-    arr = arr[0: maxItemIndex]
-    return arr
+    numsList = numsList[0: maxItemIndex]
+
+    return numsList
 
 
 
