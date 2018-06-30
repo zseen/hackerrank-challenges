@@ -1,43 +1,20 @@
-import math
-import os
-import random
-import re
 import sys
 
 
-# Complete the gamingArray function below.
+def takeTurnsGetWinner(listOfNums):
 
-
-def getMaxItemAndDeleteRight_takeTurns(numsList):
-    #maxItem = 0
-    #maxItemIndex = 0
-
-    # for i in range(0, len(numsList)):
-    #     if numsList[i] > maxItem:
-    #         maxItem = numsList[i]
-    #         maxItemIndex = i
-
-
-    maxItem = numsList[0]
-    maxItemIndex = 0
+    maxItem = listOfNums[0]
     countTurns = 1
 
-    for i in range(1, len(numsList)):
-        x = len(numsList)
-        if numsList[i] > maxItem:
+    for i in range(1, len(listOfNums)):
+        if listOfNums[i] > maxItem:
+            maxItem = listOfNums[i]
             countTurns += 1
-            maxItem = numsList[i]
-            #maxItemIndex = i
-
-            #numsList = numsList[0: maxItemIndex]
-
 
     if countTurns % 2 == 0:
         return "ANDY"
 
     return "BOB"
-
-
 
 
 def main():
@@ -49,9 +26,10 @@ def main():
 
         numsList = list(map(int, input().rstrip().split()))
 
-        result = getMaxItemAndDeleteRight_takeTurns(numsList)
+        result = takeTurnsGetWinner(numsList)
         print(result)
 
 
 if __name__ == '__main__':
     main()
+    
