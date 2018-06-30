@@ -30,7 +30,6 @@ def deleteMaxNumAndAllRight(numsList):
     #         maxItem = numsList[i]
     #         maxItemIndex = i
 
-
     maxItem = numsList[0]
     maxItemIndex = 0
 

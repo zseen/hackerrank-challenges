@@ -38,7 +38,7 @@ def getMaxItemAndDeleteRight(numsList):
 
     for i in range(1, len(numsList)):
         if numsList[i] > maxItem:
-            #maxItem = numsList[i]
+            maxItem = numsList[i]
             maxItemIndex = i
 
     numsList = numsList[0: maxItemIndex]
