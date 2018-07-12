@@ -31,9 +31,9 @@ def getMedianOdd(counter, numItems):
             return i
 
 
-def findNextNonZeroIndex(counter, startFrom, maxValue):
+def findNextNonZeroIndex(numsCounter, startFrom, maxValue):
     for index in range(startFrom,  maxValue - startFrom):
-        if counter[index] > 0:
+        if numsCounter[index] > 0:
             return index
 
 
