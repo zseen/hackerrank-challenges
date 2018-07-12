@@ -34,8 +34,7 @@ def getMedianOdd(counter, numItems):
 def findNextNonZeroIndex(counter, startFrom, maxValue):
     for index in range(startFrom,  maxValue - startFrom):
         if counter[index] > 0:
-            nextNonZero = index
-            return nextNonZero
+            return index
 
 
 def getMedianEven(counter, numItems):
