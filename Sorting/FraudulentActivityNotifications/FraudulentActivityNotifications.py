@@ -7,14 +7,12 @@ import unittest
 MAX_MONEY_SPENT_A_DAY = 200
 
 
-def getNumCounter(listSpent, priorDays):
-    if len(listSpent) < priorDays:
-        return 0
+def getNumCounter(numbersList, maxNumber):
     daysPriorSpent = []
-    for index in range(0, priorDays):
-        daysPriorSpent.append(listSpent[index])
+    for index in range(0, len(numbersList)):
+        daysPriorSpent.append(numbersList[index])
 
-    counter = [0] * (MAX_MONEY_SPENT_A_DAY + 1)
+    counter = [0] * (maxNumber + 1)
 
     for item in daysPriorSpent:
         counter[item] += 1
@@ -33,39 +31,41 @@ def getMedianOdd(counter, numItems):
             return i
 
 
+def findNextNonZeroIndex(counter, startFrom, maxValue):
+    for index in range(startFrom,  maxValue - startFrom):
+        if counter[index] > 0:
+            nextNonZero = index
+            return nextNonZero
+
+
 def getMedianEven(counter, numItems):
     medianItem = (numItems // 2)
 
     medianSmallerIndex = medianItem
     index = 0
-    for i in range(0, MAX_MONEY_SPENT_A_DAY):
-        index += counter[i]
+    for firstIndex in range(0, MAX_MONEY_SPENT_A_DAY):
+        index += counter[firstIndex]
         if index >= medianSmallerIndex:
-            median1 = i
+            medianFirstItem = firstIndex
             if index >= medianSmallerIndex + 1:
-                return i
+                return firstIndex
             else:
-                for idx in range(i + 1, MAX_MONEY_SPENT_A_DAY - i):
-                    if counter[idx] > 0:
-                        median2 = idx
-                        median = (median1 + median2) / 2
-                        return median
+                medianSecondItem = findNextNonZeroIndex(counter, firstIndex + 1, MAX_MONEY_SPENT_A_DAY)
+                return (medianFirstItem + medianSecondItem) / 2
 
 
 def getMedian(counter, numItems):
     if numItems % 2 != 0:
-        median = getMedianOdd(counter, numItems)
+        return getMedianOdd(counter, numItems)
 
     else:
-        median = getMedianEven(counter, numItems)
-
-    return median
+        return getMedianEven(counter, numItems)
 
 
 def countNotifications(moneySpentDaily, daysPrior):
     notificationCounter = 0
     moneySpentForDaysPrior = moneySpentDaily[0: daysPrior]
-    counter = getNumCounter(moneySpentForDaysPrior, daysPrior)
+    counter = getNumCounter(moneySpentForDaysPrior, MAX_MONEY_SPENT_A_DAY)
 
     for index in range(0, len(moneySpentDaily) - daysPrior):
         median = getMedian(counter, daysPrior)
@@ -95,125 +95,122 @@ class TestNotificationCount(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(TestNotificationCount, self).__init__(*args, **kwargs)
 
-        self.countNotificationsImpl = countNotifications
-
-    def test_moreDaysPriorThanDays_0notifications(self):
+    def test_countNotifications_moreDaysPriorThanDays_0notifications(self):
         daysPrior = 6
         moneySpentDaily = [1, 2, 3, 4, 5]
-        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        notifications = countNotifications(moneySpentDaily, daysPrior)
         self.assertTrue(notifications == 0)
 
-    def test_sameMoneySpent_0notifications(self):
+    def test_countNotifications_sameMoneySpent_0notifications(self):
         daysPrior = 3
         moneySpentDaily = [2, 2, 2, 2, 2]
-        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        notifications = countNotifications(moneySpentDaily, daysPrior)
         self.assertTrue(notifications == 0)
 
-    def test_evenDaysPrior_0notifications(self):
+    def test_countNotifications_evenDaysPrior_0notifications(self):
         daysPrior = 4
         moneySpentDaily = [1, 2, 3, 4, 4]
-        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        notifications = countNotifications(moneySpentDaily, daysPrior)
         self.assertTrue(notifications == 0)
 
-    def test_oddDaysPrior_1notifications(self):
+    def test_countNotifications_oddDaysPrior_1notifications(self):
         daysPrior = 3
         moneySpentDaily = [1, 2, 3, 4, 5]
-        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        notifications = countNotifications(moneySpentDaily, daysPrior)
         self.assertTrue(notifications == 1)
 
-    def test_evenDaysPriorDifferentElementsInMiddle_1notification(self):
+    def test_countNotifications_evenDaysPriorDifferentElementsInMiddle_1notification(self):
         daysPrior = 4
         moneySpentDaily = [1, 2, 3, 4, 4, 7]
-        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        notifications = countNotifications(moneySpentDaily, daysPrior)
         self.assertTrue(notifications == 1)
 
-    def test_evenDaysPriorSameElementInMiddle_1notification(self):
+    def test_countNotifications_evenDaysPriorSameElementInMiddle_1notification(self):
         daysPrior = 4
         moneySpentDaily = [1, 2, 4, 4, 4, 8]
-        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        notifications = countNotifications(moneySpentDaily, daysPrior)
         self.assertTrue(notifications == 1)
 
-    def test_slightlyLongerArray_2notifications(self):
+    def test_countNotifications_slightlyLongerArray_2notifications(self):
         daysPrior = 5
         moneySpentDaily = [2, 3, 4, 2, 3, 6, 8, 4, 5]
-        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        notifications = countNotifications(moneySpentDaily, daysPrior)
         self.assertTrue(notifications == 2)
 
-    def test_incrementingElements_0notifications(self):
+    def test_countNotifications_incrementingElements_0notifications(self):
         daysPrior = 3
         moneySpentDaily = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
+        notifications = countNotifications(moneySpentDaily, daysPrior)
         self.assertTrue(notifications == 0)
 
-    def wrongTestcase_tooLargeNumber_test_incrementingElements_1notification(self):
-        daysPrior = 3
-        moneySpentDaily = [2, 3, 4, 5, 6, 7, 8, 1000, 9, 10, 11, 12, 13]
-        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
-        self.assertTrue(notifications == 1)
+    def test_countNotifications_tooLargeNumber_raisesIndexError(self):
+        try:
+            daysPrior = 3
+            moneySpentDaily = [2, 3, 4, 5, 6, 7, 8, 1000, 9, 10, 11, 12, 13]
+            notifications = countNotifications(moneySpentDaily, daysPrior)
+            self.assertTrue(notifications == 1)
+        except IndexError:
+            self.assertRaises(IndexError)
 
-    def wrongTestcase_tooLargeNumbers_test_largeNumbers_0notification(self):
-        daysPrior = 2
-        moneySpentDaily = [10000, 10001, 15000, 20000, 27000, 39000]
-        notifications = self.countNotificationsImpl(moneySpentDaily, daysPrior)
-        self.assertTrue(notifications == 0)
+    def test_countNotifications_tooLargeNumbers_raisesIndexError(self):
+        try:
+            daysPrior = 2
+            moneySpentDaily = [10000, 10001, 15000, 20000, 27000, 39000]
+            notifications = countNotifications(moneySpentDaily, daysPrior)
+            self.assertTrue(notifications == 0)
+        except IndexError:
+            self.assertRaises(IndexError)
 
-    def test_median_odd(self):
+    def test_getMedian_oddNumberElements_shortArray(self):
         daysPrior = 3
         moneySpentDaily = [20, 40, 30]
-        counter = getNumCounter(moneySpentDaily, daysPrior)
+        counter = getNumCounter(moneySpentDaily, MAX_MONEY_SPENT_A_DAY)
         median = getMedian(counter, daysPrior)
-        print(median)
         self.assertTrue(median == 30)
 
-    def test_median_odd_longerArray(self):
+    def test_getMedian_oddNumberElements_longerArray(self):
         daysPrior = 9
         moneySpentDaily = [20, 78, 1, 1, 1, 20, 40, 30, 199]
-        counter = getNumCounter(moneySpentDaily, daysPrior)
+        counter = getNumCounter(moneySpentDaily, MAX_MONEY_SPENT_A_DAY)
         median = getMedian(counter, daysPrior)
-        print(median)
         self.assertTrue(median == 20)
 
-    def test_median_odd_sameNumbers(self):
+    def test_getMedian_oddNumberElements_sameNumbers(self):
         daysPrior = 5
         moneySpentDaily = [45, 45, 45, 45, 45]
-        counter = getNumCounter(moneySpentDaily, daysPrior)
+        counter = getNumCounter(moneySpentDaily, MAX_MONEY_SPENT_A_DAY)
         median = getMedian(counter, daysPrior)
-        print(median)
         self.assertTrue(median == 45)
 
-    def test_median_odd_onlyBigNumbers(self):
+    def test_getMedian_oddNumberElements_onlyBigNumbers(self):
         daysPrior = 5
         moneySpentDaily = [200, 198, 197, 199, 196]
-        counter = getNumCounter(moneySpentDaily, daysPrior)
+        counter = getNumCounter(moneySpentDaily, MAX_MONEY_SPENT_A_DAY)
         median = getMedian(counter, daysPrior)
-        print(median)
         self.assertTrue(median == 198)
 
-    def test_median_even_2DifferentMedNums_medFraction(self):
+    def test_getMedian_evenNumberElements_2DifferentMedNums_medFraction(self):
         daysPrior = 4
         moneySpentDaily = [2, 3, 3, 2]
-        counter = getNumCounter(moneySpentDaily, daysPrior)
+        counter = getNumCounter(moneySpentDaily, MAX_MONEY_SPENT_A_DAY)
         median = getMedian(counter, daysPrior)
-        print(median)
         self.assertTrue(median == 2.5)
 
-    def test_median_even_biggerRangeNums2DiffMedNums_medWhole(self):
+    def test_getMedian_evenNumberElements_biggerRangeNums2DiffMedNums_medWhole(self):
         daysPrior = 6
         moneySpentDaily = [4, 20, 62, 3, 100, 0]
-        counter = getNumCounter(moneySpentDaily, daysPrior)
+        counter = getNumCounter(moneySpentDaily, MAX_MONEY_SPENT_A_DAY)
         median = getMedian(counter, daysPrior)
-        print(median)
         self.assertTrue(median == 12)
 
-    def test_median_even_sameMedianNums(self):
+    def test_getMedian_evenNumberElements_sameMedianNums(self):
         daysPrior = 6
         moneySpentDaily = [20, 20, 62, 3, 100, 0]
-        counter = getNumCounter(moneySpentDaily, daysPrior)
+        counter = getNumCounter(moneySpentDaily, MAX_MONEY_SPENT_A_DAY)
         median = getMedian(counter, daysPrior)
-        print(median)
         self.assertTrue(median == 20)
 
 
 if __name__ == "__main__":
-    main()
-    #unittest.main()
+    #main()
+    unittest.main()
