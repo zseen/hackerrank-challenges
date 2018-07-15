@@ -32,7 +32,7 @@ def getMedianOdd(counter, numItems):
 
 
 def findNextNonZeroIndex(numsCounter, startFrom, maxValue):
-    for index in range(startFrom,  maxValue - startFrom):
+    for index in range(startFrom,  maxValue + 1):
         if numsCounter[index] > 0:
             return index
 
@@ -209,7 +209,14 @@ class TestNotificationCount(unittest.TestCase):
         median = getMedian(counter, daysPrior)
         self.assertTrue(median == 20)
 
+    def test_getMedian_evenNumberElements_secondMedianItemIsMaxValue(self):
+        daysPrior = 6
+        moneySpentDaily = [100, 100, 100, 200, 200, 200]
+        counter = getNumCounter(moneySpentDaily, MAX_MONEY_SPENT_A_DAY)
+        median = getMedian(counter, daysPrior)
+        self.assertTrue(median == 150)
+
 
 if __name__ == "__main__":
-    #main()
-    unittest.main()
+    main()
+    #unittest.main()
