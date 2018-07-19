@@ -22,41 +22,41 @@ def getNumCounter(numbersList, maxNumber):
 
 def getMedianOdd(counter, numItems):
     medianItem = (numItems // 2)
-
     medianIndex = medianItem + 1
-    index = 0
-    for i in range(0, MAX_MONEY_SPENT_A_DAY):
-        index += counter[i]
-        if index >= medianIndex:
+    numbersSeenTotal = 0
+    for i in range(0, len(counter)):
+        numbersSeenTotal += counter[i]
+        if numbersSeenTotal >= medianIndex:
             return i
 
 
-def findNextNonZeroIndex(numsCounter, startFrom, maxValue):
-    for index in range(startFrom,  maxValue + 1):
-        if numsCounter[index] > 0:
-            return index
+def findNextNonZeroIndex(numsList, startFrom):
+    try:
+        for index in range(startFrom, len(numsList) + 1):
+            if numsList[index] > 0:
+                return index
+    except IndexError:
+        print("No non-zero element has been found")
 
 
 def getMedianEven(counter, numItems):
     medianItem = (numItems // 2)
-
     medianSmallerIndex = medianItem
-    index = 0
-    for firstIndex in range(0, MAX_MONEY_SPENT_A_DAY):
-        index += counter[firstIndex]
-        if index >= medianSmallerIndex:
+    numbersSeenTotal = 0
+    for firstIndex in range(0, len(counter)):
+        numbersSeenTotal += counter[firstIndex]
+        if numbersSeenTotal >= medianSmallerIndex:
             medianFirstItem = firstIndex
-            if index >= medianSmallerIndex + 1:
-                return firstIndex
+            if numbersSeenTotal >= medianSmallerIndex + 1:
+                return medianFirstItem
             else:
-                medianSecondItem = findNextNonZeroIndex(counter, firstIndex + 1, MAX_MONEY_SPENT_A_DAY)
+                medianSecondItem = findNextNonZeroIndex(counter, firstIndex + 1)
                 return (medianFirstItem + medianSecondItem) / 2
 
 
 def getMedian(counter, numItems):
     if numItems % 2 != 0:
         return getMedianOdd(counter, numItems)
-
     else:
         return getMedianEven(counter, numItems)
 
@@ -66,14 +66,14 @@ def countNotifications(moneySpentDaily, daysPrior):
     moneySpentForDaysPrior = moneySpentDaily[0: daysPrior]
     counter = getNumCounter(moneySpentForDaysPrior, MAX_MONEY_SPENT_A_DAY)
 
-    for index in range(0, len(moneySpentDaily) - daysPrior):
+    for index in range(daysPrior, len(moneySpentDaily)):
         median = getMedian(counter, daysPrior)
-        if moneySpentDaily[index + daysPrior] >= median * 2:
+        if moneySpentDaily[index] >= median * 2:
             notificationCounter += 1
 
-        if index < len(moneySpentDaily) - daysPrior - 1:
-            counter[moneySpentDaily[index]] -= 1
-            counter[moneySpentDaily[index + daysPrior]] += 1
+        if index < len(moneySpentDaily) - 1:
+            counter[moneySpentDaily[index - daysPrior]] -= 1
+            counter[moneySpentDaily[index]] += 1
 
     return notificationCounter
 
