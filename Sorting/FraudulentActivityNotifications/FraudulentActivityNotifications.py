@@ -8,13 +8,9 @@ MAX_MONEY_SPENT_A_DAY = 200
 
 
 def getNumCounter(numbersList, maxNumber):
-    daysPriorSpent = []
-    for index in range(0, len(numbersList)):
-        daysPriorSpent.append(numbersList[index])
-
     counter = [0] * (maxNumber + 1)
 
-    for item in daysPriorSpent:
+    for item in numbersList:
         counter[item] += 1
 
     return counter
@@ -31,12 +27,10 @@ def getMedianOdd(counter, numItems):
 
 
 def findNextNonZeroIndex(numsList, startFrom):
-    try:
-        for index in range(startFrom, len(numsList) + 1):
-            if numsList[index] > 0:
-                return index
-    except IndexError:
-        print("No non-zero element has been found")
+    for index in range(startFrom, len(numsList) + 1):
+        if numsList[index] > 0:
+            return index
+    raise IndexError("No non-zero element has been found")
 
 
 def getMedianEven(counter, numItems):
@@ -83,8 +77,6 @@ def main():
     daysNumData, daysPrior = input().strip().split(' ')
     daysNumData, daysPrior = [int(daysNumData), int(daysPrior)]
     moneySpentDaily = list(map(int, input().strip().split(' ')))
-    if daysNumData < daysPrior:
-        return 0
 
     notifications = countNotifications(moneySpentDaily, daysPrior)
     print(notifications)
@@ -143,24 +135,16 @@ class TestNotificationCount(unittest.TestCase):
         self.assertTrue(notifications == 0)
 
     def test_countNotifications_tooLargeNumber_raisesIndexError(self):
-        try:
-            daysPrior = 3
-            moneySpentDaily = [2, 3, 4, 5, 6, 7, 8, 1000, 9, 10, 11, 12, 13]
-            notifications = countNotifications(moneySpentDaily, daysPrior)
-            self.assertTrue(notifications == 1)
-        except IndexError:
-            self.assertRaises(IndexError)
+        daysPrior = 3
+        moneySpentDaily = [2, 3, 4, 5, 6, 7, 8, 1000, 9, 10, 11, 12, 13]
+        self.assertRaises(IndexError,countNotifications, moneySpentDaily, daysPrior)
 
     def test_countNotifications_tooLargeNumbers_raisesIndexError(self):
-        try:
-            daysPrior = 2
-            moneySpentDaily = [10000, 10001, 15000, 20000, 27000, 39000]
-            notifications = countNotifications(moneySpentDaily, daysPrior)
-            self.assertTrue(notifications == 0)
-        except IndexError:
-            self.assertRaises(IndexError)
+        daysPrior = 2
+        moneySpentDaily = [10000, 10001, 15000, 20000, 27000, 39000]
+        self.assertRaises(IndexError, countNotifications, moneySpentDaily, daysPrior)
 
-    def test_getMedian_oddNumberElements_shortArray(self):
+    def test_getMedian_oddNumElements_shortArray(self):
         daysPrior = 3
         moneySpentDaily = [20, 40, 30]
         counter = getNumCounter(moneySpentDaily, MAX_MONEY_SPENT_A_DAY)
@@ -218,5 +202,5 @@ class TestNotificationCount(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    main()
-    #unittest.main()
+    #main()
+    unittest.main()
