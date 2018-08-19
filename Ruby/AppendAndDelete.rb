@@ -10,9 +10,13 @@ def appendAndDelete(str1, str2, steps)
     
     modified_str1 = same_length_strings_list[0]
     modified_str2 = same_length_strings_list[1]
+    #puts modified_str1
+    #puts modified_str2
     
     check = twoStringsSamePossible(modified_str1, modified_str2)
+    #puts check
     
+   
   
     if check == true and remaining_steps % 2 == 0
       return true
@@ -30,9 +34,19 @@ def appendAndDelete(str1, str2, steps)
     if check == false
   
       first_different_index = compareStringsFindFirstDifference(modified_str1, modified_str2)
+
+      #puts first_different_index
+      #puts modified_str1.length - first_different_index
+      #puts remaining_steps
+
+        if remaining_steps > 2 *  modified_str1.length
+          
+          return true
+        end
   
   
-        if (remaining_steps - (first_different_index *2)) % 2 == 0
+        if (remaining_steps - ((modified_str1.length - first_different_index) *2)) % 2 == 0 and (remaining_steps - ((modified_str1.length - first_different_index) *2)) >= 0
+
         return true
         else
           return false
@@ -49,7 +63,7 @@ def appendAndDelete(str1, str2, steps)
   def compareStringsFindFirstDifference(s1, s2)
       for index in (0...s1.length)
         if s1[index] != s2[index]
-          return s1.length - index 
+          return index 
         end
       end  
     end
@@ -76,7 +90,9 @@ def appendAndDelete(str1, str2, steps)
       return str1, shortened_str2 
       end
   end
-  =begin
+
+=begin 
+
   def makeStringArraysSameLength(initial_string, string_to_get, initial_delete_steps)
       arrays = stringsToArrays(initial_string, string_to_get)
     
@@ -98,20 +114,39 @@ def appendAndDelete(str1, str2, steps)
       end  
     end  
   
-  =end
   
-  =begin
+  
+=end 
+
+=begin
   i = "uoiauwrebgiwrhgiuawheirhwebvjforidkslweufgrhvjqasw"
   s = "vgftrheydkoslwezxcvdsqjkfhrydjwvogfheksockelsnbkeq"
   steps = 100
   puts i.length
   puts s.length
-  =end
-  
+=end
+
+=begin  
   i = "zzzzz" 
   s = "zzzzzzz"
   steps = 4
-  
+
+qwerasdf
+qwerbsdf
+6 NO
+
+i = "peek" 
+s = "seeker"
+steps = 3 NO
+=end  
+
+
+
+
+i = "qwerasdf" 
+s = "qwerbsdfk"
+steps = 6
+
   p = appendAndDelete(i, s, steps)
   
   if p == true
