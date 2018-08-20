@@ -1,64 +1,42 @@
 
+#!/bin/ruby
 
-def appendAndDelete(str1, str2, steps)
-    chop_steps = (str1.length - str2.length).abs
-    #puts chop_steps
+require 'json'
+require 'stringio'
+
+
+def appendAndDelete(string1, string2, steps)
+    chars_to_chop = (string1.length - string2.length).abs
     
-    remaining_steps = steps - chop_steps
-    #puts remaining_steps
-    same_length_strings_list = chopSameLength(str1, str2)  
-    
-    modified_str1 = same_length_strings_list[0]
-    modified_str2 = same_length_strings_list[1]
-    #puts modified_str1
-    #puts modified_str2
-    
-    check = twoStringsSamePossible(modified_str1, modified_str2)
-    #puts check
-    
-   
+    remaining_steps = steps - chars_to_chop
   
-    if check == true and remaining_steps % 2 == 0
+    same_length_strings_list = chopSameLength(string1, string2)  
+    shortened_str1 = same_length_strings_list[0]
+    shortened_str2 = same_length_strings_list[1]
+ 
+    if remaining_steps >= 2 * shortened_str1.length      
       return true
-      end
-    if check == true and modified_str1.length * 2 <= remaining_steps
+    end
+    
+    check = checkTwoStringsSame(shortened_str1, shortened_str2)
   
-   
-      return true
-      end
-    if check == true and  remaining_steps % 2 != 0
-  
-      return false
-      end
-  
-    if check == false
-  
-      first_different_index = compareStringsFindFirstDifference(modified_str1, modified_str2)
-
-      #puts first_different_index
-      #puts modified_str1.length - first_different_index
-      #puts remaining_steps
-
-        if remaining_steps > 2 *  modified_str1.length
-          
-          return true
-        end
-  
-  
-        if (remaining_steps - ((modified_str1.length - first_different_index) *2)) % 2 == 0 and (remaining_steps - ((modified_str1.length - first_different_index) *2)) >= 0
-
+    if check == true 
+      if remaining_steps % 2 == 0
         return true
-        else
-          return false
+      else
+        return false
+      end     
+        
+    else
+      first_different_index = compareStringsFindFirstDifference(shortened_str1, shortened_str2)
+      num_chars_to_change = shortened_str1.length - first_different_index
+
+        if (remaining_steps - num_chars_to_change *2) % 2 == 0 and remaining_steps - num_chars_to_change * 2 >= 0
+        return true
         end 
       end
+    return false  
     end
-  
-   
-     
-  
-  
-  
   
   def compareStringsFindFirstDifference(s1, s2)
       for index in (0...s1.length)
@@ -68,91 +46,42 @@ def appendAndDelete(str1, str2, steps)
       end  
     end
    
-  
-  
-  
-  
-  def twoStringsSamePossible(str1, str2)
-    
-    if str1 == str2
+  def checkTwoStringsSame(string1, string2)
+    if string1 == string2
       return true
     else  
       return false
     end
     end  
   
-  def chopSameLength(str1, str2)
-    if str1.length >= str2.length
-      shortened_str1 = str1.byteslice(0, str2.length)
-      return shortened_str1, str2
+  def chopSameLength(string1, string2)
+    if string1.length >= string2.length
+      shortened_str1 = string1.byteslice(0, string2.length)
+      return shortened_str1, string2
     else
-      shortened_str2 = str2.byteslice(0, str1.length)
-      return str1, shortened_str2 
+      shortened_str2 = string2.byteslice(0, string1.length)
+      return string1, shortened_str2 
       end
   end
 
-=begin 
 
-  def makeStringArraysSameLength(initial_string, string_to_get, initial_delete_steps)
-      arrays = stringsToArrays(initial_string, string_to_get)
-    
-      if arrays[0].length > arrays[1].length
-          initial_delete_steps.times{arrays[0].pop()}
+  fptr = File.open(ENV['OUTPUT_PATH'], 'w')
+
+  s = gets.to_s.rstrip
   
-      else
-          initial_delete_steps.times{arrays[1].pop()}  
-      end    
-      return arrays
-      end
-     
+  t = gets.to_s.rstrip
   
-  def compareArraysFromBeginningUntilDifferent(array1, array2)
-      for index in (0...array1.length)
-        if array1[index] != array2[index]
-          return array1.length - index 
-        end
-      end  
-    end  
+  k = gets.to_i
   
-  
-  
-=end 
-
-=begin
-  i = "uoiauwrebgiwrhgiuawheirhwebvjforidkslweufgrhvjqasw"
-  s = "vgftrheydkoslwezxcvdsqjkfhrydjwvogfheksockelsnbkeq"
-  steps = 100
-  puts i.length
-  puts s.length
-=end
-
-=begin  
-  i = "zzzzz" 
-  s = "zzzzzzz"
-  steps = 4
-
-qwerasdf
-qwerbsdf
-6 NO
-
-i = "peek" 
-s = "seeker"
-steps = 3 NO
-=end  
-
-
-
-
-i = "qwerasdf" 
-s = "qwerbsdfk"
-steps = 6
-
-  p = appendAndDelete(i, s, steps)
-  
-  if p == true
-    puts "Yes"
+  result = appendAndDelete s, t, k
+  if result == true
+      result = "Yes"
   else
-    puts "No"
-  end
-     
+      result = "No"
+  end    
   
+  fptr.write result
+  fptr.write "\n"
+  
+  fptr.close()
+     
