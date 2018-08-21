@@ -10,7 +10,6 @@ LOCAL_INPUT = True
 print(22222)
 
 def takeTurnsGetWinner(listOfNums):
-
     maxItem = listOfNums[0]
     countTurns = 1
 
