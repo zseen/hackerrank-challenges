@@ -5,9 +5,8 @@ import re
 import sys
 
 
-LOCAL_INPUT = True
+LOCAL_INPUT = False
 
-print(22222)
 
 def takeTurnsGetWinner(listOfNums):
     maxItem = listOfNums[0]
@@ -23,18 +22,18 @@ def takeTurnsGetWinner(listOfNums):
 
     return "BOB"
 
+
 def getTurnsInput():
     arr_count = int(input())
     numsList = list(map(int, input().rstrip().split()))
     result = takeTurnsGetWinner(numsList)
-    print(333333333333333333)
     return result
+
 
 def main():
     g = int(input())
-    print(22222222222222222222222222222222222222222222222222222222222222222222222222222222222222)
+
     if LOCAL_INPUT is True:
-        print(222222222222222222222222222222222)
         sys.stdin = open('GamingArray_input.txt')
         for g_itr in range(g):
             result = getTurnsInput()
