@@ -1,33 +1,31 @@
-#!/bin/ruby
 
-require 'json'
-require 'stringio'
-
-
-def happyLadybugs(field)
-  unless field.include? "_"
-    initiallyHappy = checkInitialPositionHappy(field)
-    return initiallyHappy
+def happyLadybugs(boardList)
+  unless boardList.include? "_"
+    return isInitialPositionHappy(boardList)
+    
   else
     charCounter = Hash.new(0)
-    lettersAlphabet = ('A'..'Z').to_a
-    lettersAlphabet.each{|item| charCounter[item] += field.count(item) if field.include? item}
+    boardList.each_char{|item| charCounter[item] += 1 if item != "_"}
     charCounter.each{|key, value| return false if value == 1 } 
   end
   return true   
 end
 
 
-def checkInitialPositionHappy(board)
-  for item in board.each_char.slice_when(&:!=).map(&:join)
+def isInitialPositionHappy(boardList)
+  for item in boardList.each_char.slice_when(&:!=).map(&:join)
       if item.length < 2
           return false
       end 
   end
   return true 
-end            
-        
+end   
 
+b = "RBY_YBR"
+x = happyLadybugs("AABBCCCCCDD")
+puts x
+        
+=begin
 fptr = File.open(ENV['OUTPUT_PATH'], 'w')
 
 g = gets.to_i
@@ -48,3 +46,4 @@ fptr.write "\n"
 end
 
 fptr.close()
+=end
