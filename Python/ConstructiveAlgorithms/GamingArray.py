@@ -39,11 +39,10 @@ def main():
             result = getTurnsInput()
             print(result)
     else:
-        fptr = open(os.environ['OUTPUT_PATH'], 'w')
-        for g_itr in range(g):
-            result = getTurnsInput()
-            fptr.write(str(result) + '\n')
-        fptr.close()
+        with open(os.environ['OUTPUT_PATH'], 'w') as fptr:
+            for g_itr in range(g):
+                result = getTurnsInput()
+                fptr.write(str(result) + '\n')
 
 if __name__ == '__main__':
     main()
