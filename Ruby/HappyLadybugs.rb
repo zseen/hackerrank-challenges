@@ -2,18 +2,22 @@
 def happyLadybugs(boardList)
   unless boardList.include? "_"
     return isInitialPositionHappy(boardList)
-    
-  else
-    charCounter = Hash.new(0)
-    boardList.each_char{|item| charCounter[item] += 1 if item != "_"}
-    charCounter.each{|key, value| return false if value == 1 } 
-  end
-  return true   
+  end  
+  return isHappy(boardList) 
 end
+
+def isHappy(boardList)
+  charCounter = Hash.new(0)
+  boardList.each_char{|item| charCounter[item] += 1 if item != "_"}
+  if charCounter.any? {|key, value| value == 1 } == true
+    return false
+  end
+  return true
+end    
 
 
 def isInitialPositionHappy(boardList)
-  for item in boardList.each_char.slice_when(&:!=).map(&:join)
+  for item in boardList.each_char.slice_when(&:!=).to_a
       if item.length < 2
           return false
       end 
@@ -21,11 +25,7 @@ def isInitialPositionHappy(boardList)
   return true 
 end   
 
-b = "RBY_YBR"
-x = happyLadybugs("AABBCCCCCDD")
-puts x
-        
-=begin
+
 fptr = File.open(ENV['OUTPUT_PATH'], 'w')
 
 g = gets.to_i
@@ -46,4 +46,3 @@ fptr.write "\n"
 end
 
 fptr.close()
-=end
