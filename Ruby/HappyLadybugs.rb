@@ -3,26 +3,18 @@ def happyLadybugs(boardList)
   unless boardList.include? "_"
     return isInitialPositionHappy(boardList)
   end  
-  return isHappy(boardList) 
+  return canBeMadeHappy(boardList) 
 end
 
-def isHappy(boardList)
+def canBeMadeHappy(boardList)
   charCounter = Hash.new(0)
   boardList.each_char{|item| charCounter[item] += 1 if item != "_"}
-  if charCounter.any? {|key, value| value == 1 } == true
-    return false
-  end
-  return true
+  return charCounter.all? {|key, value| value >= 2 }
 end    
 
 
 def isInitialPositionHappy(boardList)
-  for item in boardList.each_char.slice_when(&:!=).to_a
-      if item.length < 2
-          return false
-      end 
-  end
-  return true 
+  return boardList.each_char.slice_when(&:!=).to_a.all? {|item| item.length >= 2}
 end   
 
 
