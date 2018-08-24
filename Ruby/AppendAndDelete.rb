@@ -5,13 +5,13 @@ require 'stringio'
 
 
 def appendAndDelete(s1, s2, moves)
-  if s1.length + s2.length - moves < 0
+  if moves > s1.length + s2.length
     return true
   end
         
   first_different_index = compareStringsFindFirstDifferentIndex(s1, s2)
   remaining_free_steps = moves - (s1.length - first_different_index) - (s2.length - first_different_index)
-  if remaining_free_steps % 2 == 0 and remaining_free_steps >= 0
+  if remaining_free_steps >= 0 and remaining_free_steps % 2 == 0
     return true
   end 
   return false  
