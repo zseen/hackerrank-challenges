@@ -1,8 +1,9 @@
 
-
+require "test/unit"
 require 'json'
 require 'stringio'
 
+IS_UNIT_TEST = true
 
 def appendAndDelete(s1, s2, moves)
   if moves > s1.length + s2.length
@@ -27,23 +28,48 @@ def compareStringsFindFirstDifferentIndex(s1, s2)
   return [s1.length, s2.length].min + 1
 end
 
+if IS_UNIT_TEST == false
+  fptr = File.open(ENV['OUTPUT_PATH'], 'w')
 
-fptr = File.open(ENV['OUTPUT_PATH'], 'w')
+  s = gets.to_s.rstrip
 
-s = gets.to_s.rstrip
+  t = gets.to_s.rstrip
 
-t = gets.to_s.rstrip
+  k = gets.to_i
 
-k = gets.to_i
+  result = appendAndDelete s, t, k
+  if result == true
+      result = "Yes"
+  else
+      result = "No"
+  end    
 
-result = appendAndDelete s, t, k
-if result == true
-    result = "Yes"
+  fptr.write result
+  fptr.write "\n"
+
+  fptr.close()
+
+
 else
-    result = "No"
-end    
+  class TestAppendAndDelete < Test::Unit::TestCase
 
-fptr.write result
-fptr.write "\n"
-
-fptr.close()
+    def test_appendAndDelete_differentLengthStrings_exactNumSteps_notPrefix_true
+        assert_true(appendAndDelete('hackerhappy', 'hackerrank', 9))   
+    end
+    def test_appendAndDelete_sameStrings_emptyDeleteNeeded_true
+        assert_true(appendAndDelete("aba", "aba", 7))
+    end
+    def test_appendAndDelete_differentLengthStringss_Prefix_false
+        assert_false(appendAndDelete("abcd", "abcdert", 10))
+    end
+    def test_appendAndDelete_differentLengthStrings_Prefix_evenSteps_true
+        assert_true(appendAndDelete("zzzzz", "zzzzzzz", 4))
+    end
+    def test_appendAndDelete_differentLengthStrings_firstStringLonger_emptyDeleteNeeded_true
+        assert_true(appendAndDelete("aaa", "a", 5))
+    end
+    def test_appendAndDelete_sameLengthStrings_allCharsDifferent_moreStepsThanSumStringsLength_true
+        assert_true(appendAndDelete("abcdef", "fedcba", 15))
+    end                    
+  end
+end        
