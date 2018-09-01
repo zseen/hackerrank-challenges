@@ -1,54 +1,44 @@
 require "test/unit"
 
-TESTMODE = "OF"
+module TestMode
+ON = 1
+OFF = 2
+end
 
 
-if TESTMODE == "OFF"
-  def getPurchaseOption(money, flavorsArr)
-    for first_child in (0...((flavorsArr.length) - 1))
-      for second_child in (1...((flavorsArr.length)))
-        if flavorsArr[first_child] + flavorsArr[second_child] == money and first_child != second_child 
-          return first_child + 1, second_child + 1
-        end
+TEST_MODE = TestMode::ON
+
+
+def getPurchaseOption(money, flavorsArr)
+  for first_child_index in (0...((flavorsArr.length) - 1))
+    for second_child_index in (first_child_index + 1...((flavorsArr.length)))
+      if flavorsArr[first_child_index] + flavorsArr[second_child_index] == money
+        return first_child_index + 1, second_child_index + 1
       end
-    end    
-  end
+    end
+  end    
+end
 
+
+if TEST_MODE == TestMode::OFF
 
   fptr = File.open(ENV['OUTPUT_PATH'], 'w')
-
   t = gets.to_i
-
   t.times do |t_itr|
       m = gets.to_i
-
       n = gets.to_i
-
       arr = gets.rstrip.split(' ').map(&:to_i)
-
       result = getPurchaseOption m, arr
-
       fptr.write result.join " "
       fptr.write "\n"
   end
-
   fptr.close()
 
 
 
-
-elsif TESTMODE == "ON"
+elsif TEST_MODE == TestMode::ON
 
   class TestGetPurchaseOptions < Test::Unit::TestCase
-    def getPurchaseOption(money, flavorsArr)
-      for first_child in (0...((flavorsArr.length) - 1))
-        for second_child in (1...((flavorsArr.length)))
-          if flavorsArr[first_child] + flavorsArr[second_child] == money and first_child != second_child 
-            return first_child + 1, second_child + 1
-          end
-        end
-      end    
-    end
 
     def test_getPurchaseOptions_noSamePrices_firstChildIsIndex0
       assert_equal([1,4],(getPurchaseOption(4, [1, 4, 5, 3, 2])))
@@ -66,7 +56,4 @@ elsif TESTMODE == "ON"
       assert_equal([1,2],(getPurchaseOption(3, [1,2])))
     end 
   end  
-
-else 
-  puts "I do not know what to run. Please set TESTMODE to 'ON' or 'OFF'."
-end  
+end
