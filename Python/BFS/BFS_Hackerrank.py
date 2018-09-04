@@ -77,31 +77,49 @@ class Graph:
         return listOfDistances
 
 if __name__ == '__main__':
-    sys.stdin = open('BFS_Hackerrank_input.txt')
 
-    q = int(input())
+    # sys.stdin = open('BFS_Hackerrank_input.txt')
+    #
+    # q = int(input())
+    #
+    # for q_itr in range(q):
+    #     nm = input().split()
+    #     nodesNum = int(nm[0])
+    #     edgesNum = int(nm[1])
+    #     edges = []
+    #     for _ in range(edgesNum):
+    #         edges.append(list(map(int, input().rstrip().split())))
+    #     #print(edges)
+    #     startNode = int(input())
+    #
+    #     graph = Graph()
+    #     for nodeId in range(1, nodesNum + 1):
+    #         graph.addNode(nodeId)
+    #
+    #     for graphEdges in edges:
+    #         graph.addEdge(graphEdges[0], graphEdges[1])
+    #     #print(type(graph.printNodesDistanceOrder(startNode)))
+    #
+    #     for item in graph.printNodesDistanceOrder(startNode):
+    #         print(item, end=" ")
+    #     #print(result)
 
-    for q_itr in range(q):
-        nm = input().split()
-        nodesNum = int(nm[0])
-        edgesNum = int(nm[1])
-        edges = []
-        for _ in range(edgesNum):
-            edges.append(list(map(int, input().rstrip().split())))
-        #print(edges)
-        startNode = int(input())
+    graph = Graph()
 
-        graph = Graph()
-        for nodeId in range(1, nodesNum + 1):
-            graph.addNode(nodeId)
+    graph.addNode("A")
+    graph.addNode("B")
+    graph.addNode("C")
+    graph.addNode("D")
+    graph.addNode("E")
 
-        for graphEdges in edges:
-            graph.addEdge(graphEdges[0], graphEdges[1])
-        #print(type(graph.printNodesDistanceOrder(startNode)))
+    graph.addEdge("C", "B")
+    graph.addEdge("C", "D")
+    graph.addEdge("D", "A")
 
-        for item in graph.printNodesDistanceOrder(startNode):
-            print(item, end=" ")
-        #print(result)
 
+    #graph.printNodesDistanceOrder("C")
+
+    for item in graph.printNodesDistanceOrder("C"):
+        print(item, end=" ")
 
 
