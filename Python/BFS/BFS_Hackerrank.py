@@ -50,29 +50,31 @@ class Graph:
         return orderedNodeDistance
 
 
-    def addNotConnectedNodeDistanceToDistances(self, startNodeId):
-        nodesWithDistances = self.BFS(startNodeId)
+    def addNotConnectedNodeDistanceToDistances(self, startNodeId, orderedNodeDistance):
         initialNodesList = list(self.nodeAndNeighbors.keys())
 
-        nodesIdsList = []
-        for node in nodesWithDistances:
-            nodesIdsList.append(node.nodeId)
+        nodesIdsSet = set([node.nodeId for node in orderedNodeDistance ])
+
 
         for item in initialNodesList:
-            if item not in nodesIdsList:
+            if item not in nodesIdsSet:
                 notConnectedNode = NodeWithDistance(item, -1)
-                nodesWithDistances.append(notConnectedNode)
-        return nodesWithDistances
+                orderedNodeDistance.append(notConnectedNode)
+        return orderedNodeDistance
 
 
     def printNodesDistanceOrder(self, startNodeId):
-        orderedNodeIdWithDistances = self.addNotConnectedNodeDistanceToDistances(startNodeId)
+        nodesWithDistances = self.BFS(startNodeId)
+        orderedNodeIdWithDistances = self.addNotConnectedNodeDistanceToDistances(startNodeId, nodesWithDistances)
 
         orderedNodeIdWithDistances.sort(key=lambda obj: obj.nodeId)
 
-        for item in orderedNodeIdWithDistances[1::]:
-            print(str(item.distance), end=" ")
-
+        listOfDistances = []
+        for item in orderedNodeIdWithDistances:
+            if item.nodeId == startNodeId:
+                continue
+            listOfDistances.append(str(item.distance * 6 if item.distance > 0 else item.distance))
+        return listOfDistances
 
 if __name__ == '__main__':
     sys.stdin = open('BFS_Hackerrank_input.txt')
@@ -95,8 +97,10 @@ if __name__ == '__main__':
 
         for graphEdges in edges:
             graph.addEdge(graphEdges[0], graphEdges[1])
+        #print(type(graph.printNodesDistanceOrder(startNode)))
 
-        graph.printNodesDistanceOrder(startNode)
+        for item in graph.printNodesDistanceOrder(startNode):
+            print(item, end=" ")
         #print(result)
 
 
