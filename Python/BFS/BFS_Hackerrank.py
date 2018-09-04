@@ -6,6 +6,7 @@ import random
 import re
 import sys
 from collections import deque
+import unittest
 
 
 
@@ -27,16 +28,13 @@ class Graph:
 
     def addEdge(self, startNodeId, endNodeID):
         self.nodeAndNeighbors[startNodeId].add(endNodeID)
-        # print(self.nodeAndNeighbors)
+        #print(self.nodeAndNeighbors)
 
     def BFS(self, startNodeId):
         queue = deque()
         startNodeWithDistance = NodeWithDistance(startNodeId, 0)
-
         queue.appendleft(startNodeWithDistance)
-
         visitedSet = set()
-
         orderedNodeDistance = []
 
         while queue:
@@ -44,53 +42,36 @@ class Graph:
             visitedSet.add(currentNodeWithDistance.nodeId)
 
             orderedNodeDistance.append(currentNodeWithDistance)
-            # print((orderedNodeDistance))
             neighborNodes = self.nodeAndNeighbors[currentNodeWithDistance.nodeId]
-
-            # print(type(neighborNodes))
-
-            # print(neighborNodes)
             for neighborId in neighborNodes:
                 if neighborId not in visitedSet:
                     neighborNodeWithDistance = NodeWithDistance(neighborId, currentNodeWithDistance.distance + 1)
                     queue.appendleft(neighborNodeWithDistance)
-
         return orderedNodeDistance
 
+
+    def addNotConnectedNodeDistanceToDistances(self, startNodeId):
+         nodesWithDistances = self.BFS(startNodeId)
+         initialNodesList = list(self.nodeAndNeighbors.keys())
+
+         nodesIdsList = []
+         for id in nodesWithDistances:
+             nodesIdsList.append(id.nodeId)
+
+         for item in initialNodesList:
+            if item not in nodesIdsList:
+                notConnectedNode = NodeWithDistance(item, -1)
+                nodesWithDistances.append(notConnectedNode)
+         return nodesWithDistances
+
+
     def printNodesDistanceOrder(self, startNodeId):
-        orderedNodeIdWithDistances = self.BFS(startNodeId)
+        orderedNodeIdWithDistances = self.addNotConnectedNodeDistanceToDistances(startNodeId)
 
-        initialNodesList = list(self.nodeAndNeighbors.keys())
-        # print(initialNodesList)
-        allNodesAndDistances = []
+        orderedNodeIdWithDistances.sort(key = lambda obj: obj.distance)
 
-        for elem in orderedNodeIdWithDistances:
-            allNodesAndDistances.append((elem.nodeId, elem.distance))
-        # print(allNodesAndDistances)
-
-        nodeIds = []
-        for i in range(0, len(allNodesAndDistances)):
-            nodeIds.append(allNodesAndDistances[i][0])
-
-        for item in initialNodesList:
-            if item not in nodeIds:
-                notConnectedNode = (item, -1)
-                allNodesAndDistances.append(notConnectedNode)
-
-
-        allNodesAndDistances.sort(key=lambda tupl: tupl[0])
-        print(allNodesAndDistances)
-
-# Complete the bfs function below.
-def bfs(n, m, edges, s):
-
-
-
-
-
-
-
-
+        for item in orderedNodeIdWithDistances[1::]:
+            print(str(item.nodeId), end=" ")
 
 if __name__ == '__main__':
     sys.stdin = open('BFS_Hackerrank_input.txt')
@@ -104,7 +85,18 @@ if __name__ == '__main__':
         edges = []
         for _ in range(edgesNum):
             edges.append(list(map(int, input().rstrip().split())))
+        #print(edges)
         startNode = int(input())
-        result = bfs(nodesNum, edgesNum, edges, startNode)
-        print(result)
+
+        graph = Graph()
+        for nodeId in range(1, nodesNum + 1):
+            graph.addNode(nodeId)
+
+        for graphEdges in edges:
+            graph.addEdge(graphEdges[0], graphEdges[1])
+
+        graph.printNodesDistanceOrder(startNode)
+        #print(result)
+
+
 
