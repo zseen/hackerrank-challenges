@@ -51,27 +51,28 @@ class Graph:
 
 
     def addNotConnectedNodeDistanceToDistances(self, startNodeId):
-         nodesWithDistances = self.BFS(startNodeId)
-         initialNodesList = list(self.nodeAndNeighbors.keys())
+        nodesWithDistances = self.BFS(startNodeId)
+        initialNodesList = list(self.nodeAndNeighbors.keys())
 
-         nodesIdsList = []
-         for id in nodesWithDistances:
-             nodesIdsList.append(id.nodeId)
+        nodesIdsList = []
+        for node in nodesWithDistances:
+            nodesIdsList.append(node.nodeId)
 
-         for item in initialNodesList:
+        for item in initialNodesList:
             if item not in nodesIdsList:
                 notConnectedNode = NodeWithDistance(item, -1)
                 nodesWithDistances.append(notConnectedNode)
-         return nodesWithDistances
+        return nodesWithDistances
 
 
     def printNodesDistanceOrder(self, startNodeId):
         orderedNodeIdWithDistances = self.addNotConnectedNodeDistanceToDistances(startNodeId)
 
-        orderedNodeIdWithDistances.sort(key = lambda obj: obj.distance)
+        orderedNodeIdWithDistances.sort(key=lambda obj: obj.nodeId)
 
         for item in orderedNodeIdWithDistances[1::]:
-            print(str(item.nodeId), end=" ")
+            print(str(item.distance), end=" ")
+
 
 if __name__ == '__main__':
     sys.stdin = open('BFS_Hackerrank_input.txt')
