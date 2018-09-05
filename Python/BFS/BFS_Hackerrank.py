@@ -33,6 +33,7 @@ class Graph:
     def BFS(self, startNodeId):
         queue = deque()
         startNodeWithDistance = NodeWithDistance(startNodeId, 0)
+
         queue.appendleft(startNodeWithDistance)
         visitedSet = set()
         orderedNodeDistance = []
@@ -40,13 +41,18 @@ class Graph:
         while queue:
             currentNodeWithDistance = queue.pop()
             visitedSet.add(currentNodeWithDistance.nodeId)
-
+            #print(visitedSet)
             orderedNodeDistance.append(currentNodeWithDistance)
+
             neighborNodes = self.nodeAndNeighbors[currentNodeWithDistance.nodeId]
+            #print(neighborNodes)
             for neighborId in neighborNodes:
+                #print(neighborId)
                 if neighborId not in visitedSet:
                     neighborNodeWithDistance = NodeWithDistance(neighborId, currentNodeWithDistance.distance + 1)
                     queue.appendleft(neighborNodeWithDistance)
+                    visitedSet.add(neighborNodeWithDistance.nodeId)
+
         return orderedNodeDistance
 
 
@@ -54,7 +60,6 @@ class Graph:
         initialNodesList = list(self.nodeAndNeighbors.keys())
 
         nodesIdsSet = set([node.nodeId for node in orderedNodeDistance ])
-
 
         for item in initialNodesList:
             if item not in nodesIdsSet:
@@ -74,7 +79,7 @@ class Graph:
             if item.nodeId == startNodeId:
                 continue
             listOfDistances.append(str(item.distance * 6 if item.distance > 0 else item.distance))
-        print(listOfDistances)
+
         return listOfDistances
 
 
@@ -91,7 +96,7 @@ def main():
         edges = []
         for _ in range(edgesNum):
             edges.append(list(map(int, input().rstrip().split())))
-        print(edges)
+        #print(edges)
         startNode = int(input())
 
         graph = Graph()
@@ -104,11 +109,6 @@ def main():
 
         for item in graph.printNodesDistanceOrder(startNode):
             print(item, end=" ")
-        #print(result)
-
-
-
-    #graph.printNodesDistanceOrder("C")
 
 
 
@@ -233,10 +233,24 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
             graph.addEdge(graphEdges[0], graphEdges[1])
         self.assertTrue((graph.printNodesDistanceOrder(startNode) == ['6', '6']))
 
-    
+    def test_printNodesDistanceOrder_startNodeIs1_allNodesConnected_2EdgeLevels_squareShapedGraph(self):
+        nodesNum = 4
+        startNode = 1
+        edges = [[1, 2], [2, 1], [2, 3], [3, 2], [3, 4], [4, 3], [4, 1], [1, 4]]
+        graph = Graph()
+
+        for nodeId in range(1, nodesNum + 1):
+            graph.addNode(nodeId)
+        for graphEdges in edges:
+            graph.addEdge(graphEdges[0], graphEdges[1])
+        self.assertTrue((graph.printNodesDistanceOrder(startNode) == ['6', '12', '6']))
+
+
+
 
 
 if __name__ == "__main__":
-    unittest.main()
+    main()
+    #unittest.main()
 
 
