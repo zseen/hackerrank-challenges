@@ -10,67 +10,58 @@ import unittest
 
 
 
+LOCAL_INPUT = "ON"
+
+
 class NodeWithDistance:
     def __init__(self, nodeId, distance):
         self.nodeId = nodeId
         self.distance = distance
 
-
 class Graph:
     def __init__(self):
-        self.nodeAndNeighbors = {}
+        self.nodeIdToNeighbors = {}
 
     def addNode(self, nodeID):
-        if nodeID in self.nodeAndNeighbors:
-            raise ValueError("Node has already been added.")
-        else:
-            self.nodeAndNeighbors[nodeID] = set()
+        self.nodeIdToNeighbors[nodeID] = set()
 
     def addEdge(self, startNodeId, endNodeID):
-        self.nodeAndNeighbors[startNodeId].add(endNodeID)
-        #print(self.nodeAndNeighbors)
+        self.nodeIdToNeighbors[startNodeId].add(endNodeID)
 
     def BFS(self, startNodeId):
         queue = deque()
         startNodeWithDistance = NodeWithDistance(startNodeId, 0)
-
         queue.appendleft(startNodeWithDistance)
         visitedSet = set()
-        orderedNodeDistance = []
+        orderedNodeDistances = []
 
         while queue:
             currentNodeWithDistance = queue.pop()
             visitedSet.add(currentNodeWithDistance.nodeId)
-            #print(visitedSet)
-            orderedNodeDistance.append(currentNodeWithDistance)
-
-            neighborNodes = self.nodeAndNeighbors[currentNodeWithDistance.nodeId]
-            #print(neighborNodes)
+            orderedNodeDistances.append(currentNodeWithDistance)
+            neighborNodes = self.nodeIdToNeighbors[currentNodeWithDistance.nodeId]
             for neighborId in neighborNodes:
-                #print(neighborId)
                 if neighborId not in visitedSet:
                     neighborNodeWithDistance = NodeWithDistance(neighborId, currentNodeWithDistance.distance + 1)
                     queue.appendleft(neighborNodeWithDistance)
                     visitedSet.add(neighborNodeWithDistance.nodeId)
 
-        return orderedNodeDistance
+        return orderedNodeDistances
 
+    def addNotConnectedNodeDistanceToDistances(self, orderedNodeDistances):
+        initialNodesList = list(self.nodeIdToNeighbors.keys())
 
-    def addNotConnectedNodeDistanceToDistances(self, startNodeId, orderedNodeDistance):
-        initialNodesList = list(self.nodeAndNeighbors.keys())
-
-        nodesIdsSet = set([node.nodeId for node in orderedNodeDistance ])
+        nodesIdsSet = set([node.nodeId for node in orderedNodeDistances])
 
         for item in initialNodesList:
             if item not in nodesIdsSet:
                 notConnectedNode = NodeWithDistance(item, -1)
-                orderedNodeDistance.append(notConnectedNode)
-        return orderedNodeDistance
-
+                orderedNodeDistances.append(notConnectedNode)
+        return orderedNodeDistances
 
     def printNodesDistanceOrder(self, startNodeId):
         nodesWithDistances = self.BFS(startNodeId)
-        orderedNodeIdWithDistances = self.addNotConnectedNodeDistanceToDistances(startNodeId, nodesWithDistances)
+        orderedNodeIdWithDistances = self.addNotConnectedNodeDistanceToDistances(nodesWithDistances)
 
         orderedNodeIdWithDistances.sort(key=lambda obj: obj.nodeId)
 
@@ -84,33 +75,58 @@ class Graph:
 
 
 def main():
+    if LOCAL_INPUT == "ON":
+        sys.stdin = open('BFS_Hackerrank_input.txt')
 
-    sys.stdin = open('BFS_Hackerrank_input.txt')
+        q = int(input())
 
-    q = int(input())
+        for q_itr in range(q):
+            nm = input().split()
+            nodesNum = int(nm[0])
+            edgesNum = int(nm[1])
+            edges = []
+            for _ in range(edgesNum):
+                edges.append(list(map(int, input().rstrip().split())))
 
-    for q_itr in range(q):
-        nm = input().split()
-        nodesNum = int(nm[0])
-        edgesNum = int(nm[1])
-        edges = []
-        for _ in range(edgesNum):
-            edges.append(list(map(int, input().rstrip().split())))
-        #print(edges)
-        startNode = int(input())
+            startNode = int(input())
 
-        graph = Graph()
-        for nodeId in range(1, nodesNum + 1):
-            graph.addNode(nodeId)
+            graph = Graph()
+            for nodeId in range(1, nodesNum + 1):
+                graph.addNode(nodeId)
 
-        for graphEdges in edges:
-            graph.addEdge(graphEdges[0], graphEdges[1])
-        #print(type(graph.printNodesDistanceOrder(startNode)))
+            for graphEdges in edges:
+                graph.addEdge(graphEdges[0], graphEdges[1])
 
-        for item in graph.printNodesDistanceOrder(startNode):
-            print(item, end=" ")
+            for item in graph.printNodesDistanceOrder(startNode):
+                print(item, end=" ")
 
+    elif LOCAL_INPUT == "OFF":
+        with open(os.environ['OUTPUT_PATH'], 'w') as fptr:
+            q = int(input())
 
+            for q_itr in range(q):
+                nm = input().split()
+                nodesNum = int(nm[0])
+                edgesNum = int(nm[1])
+                edges = []
+                for _ in range(edgesNum):
+                    edges.append(list(map(int, input().rstrip().split())))
+
+                startNode = int(input())
+
+                graph = Graph()
+                for nodeId in range(1, nodesNum + 1):
+                    graph.addNode(nodeId)
+
+                for graphEdges in edges:
+                    graph.addEdge(graphEdges[0], graphEdges[1])
+
+                result = graph.printNodesDistanceOrder(startNode)
+
+                fptr.write(' '.join(map(str, result)))
+                fptr.write('\n')
+    else:
+        print("Please set LOCAL_INPUT to 'ON' or 'OFF.")
 
 class TestPrintNodesDistanceOrder(unittest.TestCase):
     def test_printNodesDistanceOrder_startNodeIs1_allNodesConnected_1EdgeLevel(self):
@@ -147,6 +163,7 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
             graph.addNode(nodeId)
         for graphEdges in edges:
             graph.addEdge(graphEdges[0], graphEdges[1])
+            graph.addEdge(graphEdges[1], graphEdges[0])
         self.assertTrue((graph.printNodesDistanceOrder(startNode) == ['6', '6']))
 
     def test_printNodesDistanceOrder_startNodeIs1_notAllNodesConnected_1EdgeLevel(self):
