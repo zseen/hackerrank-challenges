@@ -41,19 +41,19 @@ elsif TEST_MODE == TestMode::ON
   class TestGetPurchaseOptions < Test::Unit::TestCase
 
     def test_getPurchaseOptions_noSamePrices_firstChildIsIndex0
-      assert_equal([1,4], getPurchaseOption(4, [1, 4, 5, 3, 2]))
+      assert_equal([1, 4], getPurchaseOption(4, [1, 4, 5, 3, 2]))
     end
 
     def test_getPurchaseOptions_twoSamePrices_firstChildIsIndex0
-      assert_equal([1,2], getPurchaseOption(4, [2, 2, 4, 3]))
+      assert_equal([1, 2], getPurchaseOption(4, [2, 2, 4, 3]))
     end  
 
     def test_getPurchaseOptions_twoSamePricesMiddle_firstChildIsIndex2
-      assert_equal([3,4], getPurchaseOption(8, [1, 3, 4, 4, 6, 8]))
+      assert_equal([3, 4], getPurchaseOption(8, [1, 3, 4, 4, 6, 8]))
     end  
 
     def test_getPurchaseOptions_pricesArrayLengthIs2
-      assert_equal([1,2], getPurchaseOption(3, [1,2]))
+      assert_equal([1, 2], getPurchaseOption(3, [1, 2]))
     end 
   end  
 end
