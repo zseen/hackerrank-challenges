@@ -91,7 +91,7 @@ def getInputSource():
         for graphEdges in edges:
             graph.addEdge(graphEdges[0], graphEdges[1])
             graph.addEdge(graphEdges[1], graphEdges[0])
-            
+
         return graph.printNodesDistanceOrder(startNode)
 
 
@@ -118,17 +118,22 @@ def main():
 
 
 class TestPrintNodesDistanceOrder(unittest.TestCase):
+
+    def addNodesAndEdges(self, nodesNum, edges, graph):
+        for nodeId in range(1, nodesNum + 1):
+            graph.addNode(nodeId)
+        for graphEdges in edges:
+            graph.addEdge(graphEdges[0], graphEdges[1])
+            graph.addEdge(graphEdges[1], graphEdges[0])
+        return graph
+
     def test_printNodesDistanceOrder_startNodeIs1_allNodesConnected_1EdgeLevel(self):
         nodesNum = 3
         startNode = 1
         edges = [[1, 2], [1, 3]]
         graph = Graph()
-
-        for nodeId in range(1, nodesNum + 1):
-            graph.addNode(nodeId)
-        for graphEdges in edges:
-            graph.addEdge(graphEdges[0], graphEdges[1])
-        self.assertTrue((graph.printNodesDistanceOrder(startNode) == ['6', '6']))
+        builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
+        self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '6']))
 
     def test_printNodesDistanceOrder_startNodeIs1_allNodesConnected_2EdgeLevels(self):
         nodesNum = 4
@@ -136,11 +141,8 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         edges = [[1, 2], [1, 3], [3, 4]]
         graph = Graph()
 
-        for nodeId in range(1, nodesNum + 1):
-            graph.addNode(nodeId)
-        for graphEdges in edges:
-            graph.addEdge(graphEdges[0], graphEdges[1])
-        self.assertTrue((graph.printNodesDistanceOrder(startNode) == ['6', '6', '12']))
+        builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
+        self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '6', '12']))
 
     def test_printNodesDistanceOrder_startNodeIs2_allNodesConnected_1EdgeLevel(self):
         nodesNum = 3
@@ -148,12 +150,8 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         edges = [[2, 1], [2, 3]]
         graph = Graph()
 
-        for nodeId in range(1, nodesNum + 1):
-            graph.addNode(nodeId)
-        for graphEdges in edges:
-            graph.addEdge(graphEdges[0], graphEdges[1])
-            graph.addEdge(graphEdges[1], graphEdges[0])
-        self.assertTrue((graph.printNodesDistanceOrder(startNode) == ['6', '6']))
+        builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
+        self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '6']))
 
     def test_printNodesDistanceOrder_startNodeIs1_notAllNodesConnected_1EdgeLevel(self):
         nodesNum = 4
@@ -161,11 +159,8 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         edges = [[1, 2], [1, 3]]
         graph = Graph()
 
-        for nodeId in range(1, nodesNum + 1):
-            graph.addNode(nodeId)
-        for graphEdges in edges:
-            graph.addEdge(graphEdges[0], graphEdges[1])
-        self.assertTrue((graph.printNodesDistanceOrder(startNode) == ['6', '6', '-1']))
+        builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
+        self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '6', '-1']))
 
     def test_printNodesDistanceOrder_startNodeIs3_notAllNodesConnected_2EdgeLevels(self):
         nodesNum = 5
@@ -173,11 +168,8 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         edges = [[3, 2], [3, 4], [4, 1]]
         graph = Graph()
 
-        for nodeId in range(1, nodesNum + 1):
-            graph.addNode(nodeId)
-        for graphEdges in edges:
-            graph.addEdge(graphEdges[0], graphEdges[1])
-        self.assertTrue((graph.printNodesDistanceOrder(startNode) == ['12', '6', '6', '-1']))
+        builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
+        self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['12', '6', '6', '-1']))
 
     def test_printNodesDistanceOrder_startNodeIs3_allNodesConnected_3EdgeLevels(self):
         nodesNum = 7
@@ -185,11 +177,8 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         edges = [[1, 2], [3, 1], [2, 4], [2, 5], [3, 5], [3, 6], [3, 7]]
         graph = Graph()
 
-        for nodeId in range(1, nodesNum + 1):
-            graph.addNode(nodeId)
-        for graphEdges in edges:
-            graph.addEdge(graphEdges[0], graphEdges[1])
-        self.assertTrue((graph.printNodesDistanceOrder(startNode) == ['6', '12', '18', '6', '6', '6']))
+        builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
+        self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '12', '18', '6', '6', '6']))
 
     def test_printNodesDistanceOrder_startNodeIs3_notAllNodesConnected_3EdgeLevels(self):
         nodesNum = 7
@@ -197,11 +186,8 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         edges = [[1, 2], [3, 1], [2, 4], [2, 5], [3, 5], [3, 7]]
         graph = Graph()
 
-        for nodeId in range(1, nodesNum + 1):
-            graph.addNode(nodeId)
-        for graphEdges in edges:
-            graph.addEdge(graphEdges[0], graphEdges[1])
-        self.assertTrue((graph.printNodesDistanceOrder(startNode) == ['6', '12', '18', '6', '-1', '6']))
+        builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
+        self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '12', '18', '6', '-1', '6']))
 
     def test_printNodesDistanceOrder_startNodeIs2_noNodesConnected_0EdgeLevels(self):
         nodesNum = 3
@@ -209,11 +195,8 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         edges = []
         graph = Graph()
 
-        for nodeId in range(1, nodesNum + 1):
-            graph.addNode(nodeId)
-        for graphEdges in edges:
-            graph.addEdge(graphEdges[0], graphEdges[1])
-        self.assertTrue((graph.printNodesDistanceOrder(startNode) == ['-1', '-1']))
+        builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
+        self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['-1', '-1']))
 
     def test_printNodesDistanceOrder_startNodeIs1_allNodesConnected_1EdgeLevel_edgesAddedTwiceOriginalOrder(self):
         nodesNum = 3
@@ -221,11 +204,8 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         edges = [[1, 2], [1, 3], [1, 2], [1, 3]]
         graph = Graph()
 
-        for nodeId in range(1, nodesNum + 1):
-            graph.addNode(nodeId)
-        for graphEdges in edges:
-            graph.addEdge(graphEdges[0], graphEdges[1])
-        self.assertTrue((graph.printNodesDistanceOrder(startNode) == ['6', '6']))
+        builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
+        self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '6']))
 
     def test_printNodesDistanceOrder_startNodeIs1_allNodesConnected_1EdgeLevel_edgesAddedTwiceReversedOrder(self):
         nodesNum = 3
@@ -233,11 +213,8 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         edges = [[1, 2], [1, 3], [3, 1]]
         graph = Graph()
 
-        for nodeId in range(1, nodesNum + 1):
-            graph.addNode(nodeId)
-        for graphEdges in edges:
-            graph.addEdge(graphEdges[0], graphEdges[1])
-        self.assertTrue((graph.printNodesDistanceOrder(startNode) == ['6', '6']))
+        builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
+        self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '6']))
 
     def test_printNodesDistanceOrder_startNodeIs1_allNodesConnected_2EdgeLevels_squareShapedGraph(self):
         nodesNum = 4
@@ -245,18 +222,12 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         edges = [[1, 2], [2, 1], [2, 3], [3, 2], [3, 4], [4, 3], [4, 1], [1, 4]]
         graph = Graph()
 
-        for nodeId in range(1, nodesNum + 1):
-            graph.addNode(nodeId)
-        for graphEdges in edges:
-            graph.addEdge(graphEdges[0], graphEdges[1])
-        self.assertTrue((graph.printNodesDistanceOrder(startNode) == ['6', '12', '6']))
-
-
-
+        builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
+        self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '12', '6']))
 
 
 if __name__ == "__main__":
-    main()
-    #unittest.main()
+    #main()
+    unittest.main()
 
 
