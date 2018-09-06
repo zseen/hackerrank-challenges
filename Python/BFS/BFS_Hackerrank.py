@@ -9,7 +9,6 @@ from collections import deque
 import unittest
 
 
-
 LOCAL_INPUT = "ON"
 
 
@@ -17,6 +16,7 @@ class NodeWithDistance:
     def __init__(self, nodeId, distance):
         self.nodeId = nodeId
         self.distance = distance
+
 
 class Graph:
     def __init__(self):
@@ -74,30 +74,35 @@ class Graph:
         return listOfDistances
 
 
+def getInputSource():
+        nm = input().split()
+        nodesNum = int(nm[0])
+        edgesNum = int(nm[1])
+        edges = []
+        for _ in range(edgesNum):
+            edges.append(list(map(int, input().rstrip().split())))
+
+        startNode = int(input())
+
+        graph = Graph()
+        for nodeId in range(1, nodesNum + 1):
+            graph.addNode(nodeId)
+
+        for graphEdges in edges:
+            graph.addEdge(graphEdges[0], graphEdges[1])
+            graph.addEdge(graphEdges[1], graphEdges[0])
+            
+        return graph.printNodesDistanceOrder(startNode)
+
+
 def main():
     if LOCAL_INPUT == "ON":
         sys.stdin = open('BFS_Hackerrank_input.txt')
-
         q = int(input())
 
         for q_itr in range(q):
-            nm = input().split()
-            nodesNum = int(nm[0])
-            edgesNum = int(nm[1])
-            edges = []
-            for _ in range(edgesNum):
-                edges.append(list(map(int, input().rstrip().split())))
-
-            startNode = int(input())
-
-            graph = Graph()
-            for nodeId in range(1, nodesNum + 1):
-                graph.addNode(nodeId)
-
-            for graphEdges in edges:
-                graph.addEdge(graphEdges[0], graphEdges[1])
-
-            for item in graph.printNodesDistanceOrder(startNode):
+            result = getInputSource()
+            for item in result:
                 print(item, end=" ")
 
     elif LOCAL_INPUT == "OFF":
@@ -105,28 +110,12 @@ def main():
             q = int(input())
 
             for q_itr in range(q):
-                nm = input().split()
-                nodesNum = int(nm[0])
-                edgesNum = int(nm[1])
-                edges = []
-                for _ in range(edgesNum):
-                    edges.append(list(map(int, input().rstrip().split())))
-
-                startNode = int(input())
-
-                graph = Graph()
-                for nodeId in range(1, nodesNum + 1):
-                    graph.addNode(nodeId)
-
-                for graphEdges in edges:
-                    graph.addEdge(graphEdges[0], graphEdges[1])
-
-                result = graph.printNodesDistanceOrder(startNode)
-
+                result = getInputSource()
                 fptr.write(' '.join(map(str, result)))
                 fptr.write('\n')
     else:
         print("Please set LOCAL_INPUT to 'ON' or 'OFF.")
+
 
 class TestPrintNodesDistanceOrder(unittest.TestCase):
     def test_printNodesDistanceOrder_startNodeIs1_allNodesConnected_1EdgeLevel(self):
