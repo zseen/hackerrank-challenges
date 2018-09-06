@@ -5,6 +5,7 @@ import os
 import random
 import re
 import sys
+from collections import deque
 
 # Complete the roadsAndLibraries function below.
 def roadsAndLibraries(n, c_lib, c_road, cities):
@@ -17,13 +18,59 @@ class CitiesAndRoads:
     def addCity(self, nodeID):
         self.citiesToRoads[nodeID] = set()
 
-    def addRoad(self, startNodeId, endNodeID):
-        self.citiesToRoads[startNodeId].add(endNodeID)
-        print(self.citiesToRoads)
+    def addRoad(self, startCity, endCity):
+        self.citiesToRoads[startCity].add(endCity)
+        #print(self.citiesToRoads)
         # print(self.nodeAndNeighbors)
 
+    def visitConnectableCities(self, startCity):
+        citiesToVisit = deque()
 
-    def canAllCitiesBeConncectedWithRoads(self):
+        citiesToVisit.appendleft(startCity)
+        visitedCities = set()
+
+        while citiesToVisit:
+            currentCity = citiesToVisit.pop()
+            visitedCities.add(currentCity)
+
+            neighborCities = self.citiesToRoads[currentCity]
+            for neighborCity in neighborCities:
+                if neighborCity not in visitedCities:
+                    citiesToVisit.appendleft(neighborCity)
+                    visitedCities.add(neighborCity)
+
+        return visitedCities
+
+    def canAllCitiesBeConncectedWithRoads(self, startCity):
+        initialCitiesList = list(self.citiesToRoads.keys())
+
+        connectableCitiesFromStart = self.visitConnectableCities(startCity)
+
+        unconnectedCitiesFromStart = []
+
+        for city in initialCitiesList:
+            if city not in connectableCitiesFromStart:
+                unconnectedCitiesFromStart.append(city)
+                return False
+
+        return True
+
+
+    def getMinimumCost(self, citiesNum, libraryCost, roadCost, startCity):
+        allLibraries = citiesNum * libraryCost
+
+        allCitiesCanBeConnected = self.canAllCitiesBeConncectedWithRoads(startCity)
+        if allCitiesCanBeConnected is True:
+            minimumRoadsCost = (citiesNum - 1) * roadCost
+            if minimumRoadsCost + (1 * libraryCost) <= allLibraries:
+                return minimumRoadsCost + (1 * libraryCost)
+            return allLibraries
+
+        else:
+            pass
+
+
+
 
 
 
@@ -64,11 +111,14 @@ if __name__ == '__main__':
         for city in range(1, citiesNum + 1):
             citiesWithRoads.addCity(city)
 
+        startCity = 1
+
         for road in roadsBetweenCities:
             citiesWithRoads.addRoad(road[0], road[1])
             citiesWithRoads.addRoad(road[1], road[0])
 
 
-
-        result = roadsAndLibraries(citiesNum, libraryCost, roadCost, roadsBetweenCities)
+        r = citiesWithRoads.getMinimumCost(citiesNum, libraryCost, roadCost, startCity)
+        print(r)
+        #result = roadsAndLibraries(citiesNum, libraryCost, roadCost, roadsBetweenCities)
 
