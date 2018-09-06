@@ -1,0 +1,74 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+# Complete the roadsAndLibraries function below.
+def roadsAndLibraries(n, c_lib, c_road, cities):
+    pass
+
+class CitiesAndRoads:
+    def __init__(self):
+        self.citiesToRoads = {}
+
+    def addCity(self, nodeID):
+        self.citiesToRoads[nodeID] = set()
+
+    def addRoad(self, startNodeId, endNodeID):
+        self.citiesToRoads[startNodeId].add(endNodeID)
+        print(self.citiesToRoads)
+        # print(self.nodeAndNeighbors)
+
+
+    def canAllCitiesBeConncectedWithRoads(self):
+
+
+
+
+
+
+
+
+
+if __name__ == '__main__':
+    sys.stdin = open('RoadsAndLibraries_input.txt')
+
+    q = int(input())
+
+
+    for q_itr in range(q):
+        nmC_libC_road = input().split()
+
+
+        citiesNum = int(nmC_libC_road[0])
+
+        roadsNum = int(nmC_libC_road[1])
+        #print(roadsNum)
+
+        libraryCost = int(nmC_libC_road[2])
+
+        roadCost = int(nmC_libC_road[3])
+
+        roadsBetweenCities = []
+
+        for _ in range(roadsNum):
+            roadsBetweenCities.append(list(map(int, input().rstrip().split())))
+
+        #print(roadsBetweenCities)
+
+        citiesWithRoads = CitiesAndRoads()
+
+        for city in range(1, citiesNum + 1):
+            citiesWithRoads.addCity(city)
+
+        for road in roadsBetweenCities:
+            citiesWithRoads.addRoad(road[0], road[1])
+            citiesWithRoads.addRoad(road[1], road[0])
+
+
+
+        result = roadsAndLibraries(citiesNum, libraryCost, roadCost, roadsBetweenCities)
+
