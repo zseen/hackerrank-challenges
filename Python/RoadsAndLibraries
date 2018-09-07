@@ -11,21 +11,15 @@ from collections import deque
 LOCAL_INPUT = "ON"
 
 
-# Complete the roadsAndLibraries function below.
-def roadsAndLibraries(n, c_lib, c_road, cities):
-    pass
-
 class CitiesAndRoads:
     def __init__(self):
         self.citiesToRoads = {}
 
-    def addCity(self, nodeID):
-        self.citiesToRoads[nodeID] = set()
+    def addCity(self, city):
+        self.citiesToRoads[city] = set()
 
     def addRoad(self, startCity, endCity):
         self.citiesToRoads[startCity].add(endCity)
-        #print(self.citiesToRoads)
-        # print(self.nodeAndNeighbors)
 
     def visitConnectableCities(self, startCity):
         citiesToVisit = deque()
@@ -50,19 +44,18 @@ class CitiesAndRoads:
 
         connectableCitiesFromStart = self.visitConnectableCities(startCity)
 
-        visitedCitiesList = set()
+        visitedCitiesSet = set()
 
         cityGroupsCounter = 1
 
-        while initialCitiesSet != visitedCitiesList:
-            visited = set(visitedCitiesList)
-            citiesToVisit = [city for city in initialCitiesSet if city not in visited]
+        while initialCitiesSet != visitedCitiesSet:
+            citiesToVisit = [city for city in initialCitiesSet if city not in visitedCitiesSet]
             unconnectedCitiesFromStart = []
             for city in citiesToVisit:
                 if city not in connectableCitiesFromStart:
                     unconnectedCitiesFromStart.append(city)
                 else:
-                    visitedCitiesList.add(city)
+                    visitedCitiesSet.add(city)
 
             if len(unconnectedCitiesFromStart) != 0:
                 connectableCitiesFromStart = self.visitConnectableCities(unconnectedCitiesFromStart[0])
