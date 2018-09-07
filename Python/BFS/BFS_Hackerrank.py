@@ -33,12 +33,12 @@ class Graph:
         startNodeWithDistance = NodeWithDistance(startNodeId, 0)
         queue.appendleft(startNodeWithDistance)
         visitedSet = set()
-        orderedNodeDistances = []
+        nodesWithDistances = []
 
         while queue:
             currentNodeWithDistance = queue.pop()
             visitedSet.add(currentNodeWithDistance.nodeId)
-            orderedNodeDistances.append(currentNodeWithDistance)
+            nodesWithDistances.append(currentNodeWithDistance)
             neighborNodes = self.nodeIdToNeighbors[currentNodeWithDistance.nodeId]
             for neighborId in neighborNodes:
                 if neighborId not in visitedSet:
@@ -46,18 +46,18 @@ class Graph:
                     queue.appendleft(neighborNodeWithDistance)
                     visitedSet.add(neighborNodeWithDistance.nodeId)
 
-        return orderedNodeDistances
+        return nodesWithDistances
 
-    def addNotConnectedNodeDistanceToDistances(self, orderedNodeDistances):
+    def addNotConnectedNodeDistanceToDistances(self, nodesWithDistances):
         initialNodesList = list(self.nodeIdToNeighbors.keys())
 
-        nodesIdsSet = set([node.nodeId for node in orderedNodeDistances])
+        nodesIdsSet = set([node.nodeId for node in nodesWithDistances])
 
         for item in initialNodesList:
             if item not in nodesIdsSet:
                 notConnectedNode = NodeWithDistance(item, -1)
-                orderedNodeDistances.append(notConnectedNode)
-        return orderedNodeDistances
+                nodesWithDistances.append(notConnectedNode)
+        return nodesWithDistances
 
     def printNodesDistanceOrder(self, startNodeId):
         nodesWithDistances = self.BFS(startNodeId)
@@ -74,15 +74,13 @@ class Graph:
         return listOfDistances
 
 
-def getInputSource():
+def buildGraphFromInputSource():
         nm = input().split()
         nodesNum = int(nm[0])
         edgesNum = int(nm[1])
         edges = []
         for _ in range(edgesNum):
             edges.append(list(map(int, input().rstrip().split())))
-
-        startNode = int(input())
 
         graph = Graph()
         for nodeId in range(1, nodesNum + 1):
@@ -91,8 +89,7 @@ def getInputSource():
         for graphEdges in edges:
             graph.addEdge(graphEdges[0], graphEdges[1])
             graph.addEdge(graphEdges[1], graphEdges[0])
-
-        return graph.printNodesDistanceOrder(startNode)
+        return graph
 
 
 def main():
@@ -101,7 +98,9 @@ def main():
         q = int(input())
 
         for q_itr in range(q):
-            result = getInputSource()
+            graph = buildGraphFromInputSource()
+            startNodeId = int(input())
+            result = graph.printNodesDistanceOrder(startNodeId)
             for item in result:
                 print(item, end=" ")
 
@@ -110,7 +109,9 @@ def main():
             q = int(input())
 
             for q_itr in range(q):
-                result = getInputSource()
+                graph = buildGraphFromInputSource()
+                startNodeId = int(input())
+                result = graph.printNodesDistanceOrder(startNodeId)
                 fptr.write(' '.join(map(str, result)))
                 fptr.write('\n')
     else:
@@ -127,7 +128,7 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
             graph.addEdge(graphEdges[1], graphEdges[0])
         return graph
 
-    def test_printNodesDistanceOrder_startNodeIs1_allNodesConnected_1EdgeLevel(self):
+    def test_printNodesDistanceOrder_startNodeIs1_graphIsConnected_1EdgeLevel(self):
         nodesNum = 3
         startNode = 1
         edges = [[1, 2], [1, 3]]
@@ -135,7 +136,7 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
         self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '6']))
 
-    def test_printNodesDistanceOrder_startNodeIs1_allNodesConnected_2EdgeLevels(self):
+    def test_printNodesDistanceOrder_startNodeIs1_graphIsConnected_2EdgeLevels(self):
         nodesNum = 4
         startNode = 1
         edges = [[1, 2], [1, 3], [3, 4]]
@@ -144,7 +145,7 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
         self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '6', '12']))
 
-    def test_printNodesDistanceOrder_startNodeIs2_allNodesConnected_1EdgeLevel(self):
+    def test_printNodesDistanceOrder_startNodeIs2_graphIsConnected_1EdgeLevel(self):
         nodesNum = 3
         startNode = 2
         edges = [[2, 1], [2, 3]]
@@ -153,7 +154,7 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
         self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '6']))
 
-    def test_printNodesDistanceOrder_startNodeIs1_notAllNodesConnected_1EdgeLevel(self):
+    def test_printNodesDistanceOrder_startNodeIs1_graphNotConnected_1EdgeLevel(self):
         nodesNum = 4
         startNode = 1
         edges = [[1, 2], [1, 3]]
@@ -162,7 +163,7 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
         self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '6', '-1']))
 
-    def test_printNodesDistanceOrder_startNodeIs3_notAllNodesConnected_2EdgeLevels(self):
+    def test_printNodesDistanceOrder_startNodeIs3_graphNotConnected_2EdgeLevels(self):
         nodesNum = 5
         startNode = 3
         edges = [[3, 2], [3, 4], [4, 1]]
@@ -171,7 +172,7 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
         self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['12', '6', '6', '-1']))
 
-    def test_printNodesDistanceOrder_startNodeIs3_allNodesConnected_3EdgeLevels(self):
+    def test_printNodesDistanceOrder_startNodeIs3_graphIsConnected_3EdgeLevels(self):
         nodesNum = 7
         startNode = 3
         edges = [[1, 2], [3, 1], [2, 4], [2, 5], [3, 5], [3, 6], [3, 7]]
@@ -180,7 +181,7 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
         self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '12', '18', '6', '6', '6']))
 
-    def test_printNodesDistanceOrder_startNodeIs3_notAllNodesConnected_3EdgeLevels(self):
+    def test_printNodesDistanceOrder_startNodeIs3_graphNotConnected_3EdgeLevels(self):
         nodesNum = 7
         startNode = 3
         edges = [[1, 2], [3, 1], [2, 4], [2, 5], [3, 5], [3, 7]]
@@ -198,7 +199,7 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
         self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['-1', '-1']))
 
-    def test_printNodesDistanceOrder_startNodeIs1_allNodesConnected_1EdgeLevel_edgesAddedTwiceOriginalOrder(self):
+    def test_printNodesDistanceOrder_startNodeIs1_graphIsConnected_1EdgeLevel_edgesAddedTwiceOriginalOrder(self):
         nodesNum = 3
         startNode = 1
         edges = [[1, 2], [1, 3], [1, 2], [1, 3]]
@@ -207,7 +208,7 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
         self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '6']))
 
-    def test_printNodesDistanceOrder_startNodeIs1_allNodesConnected_1EdgeLevel_edgesAddedTwiceReversedOrder(self):
+    def test_printNodesDistanceOrder_startNodeIs1_graphIsConnected_1EdgeLevel_edgesAddedTwiceReversedOrder(self):
         nodesNum = 3
         startNode = 1
         edges = [[1, 2], [1, 3], [3, 1]]
@@ -216,7 +217,7 @@ class TestPrintNodesDistanceOrder(unittest.TestCase):
         builtGraph = self.addNodesAndEdges(nodesNum, edges, graph)
         self.assertTrue((builtGraph.printNodesDistanceOrder(startNode) == ['6', '6']))
 
-    def test_printNodesDistanceOrder_startNodeIs1_allNodesConnected_2EdgeLevels_squareShapedGraph(self):
+    def test_printNodesDistanceOrder_startNodeIs1_graphIsConnected_2EdgeLevels_squareShapedGraph(self):
         nodesNum = 4
         startNode = 1
         edges = [[1, 2], [2, 1], [2, 3], [3, 2], [3, 4], [4, 3], [4, 1], [1, 4]]
