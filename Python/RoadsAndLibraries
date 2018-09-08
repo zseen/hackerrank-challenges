@@ -13,61 +13,58 @@ LOCAL_INPUT = "ON"
 
 class CitiesAndRoads:
     def __init__(self):
-        self.citiesToRoads = {}
+        self.nodesToEdges = {}
 
-    def addCity(self, city):
-        self.citiesToRoads[city] = set()
+    def addNode(self, nodeId):
+        self.nodesToEdges[nodeId] = set()
 
-    def addRoad(self, startCity, endCity):
-        self.citiesToRoads[startCity].add(endCity)
+    def addEdge(self, startNodeId, endNodeId):
+        self.nodesToEdges[startNodeId].add(endNodeId)
 
-    def visitConnectableCities(self, startCity):
-        citiesToVisit = deque()
+    def visitConnectableNodes(self, startNodeId):
+        nodesToVisit = deque()
 
-        citiesToVisit.appendleft(startCity)
-        visitedCities = set()
+        nodesToVisit.appendleft(startNodeId)
+        visitedNodes = set()
 
-        while citiesToVisit:
-            currentCity = citiesToVisit.pop()
-            visitedCities.add(currentCity)
+        while nodesToVisit:
+            currentNode = nodesToVisit.pop()
+            visitedNodes.add(currentNode)
 
-            neighborCities = self.citiesToRoads[currentCity]
-            for neighborCity in neighborCities:
-                if neighborCity not in visitedCities:
-                    citiesToVisit.appendleft(neighborCity)
-                    visitedCities.add(neighborCity)
+            neighborNodes = self.nodesToEdges[currentNode]
+            for neighborNode in neighborNodes:
+                if neighborNode not in visitedNodes:
+                    nodesToVisit.appendleft(neighborNode)
+                    visitedNodes.add(neighborNode)
 
-        return visitedCities
+        return visitedNodes
 
-    def countGroupsOfConnectableCities(self, startCity):
-        initialCitiesSet = set(self.citiesToRoads.keys())
+    def countGroupsOfConnectableNodes(self, startNodeId):
+        initialNodesSet = set(self.nodesToEdges.keys())
+        connectableNodesFromStart = self.visitConnectableNodes(startNodeId)
+        nodeGroupsCounter = 1
 
-        connectableCitiesFromStart = self.visitConnectableCities(startCity)
-        cityGroupsCounter = 1
-
-        if connectableCitiesFromStart == initialCitiesSet:
+        if connectableNodesFromStart == initialNodesSet:
             pass
         else:
-            visitedCitiesSet = set()
-
-            while initialCitiesSet != visitedCitiesSet:
-                citiesToVisit = [city for city in initialCitiesSet if city not in visitedCitiesSet]
-                unconnectedCitiesFromStart = []
-                for city in citiesToVisit:
-                    if city not in connectableCitiesFromStart:
-                        unconnectedCitiesFromStart.append(city)
+            visitedNodesSet = set()
+            while initialNodesSet != visitedNodesSet:
+                nodesToVisit = [nodeId for nodeId in initialNodesSet if nodeId not in visitedNodesSet]
+                unconnectedNodesFromStart = []
+                for nodeId in nodesToVisit:
+                    if nodeId not in connectableNodesFromStart:
+                        unconnectedNodesFromStart.append(nodeId)
                     else:
-                        visitedCitiesSet.add(city)
+                        visitedNodesSet.add(nodeId)
 
-                if len(unconnectedCitiesFromStart) != 0:
-                    connectableCitiesFromStart = self.visitConnectableCities(unconnectedCitiesFromStart[0])
-                    cityGroupsCounter += 1
+                if len(unconnectedNodesFromStart) != 0:
+                    connectableNodesFromStart = self.visitConnectableNodes(unconnectedNodesFromStart[0])
+                    nodeGroupsCounter += 1
 
-        return cityGroupsCounter
-
+        return nodeGroupsCounter
 
     def getMinimumCost(self, citiesNum, libraryCost, roadCost, startCity):
-        communitiesNum = self.countGroupsOfConnectableCities(startCity)
+        communitiesNum = self.countGroupsOfConnectableNodes(startCity)
         minimalRoadsCost = (citiesNum - communitiesNum) * roadCost
         libraryEachCommunityCost = communitiesNum * libraryCost
         allLibrariesCost = libraryCost * citiesNum
@@ -78,34 +75,32 @@ class CitiesAndRoads:
         return allLibrariesCost
 
 
-def createPossibleRoadsMap():
+def createPossibleRoadsMap(roadsNum, citiesNum):
     roadsBetweenCities = []
     for _ in range(roadsNum):
         roadsBetweenCities.append(list(map(int, input().rstrip().split())))
 
     citiesWithRoads = CitiesAndRoads()
     for city in range(1, citiesNum + 1):
-        citiesWithRoads.addCity(city)
+        citiesWithRoads.addNode(city)
 
     for road in roadsBetweenCities:
-        citiesWithRoads.addRoad(road[0], road[1])
-        citiesWithRoads.addRoad(road[1], road[0])
+        citiesWithRoads.addEdge(road[0], road[1])
+        citiesWithRoads.addEdge(road[1], road[0])
     return citiesWithRoads
 
-if __name__ == '__main__':
 
+def main():
     if LOCAL_INPUT == "ON":
         sys.stdin = open('RoadsAndLibraries_input.txt')
-
         q = int(input())
-
         for q_itr in range(q):
             nmC_libC_road = input().split()
             citiesNum = int(nmC_libC_road[0])
             roadsNum = int(nmC_libC_road[1])
             libraryCost = int(nmC_libC_road[2])
             roadCost = int(nmC_libC_road[3])
-            citiesWithRoads = createPossibleRoadsMap()
+            citiesWithRoads = createPossibleRoadsMap(roadsNum, citiesNum)
             startCity = 1
             minimalCost = citiesWithRoads.getMinimumCost(citiesNum, libraryCost, roadCost, startCity)
             print(minimalCost)
@@ -113,14 +108,13 @@ if __name__ == '__main__':
     elif LOCAL_INPUT == "OFF":
         with open(os.environ['OUTPUT_PATH'], 'w') as fptr:
             q = int(input())
-
             for q_itr in range(q):
                 nmC_libC_road = input().split()
                 citiesNum = int(nmC_libC_road[0])
                 roadsNum = int(nmC_libC_road[1])
                 libraryCost = int(nmC_libC_road[2])
                 roadCost = int(nmC_libC_road[3])
-                citiesWithRoads = createPossibleRoadsMap()
+                citiesWithRoads = createPossibleRoadsMap(roadsNum, citiesNum)
                 startCity = 1
                 minimalCost = citiesWithRoads.getMinimumCost(citiesNum, libraryCost, roadCost, startCity)
                 fptr.write(str(minimalCost) + '\n')
@@ -129,26 +123,10 @@ if __name__ == '__main__':
         print("Please set LOCAL_INPUT to 'ON' or 'OFF'.")
 
 
-# 5
-# 9 2 91 84
-# 8 2
-# 2 9
-# 5 9 92 23
-# 2 1
-# 5 3
-# 5 1
-# 3 4
-# 3 1
-# 5 4
-# 4 1
-# 5 2
-# 4 2
-# 8 3 10 55
-# 6 4
-# 3 2
-# 7 1
-# 1 0 5 3
-# 2 0 102 1
+if __name__ == '__main__':
+    main()
+
+
 
 
 
