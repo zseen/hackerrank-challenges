@@ -43,23 +43,25 @@ class CitiesAndRoads:
         initialCitiesSet = set(self.citiesToRoads.keys())
 
         connectableCitiesFromStart = self.visitConnectableCities(startCity)
-
-        visitedCitiesSet = set()
-
         cityGroupsCounter = 1
 
-        while initialCitiesSet != visitedCitiesSet:
-            citiesToVisit = [city for city in initialCitiesSet if city not in visitedCitiesSet]
-            unconnectedCitiesFromStart = []
-            for city in citiesToVisit:
-                if city not in connectableCitiesFromStart:
-                    unconnectedCitiesFromStart.append(city)
-                else:
-                    visitedCitiesSet.add(city)
+        if connectableCitiesFromStart == initialCitiesSet:
+            pass
+        else:
+            visitedCitiesSet = set()
 
-            if len(unconnectedCitiesFromStart) != 0:
-                connectableCitiesFromStart = self.visitConnectableCities(unconnectedCitiesFromStart[0])
-                cityGroupsCounter += 1
+            while initialCitiesSet != visitedCitiesSet:
+                citiesToVisit = [city for city in initialCitiesSet if city not in visitedCitiesSet]
+                unconnectedCitiesFromStart = []
+                for city in citiesToVisit:
+                    if city not in connectableCitiesFromStart:
+                        unconnectedCitiesFromStart.append(city)
+                    else:
+                        visitedCitiesSet.add(city)
+
+                if len(unconnectedCitiesFromStart) != 0:
+                    connectableCitiesFromStart = self.visitConnectableCities(unconnectedCitiesFromStart[0])
+                    cityGroupsCounter += 1
 
         return cityGroupsCounter
 
@@ -76,6 +78,20 @@ class CitiesAndRoads:
         return allLibrariesCost
 
 
+def createPossibleRoadsMap():
+    roadsBetweenCities = []
+    for _ in range(roadsNum):
+        roadsBetweenCities.append(list(map(int, input().rstrip().split())))
+
+    citiesWithRoads = CitiesAndRoads()
+    for city in range(1, citiesNum + 1):
+        citiesWithRoads.addCity(city)
+
+    for road in roadsBetweenCities:
+        citiesWithRoads.addRoad(road[0], road[1])
+        citiesWithRoads.addRoad(road[1], road[0])
+    return citiesWithRoads
+
 if __name__ == '__main__':
 
     if LOCAL_INPUT == "ON":
@@ -89,20 +105,8 @@ if __name__ == '__main__':
             roadsNum = int(nmC_libC_road[1])
             libraryCost = int(nmC_libC_road[2])
             roadCost = int(nmC_libC_road[3])
-            roadsBetweenCities = []
-            for _ in range(roadsNum):
-                roadsBetweenCities.append(list(map(int, input().rstrip().split())))
-            citiesWithRoads = CitiesAndRoads()
-
-            for city in range(1, citiesNum + 1):
-                citiesWithRoads.addCity(city)
-
+            citiesWithRoads = createPossibleRoadsMap()
             startCity = 1
-
-            for road in roadsBetweenCities:
-                citiesWithRoads.addRoad(road[0], road[1])
-                citiesWithRoads.addRoad(road[1], road[0])
-
             minimalCost = citiesWithRoads.getMinimumCost(citiesNum, libraryCost, roadCost, startCity)
             print(minimalCost)
 
@@ -116,26 +120,35 @@ if __name__ == '__main__':
                 roadsNum = int(nmC_libC_road[1])
                 libraryCost = int(nmC_libC_road[2])
                 roadCost = int(nmC_libC_road[3])
-                roadsBetweenCities = []
-                for _ in range(roadsNum):
-                    roadsBetweenCities.append(list(map(int, input().rstrip().split())))
-                citiesWithRoads = CitiesAndRoads()
-
-                for city in range(1, citiesNum + 1):
-                    citiesWithRoads.addCity(city)
-
+                citiesWithRoads = createPossibleRoadsMap()
                 startCity = 1
-
-                for road in roadsBetweenCities:
-                    citiesWithRoads.addRoad(road[0], road[1])
-                    citiesWithRoads.addRoad(road[1], road[0])
-
                 minimalCost = citiesWithRoads.getMinimumCost(citiesNum, libraryCost, roadCost, startCity)
-
                 fptr.write(str(minimalCost) + '\n')
 
     else:
         print("Please set LOCAL_INPUT to 'ON' or 'OFF'.")
+
+
+# 5
+# 9 2 91 84
+# 8 2
+# 2 9
+# 5 9 92 23
+# 2 1
+# 5 3
+# 5 1
+# 3 4
+# 3 1
+# 5 4
+# 4 1
+# 5 2
+# 4 2
+# 8 3 10 55
+# 6 4
+# 3 2
+# 7 1
+# 1 0 5 3
+# 2 0 102 1
 
 
 
