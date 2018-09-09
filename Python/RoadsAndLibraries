@@ -40,28 +40,14 @@ class CitiesAndRoads:
         return visitedNodes
 
     def countGroupsOfConnectableNodes(self, startNodeId):
-        initialNodesSet = set(self.nodesToEdges.keys())
-        connectableNodesFromStart = self.visitConnectableNodes(startNodeId)
-        nodeGroupsCounter = 1
-
-        if connectableNodesFromStart == initialNodesSet:
-            pass
-        else:
-            visitedNodesSet = set()
-            while initialNodesSet != visitedNodesSet:
-                nodesToVisit = [nodeId for nodeId in initialNodesSet if nodeId not in visitedNodesSet]
-                unconnectedNodesFromStart = []
-                for nodeId in nodesToVisit:
-                    if nodeId not in connectableNodesFromStart:
-                        unconnectedNodesFromStart.append(nodeId)
-                    else:
-                        visitedNodesSet.add(nodeId)
-
-                if len(unconnectedNodesFromStart) != 0:
-                    connectableNodesFromStart = self.visitConnectableNodes(unconnectedNodesFromStart[0])
-                    nodeGroupsCounter += 1
-
-        return nodeGroupsCounter
+        unvisitedList = list(self.nodesToEdges.keys())
+        componentsCounter = 0
+        while unvisitedList:
+            currentVisitedNodesList = list(self.visitConnectableNodes(unvisitedList[0]))
+            for node in currentVisitedNodesList:
+                unvisitedList.remove(node)
+            componentsCounter += 1
+        return componentsCounter
 
     def getMinimumCost(self, citiesNum, libraryCost, roadCost, startCity):
         communitiesNum = self.countGroupsOfConnectableNodes(startCity)
