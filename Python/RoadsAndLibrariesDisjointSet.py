@@ -1,11 +1,18 @@
+#!/bin/python3
 import unittest
+import math
+import os
+import random
+import re
+import sys
+
+LOCAL_INPUT = "ON"
 
 
 class Node:
     def __init__(self, id):
         self.id = id
         self.parent = None
-
 
 
 class UnionFind:
@@ -15,52 +22,92 @@ class UnionFind:
             self.nodeIdToNode[i] = Node(i)
 
     def union(self, nodeId1, nodeId2):
-        p1 = self.find(nodeId1)
-        p2 = self.find(nodeId2)
+        p1 = self.findParent(nodeId1)
+        p2 = self.findParent(nodeId2)
 
         p1.parent = p2
 
-    def find(self, nodeId):
+    def findParent(self, nodeId):
         node = self.nodeIdToNode[nodeId]
 
-        parentCandidate = node
+        possibleParent = node
 
-        while parentCandidate.parent is not None:
-            parentCandidate = parentCandidate.parent
+        while possibleParent.parent is not None:
+            possibleParent = possibleParent.parent
 
-        return parentCandidate
+        return possibleParent
+
+
+def getComponentsNum(nodesNum, edges):
+    uf = UnionFind(nodesNum)
+    componentsNum = nodesNum
+
+    for startId, endId in edges:
+        if uf.findParent(startId) != uf.findParent(endId):
+            uf.union(startId, endId)
+            componentsNum -= 1
+
+    return componentsNum
+
+
+def getMinimalCost(citiesNum, libraryCost, roadCost, roadsBetweenCities):
+    communitiesNum = getComponentsNum(citiesNum, roadsBetweenCities)
+    minimalRoadsCost = (citiesNum - communitiesNum) * roadCost
+    libraryEachCommunityCost = communitiesNum * libraryCost
+    return minimalRoadsCost + libraryEachCommunityCost
+
+
+def parseInputAndReturnMinimalCost():
+    nmC_libC_road = input().split()
+    citiesNum = int(nmC_libC_road[0])
+    roadsNum = int(nmC_libC_road[1])
+    libraryCost = int(nmC_libC_road[2])
+    roadCost = int(nmC_libC_road[3])
+    roadsBetweenCities = []
+
+    for _ in range(roadsNum):
+        roadsBetweenCities.append(list(map(int, input().rstrip().split())))
+
+    if libraryCost <= roadCost:
+        minimalCost = citiesNum * libraryCost
+    else:
+        minimalCost = getMinimalCost(citiesNum, libraryCost, roadCost, roadsBetweenCities)
+    return minimalCost
 
 
 def main():
-    numNodes = 5
-    edges = [(1,2), (2,3), (3,4), (4, 2), (4, 1)]
+    if LOCAL_INPUT == "ON":
+        sys.stdin = open('RoadsAndLibraries_input.txt')
+        q = int(input())
+        for q_itr in range(q):
+            minimalCost = parseInputAndReturnMinimalCost()
+            print(minimalCost)
+    elif LOCAL_INPUT == "OFF":
+        with open(os.environ['OUTPUT_PATH'], 'w') as fptr:
+            q = int(input())
+            for q_itr in range(q):
+                minimalCost = parseInputAndReturnMinimalCost()
+                fptr.write(str(minimalCost) + '\n')
 
-    uf = UnionFind(numNodes)
-    numComponents = numNodes
-
-    for startId, endId in edges:
-        if uf.find(startId) != uf.find(endId):
-            uf.union(startId, endId)
-            numComponents -= 1
-
-    print(numComponents)
+    else:
+        print("Please set LOCAL_INPUT to 'ON' or 'OFF'.")
 
 
 class TestUnionFind(unittest.TestCase):
     def test_unionFind_noUnions_findReturnsDifferentNodes(self):
         uf = UnionFind(2)
-        self.assertNotEqual(uf.find(1), uf.find(2))
+        self.assertNotEqual(uf.findParent(1), uf.findParent(2))
 
     def test_unionFind_unionCalled_findReturnsSameNodes(self):
         uf = UnionFind(2)
         uf.union(1, 2)
-        self.assertEqual(uf.find(1), uf.find(2))
+        self.assertEqual(uf.findParent(1), uf.findParent(2))
 
 
 
 if __name__ == '__main__':
-    #main()
-    unittest.main()
+    main()
+    #unittest.main()
 
 
 
