@@ -19,13 +19,13 @@ class UnionFind:
             self.nodeIdToNode[i] = Node(i)
 
     def union(self, id1, id2):
-        p1 = self.findParent(id1)
-        p2 = self.findParent(id2)
+        p1 = self.find(id1)
+        p2 = self.find(id2)
 
         p1.parent = p2
 
-    def findParent(self, nodeId):
-        node = self.nodeIdToNode[nodeId]
+    def find(self, id):
+        node = self.nodeIdToNode[id]
 
         potentialParent = node
 
@@ -40,7 +40,7 @@ def getNumComponents(numNodes, edges):
     numComponents = numNodes
 
     for startId, endId in edges:
-        if unionfind.findParent(startId) != unionfind.findParent(endId):
+        if unionfind.find(startId) != unionfind.find(endId):
             unionfind.union(startId, endId)
             numComponents -= 1
 
@@ -95,19 +95,19 @@ def main():
 class TestUnionFind(unittest.TestCase):
     def test_unionFind_noUnions_findReturnsDifferentSets(self):
         uf = UnionFind(2)
-        self.assertNotEqual(uf.findParent(1), uf.findParent(2))
+        self.assertNotEqual(uf.find(1), uf.find(2))
 
     def test_unionFind_unionCalled_findReturnsSameSet(self):
         uf = UnionFind(2)
         uf.union(1, 2)
-        self.assertEqual(uf.findParent(1), uf.findParent(2))
+        self.assertEqual(uf.find(1), uf.find(2))
 
     def test_unionFind_unionCalledButNotDirectly_findReturnsSameSet(self):
         numNodes = 3
         uf = UnionFind(numNodes)
         uf.union(1, 2)
         uf.union(2, 3)
-        self.assertEqual(uf.findParent(1), uf.findParent(3))
+        self.assertEqual(uf.find(1), uf.find(3))
 
 
 
