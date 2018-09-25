@@ -6,15 +6,18 @@ import random
 import re
 import sys
 
+
 class SinglyLinkedListNode:
     def __init__(self, node_data):
         self.data = node_data
         self.next = None
 
+
 class SinglyLinkedList:
     def __init__(self):
         self.head = None
         self.tail = None
+
 
 def print_singly_linked_list(node, sep, fptr):
     while node:
@@ -28,9 +31,11 @@ def print_singly_linked_list(node, sep, fptr):
 
 def insertNodeAtHead(head, data):
     currentHead = head
+
     newNode = SinglyLinkedListNode(data)
     newNode.data = data
     newNode.next = currentHead
+
     head = newNode
     return head
 
