@@ -1,15 +1,14 @@
 #!/bin/python3
 
-import math
+
 import os
-import random
-import re
-import sys
+
 
 class SinglyLinkedListNode:
     def __init__(self, node_data):
         self.data = node_data
         self.next = None
+
 
 class SinglyLinkedList:
     def __init__(self):
@@ -24,8 +23,8 @@ class SinglyLinkedList:
         else:
             self.tail.next = node
 
-
         self.tail = node
+
 
 def print_singly_linked_list(node, sep, fptr):
     while node:
@@ -36,6 +35,7 @@ def print_singly_linked_list(node, sep, fptr):
         if node:
             fptr.write(sep)
 
+
 def reverse(head):
     previousNode = None
     currentNode = head
@@ -45,10 +45,9 @@ def reverse(head):
         currentNode.next = previousNode
         previousNode = currentNode
         currentNode = nextNode
+
     head = previousNode
     return head
-
-
 
 
 if __name__ == '__main__':
