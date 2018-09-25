@@ -1,48 +1,46 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
 import sys
 
-
-class Node:
-    def __init__(self):
-        self.data = None
+class SinglyLinkedListNode:
+    def __init__(self, node_data):
+        self.data = node_data
         self.next = None
 
-
-class LinkedList:
+class SinglyLinkedList:
     def __init__(self):
         self.head = None
         self.tail = None
 
-    def addNode(self, data):
-        newNode = Node()
-        newNode.data = data
+    def insert_node(self, node_data):
+        node = SinglyLinkedListNode(node_data)
 
-        if self.head is None:
-            self.head = newNode
+        if not self.head:
+            self.head = node
         else:
-            self.tail.next = newNode
+            self.tail.next = node
 
-        self.tail = newNode
-
-    def printList(self):
-        node = self.head
-        while node:
-            print(node.data)
-            node = node.next
+        self.tail = node
 
 
-def main():
-    sys.stdin = open('PrintTheElementsOfALinkedList_input.txt')
-    nodesNum = int(input())
-
-    linkedList = LinkedList()
-
-    for _ in range(nodesNum):
-        item = int(input())
-        linkedList.addNode(item)
-
-    linkedList.printList()
+def printLinkedList(head):
+    node = head
+    while node:
+        print(node.data)
+        node = node.next
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    llist_count = int(input())
+    llist = SinglyLinkedList()
+
+    for _ in range(llist_count):
+        llist_item = int(input())
+        llist.insert_node(llist_item)
+
+    printLinkedList(llist.head)
 
