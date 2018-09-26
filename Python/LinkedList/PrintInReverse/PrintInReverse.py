@@ -40,13 +40,11 @@ def print_singly_linked_list(node, sep):
 
 
 def reversePrint(head):
-    currentNode = head
-    nodesDataList = []
-    while currentNode is not None:
-        nodesDataList.append(currentNode.data)
-        currentNode = currentNode.next
-    for data in nodesDataList[::-1]:
-        print(data)
+    if head is None:
+        return
+
+    reversePrint(head.next)
+    print(str(head.data))
 
 
 if __name__ == '__main__':
