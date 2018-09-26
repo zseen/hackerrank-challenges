@@ -45,7 +45,7 @@ def insertNodeAtPosition(head, data, insertionPosition):
     if insertionPosition == 0:
         newNode = SinglyLinkedListNode(data)
         newNode.next = head
-        return head
+        return newNode
 
     currentNode = head
 
