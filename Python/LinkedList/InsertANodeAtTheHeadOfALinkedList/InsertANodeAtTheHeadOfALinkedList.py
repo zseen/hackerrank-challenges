@@ -33,7 +33,7 @@ def insertNodeAtHead(head, data):
     newNode = SinglyLinkedListNode(data)
     newNode.data = data
     newNode.next = head
-
+    
     return newNode
 
 if __name__ == '__main__':
