@@ -30,14 +30,11 @@ def print_singly_linked_list(node, sep, fptr):
 
 
 def insertNodeAtHead(head, data):
-    currentHead = head
-
     newNode = SinglyLinkedListNode(data)
     newNode.data = data
-    newNode.next = currentHead
+    newNode.next = head
 
-    head = newNode
-    return head
+    return newNode
 
 if __name__ == '__main__':
     fptr = open(os.environ['OUTPUT_PATH'], 'w')
