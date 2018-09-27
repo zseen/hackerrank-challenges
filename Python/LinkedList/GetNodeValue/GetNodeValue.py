@@ -38,26 +38,17 @@ def print_singly_linked_list(node, sep, fptr):
 
 
 
-
 def getNode(head, positionFromTail):
-    dataAtPositionFromTail = None
-    lenLinkedList = 0
+    indexInLinkedList = 0
+    nodeAtPositionFromTail = head
 
-    while head:
-        lenLinkedList += 1
+    while head.next:
+        indexInLinkedList += 1
         head = head.next
+        if indexInLinkedList > positionFromTail:
+            nodeAtPositionFromTail = nodeAtPositionFromTail.next
 
-
-    for head in range(lenLinkedList - positionFromTail):
-    
-
-
-    return dataAtPositionFromTail
-
-
-
-
-
+    return nodeAtPositionFromTail.data
 
 
 if __name__ == '__main__':
