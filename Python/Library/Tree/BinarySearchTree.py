@@ -32,33 +32,36 @@ class BinarySearchTree:
             print("Node already in tree.")
 
 
-
     def printInorder(self):
+        level = 0
         if self.root:
-            self._printInorder(self.root)
+            self._printInorder(self.root, level)
 
     def printPreorder(self):
+        level = 0
         if self.root:
-            self._printPreorder(self.root)
+            self._printPreorder(self.root, level)
 
     def printPostorder(self):
+        level = 0
         if self.root:
-            self._printPostorder(self.root)
-
-    def _printInorder(self, node):
+            self._printPostorder(self.root, level)
+      
+    def _printInorder(self, node, level):
         if node:
-            self._printInorder(node.left)
-            print(str(node.value))
-            self._printInorder(node.right)
+            self._printInorder(node.left, level + 1)
+            print('  ' * level + str(node.value))
+            self._printInorder(node.right, level + 1)
 
-    def _printPreorder(self, node):
+    def _printPreorder(self, node, level):
         if node:
-            print(str(node.value))
-            self._printPreorder(node.left)
-            self._printPreorder(node.right)
+            print('  ' * level + str(node.value))
+            self._printPreorder(node.left, level + 1)
+            self._printPreorder(node.right, level + 1)
 
-    def _printPostorder(self, node):
+    def _printPostorder(self, node, level):
         if node:
-            self._printPostorder(node.left)
-            self._printPostorder(node.right)
-            print(str(node.value))
+            self._printPostorder(node.left, level + 1)
+            self._printPostorder(node.right, level + 1)
+            print('  ' * level + str(node.value))
+
