@@ -1,11 +1,5 @@
 from Library.Tree import BinarySearchTree
 
-tree = BinarySearchTree.BinarySearchTree()
-nodesList = list((7, 5, 1, 3, 2, 6, 8, 4, 9))
-
-for i in range(0, len(nodesList)):
-    tree.insert(nodesList[i])
-
 
 def findPath(root, node, path):
     if root:
@@ -37,6 +31,11 @@ def lca(root, v1, v2):
         return firstNodePath[-1] if len(firstNodePath) < len(secondNodePath) else secondNodePath[-1]
 
 
+tree = BinarySearchTree.BinarySearchTree()
+nodesList = list((7, 5, 1, 3, 2, 6, 8, 4, 9))
+
+for i in range(0, len(nodesList)):
+    tree.insert(nodesList[i])
 lowestCommonAncestor = lca(tree.root, 5, 2)
 print(lowestCommonAncestor.value)
 
