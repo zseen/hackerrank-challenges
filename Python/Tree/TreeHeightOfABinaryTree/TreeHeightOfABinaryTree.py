@@ -18,3 +18,4 @@ for i in range(0, len(nodesList)):
 
 treeHeight = height(tree.root)
 print(treeHeight)
+
