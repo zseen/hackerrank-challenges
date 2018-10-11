@@ -2,17 +2,25 @@ from Library.Tree import BinarySearchTree
 from collections import deque
 
 
-def levelOrder(root):
+def getLevelOrder(root, visitedNodesValuesList):
     leavesToVisit = deque()
     if root:
         leavesToVisit.append(root)
         while leavesToVisit:
             leaf = leavesToVisit.pop()
-            print(leaf.value, end=' ')
+            visitedNodesValuesList.append(leaf.value)
             if leaf.left:
                 leavesToVisit.appendleft(leaf.left)
             if leaf.right:
                 leavesToVisit.appendleft(leaf.right)
+
+
+def levelOrder(root):
+    values = []
+    getLevelOrder(root, values)
+    for value in values:
+        print(value, end=" ")
+
 
 
 def main():
