@@ -23,22 +23,14 @@ def main():
     sys.stdin = open('LibraryFineInput.txt')
 
     d1M1Y1 = input().split()
-
-    d1 = int(d1M1Y1[0])
-
-    m1 = int(d1M1Y1[1])
-
-    y1 = int(d1M1Y1[2])
-
+    day1 = int(d1M1Y1[0])
+    month1 = int(d1M1Y1[1])
+    year1 = int(d1M1Y1[2])
     d2M2Y2 = input().split()
-
-    d2 = int(d2M2Y2[0])
-
-    m2 = int(d2M2Y2[1])
-
-    y2 = int(d2M2Y2[2])
-
-    result = libraryFine(d1, m1, y1, d2, m2, y2)
+    day2 = int(d2M2Y2[0])
+    month2 = int(d2M2Y2[1])
+    year2 = int(d2M2Y2[2])
+    result = libraryFine(day1, month1, year1, day2, month2, year2)
 
     print(result)
 
