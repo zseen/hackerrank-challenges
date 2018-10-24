@@ -1,5 +1,5 @@
 #!/bin/python3
-from Library.Sorting import CountingSort
+
 
 import math
 import os
@@ -9,17 +9,16 @@ import sys
 
 
 def maxMin(itemsNumInSubArray, numbersList):
-    sortedArr = CountingSort.sortListOfNumbers(numbersList)
-    firstSubArray = sortedArr[0:itemsNumInSubArray]
-    lowestNum = min(firstSubArray)
-    highestNum = max(firstSubArray)
+    sortedArr = sorted(numbersList)
+    firstSubArray = sortedArr[0: itemsNumInSubArray]
+    lowestNum = firstSubArray[0]
+    highestNum = firstSubArray[itemsNumInSubArray - 1]
     lowestDifferenceBetweenMaxMin = highestNum - lowestNum
 
     for i in range(0, len(sortedArr) - itemsNumInSubArray + 1):
-        subArray = sortedArr[i:i + itemsNumInSubArray]
-        #print(subArray)
-        lowestNum = min(subArray)
-        highestNum = max(subArray)
+        subArray = sortedArr[i: i + itemsNumInSubArray]
+        lowestNum = subArray[0]
+        highestNum = subArray[itemsNumInSubArray - 1]
         differenceBetweenMaxMin = highestNum - lowestNum
         if differenceBetweenMaxMin < lowestDifferenceBetweenMaxMin:
             lowestDifferenceBetweenMaxMin = differenceBetweenMaxMin
