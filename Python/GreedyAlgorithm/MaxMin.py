@@ -9,14 +9,14 @@ import sys
 
 
 def maxMin(itemsNumInSubArray, numbersList):
-    sortedArr = sorted(numbersList)
-    firstSubArray = sortedArr[0: itemsNumInSubArray]
+    numbersList.sort()
+    firstSubArray = numbersList[0: itemsNumInSubArray]
     lowestNum = firstSubArray[0]
     highestNum = firstSubArray[itemsNumInSubArray - 1]
     lowestDifferenceBetweenMaxMin = highestNum - lowestNum
 
-    for i in range(0, len(sortedArr) - itemsNumInSubArray + 1):
-        subArray = sortedArr[i: i + itemsNumInSubArray]
+    for i in range(0, len(numbersList) - itemsNumInSubArray + 1):
+        subArray = numbersList[i: i + itemsNumInSubArray]
         lowestNum = subArray[0]
         highestNum = subArray[itemsNumInSubArray - 1]
         differenceBetweenMaxMin = highestNum - lowestNum
