@@ -6,10 +6,26 @@ import sys
 
 # Complete the gridSearch function below.
 def gridSearch(grid, pattern):
-    print(grid)
+    #print(grid)
+    l = len(grid)
+    k = len(grid[0])
+    v = len(pattern)
+    o = len(pattern[0])
 
-    for i in range(0, len(grid[1])):
-        if pattern[0]
+    for i in range(0, len(grid) - len(pattern) + 1):
+        for j in range(0, len(grid[0]) - len(pattern[0]) + 1):
+            good = True
+            for x in range(0, len(pattern)):
+                for y in range(0, len(pattern[0])):
+                    p = (grid[i + x][j + y])
+                    pp = (pattern[x][y])
+                    if grid[i + x][j + y] != pattern[x][y]:
+
+                        good = False
+                        break
+            if good:
+                return True
+    return False
 
 
 
@@ -22,6 +38,7 @@ if __name__ == '__main__':
 
     for t_itr in range(testCasesNum):
         RC = input().split()
+
 
         rowsInGrid = int(RC[0])
 
@@ -46,5 +63,7 @@ if __name__ == '__main__':
             patternList.append(P_item)
 
         result = gridSearch(gridList, patternList)
+
+
 
         print(result)
