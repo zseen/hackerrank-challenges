@@ -4,28 +4,20 @@ import random
 import re
 import sys
 
-# Complete the gridSearch function below.
+
 def gridSearch(grid, pattern):
-    #print(grid)
-    l = len(grid)
-    k = len(grid[0])
-    v = len(pattern)
-    o = len(pattern[0])
-
-    for i in range(0, len(grid) - len(pattern) + 1):
-        for j in range(0, len(grid[0]) - len(pattern[0]) + 1):
+    for j in range(0, len(grid[0]) - len(pattern[0]) + 1):
+        print(j)
+        for i in range(0, len(grid) - len(pattern) + 1):
             good = True
-            for x in range(0, len(pattern)):
-                for y in range(0, len(pattern[0])):
-                    p = (grid[i + x][j + y])
-                    pp = (pattern[x][y])
+            for y in range(0, len(pattern[0])):
+                for x in range(0, len(pattern)):
                     if grid[i + x][j + y] != pattern[x][y]:
-
                         good = False
                         break
             if good:
-                return True
-    return False
+                return "YES"
+    return "NO"
 
 
 
