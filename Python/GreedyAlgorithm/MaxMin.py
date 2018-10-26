@@ -16,9 +16,8 @@ def maxMin(itemsNumInSubArray, numbersList):
     lowestDifferenceBetweenMaxMin = highestNum - lowestNum
 
     for i in range(0, len(numbersList) - itemsNumInSubArray + 1):
-        subArray = numbersList[i: i + itemsNumInSubArray]
-        lowestNum = subArray[0]
-        highestNum = subArray[itemsNumInSubArray - 1]
+        lowestNum = numbersList[i]
+        highestNum = numbersList[i + itemsNumInSubArray - 1]
         differenceBetweenMaxMin = highestNum - lowestNum
         if differenceBetweenMaxMin < lowestDifferenceBetweenMaxMin:
             lowestDifferenceBetweenMaxMin = differenceBetweenMaxMin
