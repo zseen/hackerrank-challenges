@@ -11,23 +11,17 @@ def gridSearch(grid, pattern):
 
     for i in range(gridHeight - patternHeight + 1):
         if pattern[0] in grid[i]:
-            patternInGridStartIndexSet = getPatternMatch(grid, i, pattern, 0)
+            patternInGridStartIndexSet = getPatternMatchStartIndex(grid, i, pattern, 0)
             for index in range(len(pattern)):
-                patternInGridStartIndexSet = getIndexesIntersection(grid, i, index, pattern, patternInGridStartIndexSet)
+                patternInGridStartIndexSet = patternInGridStartIndexSet.intersection(getPatternMatchStartIndex(grid, i, pattern, index, ))
             if len(patternInGridStartIndexSet) == 1:
                 return True
     else:
         return False
 
 
-def getIndexesIntersection(grid, gridIndex, patternIndex, pattern, patternRowsStartSet):
-    patternRowsStartSet = patternRowsStartSet.intersection(set(x.start() for x in
-                                    re.finditer('(?=' + pattern[patternIndex] + ')', grid[gridIndex + patternIndex])))
-    return patternRowsStartSet
-
-
-def getPatternMatch(grid, gridIndex, pattern, patternIndex):
-    patternInGridStartIndexSet = set(x.start() for x in re.finditer('(?=' + pattern[patternIndex] + ')', grid[gridIndex]))
+def getPatternMatchStartIndex(grid, gridIndex, pattern, patternIndex):
+    patternInGridStartIndexSet = set(x.start() for x in re.finditer('(?=' + pattern[patternIndex] + ')', grid[gridIndex + patternIndex]))
     return patternInGridStartIndexSet
 
 
@@ -47,23 +41,16 @@ if __name__ == '__main__':
     for t_itr in range(testCasesNum):
         RC = input().split()
 
-
         rowsInGrid = int(RC[0])
-
         columnsInGrid = int(RC[1])
-
         gridList = []
-
         for _ in range(rowsInGrid):
             G_item = input()
             gridList.append(G_item)
 
         rc = input().split()
-
         linesNumInGrid = int(rc[0])
-
         digitsInGrid = int(rc[1])
-
         patternList = []
 
         for _ in range(linesNumInGrid):
