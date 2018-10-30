@@ -6,25 +6,41 @@ import sys
 
 
 def gridSearch(grid, pattern):
-    for j in range(0, len(grid[0]) - len(pattern[0]) + 1):
-        print(j)
-        for i in range(0, len(grid) - len(pattern) + 1):
-            good = True
-            for y in range(0, len(pattern[0])):
-                for x in range(0, len(pattern)):
-                    if grid[i + x][j + y] != pattern[x][y]:
-                        good = False
-                        break
-            if good:
-                return "YES"
-    return "NO"
+    gridHeight = len(grid)
+    patternHeight = len(pattern)
+
+    for i in range(gridHeight - patternHeight + 1):
+        if pattern[0] in grid[i]:
+            patternInGridStartIndexSet = getPatternMatch(grid, i, pattern, 0)
+            for index in range(len(pattern)):
+                patternInGridStartIndexSet = getIndexesIntersection(grid, i, index, pattern, patternInGridStartIndexSet)
+            if len(patternInGridStartIndexSet) == 1:
+                return True
+    else:
+        return False
 
 
+def getIndexesIntersection(grid, gridIndex, patternIndex, pattern, patternRowsStartSet):
+    patternRowsStartSet = patternRowsStartSet.intersection(set(x.start() for x in
+                                    re.finditer('(?=' + pattern[patternIndex] + ')', grid[gridIndex + patternIndex])))
+    return patternRowsStartSet
 
+
+def getPatternMatch(grid, gridIndex, pattern, patternIndex):
+    patternInGridStartIndexSet = set(x.start() for x in re.finditer('(?=' + pattern[patternIndex] + ')', grid[gridIndex]))
+    return patternInGridStartIndexSet
+
+
+def printReturnCases(grid, pattern):
+    state = gridSearch(grid, pattern)
+    if state:
+        print("YES")
+    else:
+        print("NO")
 
 
 if __name__ == '__main__':
-    sys.stdin = open("GridSearch_input.txt")
+    sys.stdin = open("TestCase5.txt")
 
     testCasesNum = int(input())
 
@@ -54,8 +70,4 @@ if __name__ == '__main__':
             P_item = input()
             patternList.append(P_item)
 
-        result = gridSearch(gridList, patternList)
-
-
-
-        print(result)
+        printReturnCases(gridList, patternList)
