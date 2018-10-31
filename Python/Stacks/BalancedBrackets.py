@@ -7,6 +7,8 @@ import re
 import sys
 
 
+BRACKETS_DICT = {"(": ")", "[": "]", "{": "}"}
+
 def printIsBalanced(brackets):
     result = isBalanced(brackets)
     if result:
@@ -16,25 +18,18 @@ def printIsBalanced(brackets):
 
 
 def isBalanced(brackets):
-    openingBrackets = ["(", "[", "{"]
-    closingBrackets = [")", "]", "}"]
-    bracketsDict = {}
     stack = []
 
-    for bracketType in range(len(openingBrackets)):
-        bracketsDict[openingBrackets[bracketType]] = closingBrackets[bracketType]
-
     for bracket in brackets:
-        if bracket in openingBrackets:
+        if bracket in BRACKETS_DICT.keys():
             stack.append(bracket)
-        elif bracket in closingBrackets:
-            if not stack or bracketsDict[stack.pop()] != bracket:
-                return False
         else:
-            return False
+            if not stack or bracket != BRACKETS_DICT[stack.pop()]:
+                return False
 
     if stack:
         return False
+
     return True
 
 
