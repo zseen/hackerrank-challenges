@@ -9,25 +9,26 @@ def gridSearch(grid, pattern):
     gridHeight = len(grid)
     patternHeight = len(pattern)
 
-    for i in range(gridHeight - patternHeight + 1):
-        if pattern[0] in grid[i]:
-            patternInGridStartIndexSet = getPatternMatchStartIndex(grid, i, pattern, 0)
-            for index in range(len(pattern)):
-                patternInGridStartIndexSet = patternInGridStartIndexSet.intersection(getPatternMatchStartIndex(grid, i, pattern, index, ))
-            if len(patternInGridStartIndexSet) == 1:
-                return True
+    for patternStartRowIndex in range(gridHeight - patternHeight + 1):
+        patternInGridStartIndexSet = getAllSubstringStartIndices(pattern[0], grid[patternStartRowIndex])
+        for patternRowOffset in range(len(pattern)):
+            patternInGridStartIndexSet = patternInGridStartIndexSet.intersection(getAllSubstringStartIndices(pattern[patternRowOffset], grid[patternStartRowIndex + patternRowOffset]))
+            if len(patternInGridStartIndexSet) == 0:
+                break
+        if len(patternInGridStartIndexSet) >= 1:
+            return True
     else:
         return False
 
 
-def getPatternMatchStartIndex(grid, gridIndex, pattern, patternIndex):
-    patternInGridStartIndexSet = set(x.start() for x in re.finditer('(?=' + pattern[patternIndex] + ')', grid[gridIndex + patternIndex]))
+def getAllSubstringStartIndices(string, subString):
+    patternInGridStartIndexSet = set(x.start() for x in re.finditer('(?=' + string + ')', subString))
     return patternInGridStartIndexSet
 
 
-def printReturnCases(grid, pattern):
-    state = gridSearch(grid, pattern)
-    if state:
+def printGridSearch(grid, pattern):
+    result = gridSearch(grid, pattern)
+    if result:
         print("YES")
     else:
         print("NO")
@@ -57,4 +58,4 @@ if __name__ == '__main__':
             P_item = input()
             patternList.append(P_item)
 
-        printReturnCases(gridList, patternList)
+        printGridSearch(gridList, patternList)
