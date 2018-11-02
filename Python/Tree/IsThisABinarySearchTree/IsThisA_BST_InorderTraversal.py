@@ -8,27 +8,31 @@ def check(root, visitedNodesValues):
         check(root.right, visitedNodesValues)
 
 
-def getCheckIfBSTResult(tree, initialNodesNum):
+def getCheckIfBSTResult(tree):
     inorderNodeValues = []
 
     check(tree.root, inorderNodeValues)
 
     for i in range(0, len(inorderNodeValues) - 1):
-        if inorderNodeValues[i] > inorderNodeValues[i + 1] or len(inorderNodeValues) != initialNodesNum:
+        if inorderNodeValues[i] > inorderNodeValues[i + 1]:
             return False
     return True
 
 
 def main():
-    tree = BinarySearchTree.BinarySearchTree()
     nodesList = [4, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14, 16, 16]
-    initialNodesNum = len(nodesList)
 
-    for node in range(len(nodesList)):
-        tree.insert(nodesList[node])
+    if len(nodesList) == len(set(nodesList)):
+        tree = BinarySearchTree.BinarySearchTree()
 
-    isBST = getCheckIfBSTResult(tree, initialNodesNum)
-    print(isBST)
+        for node in range(len(nodesList)):
+            tree.insert(nodesList[node])
+
+        isBST = getCheckIfBSTResult(tree)
+        print("Yes" if isBST else "No")
+
+    else:
+        print("No")
 
 if __name__ == "__main__":
     main()
