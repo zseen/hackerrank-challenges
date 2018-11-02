@@ -21,16 +21,16 @@ def returnCheckIfBST(node):
 
 
 def main():
-    nodesList = [4, 2, 3, 1, 5, 6, 7]
+    nodesList = [4, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14, 16, 16]
 
     tree = BinarySearchTree.BinarySearchTree()
     for node in range(len(nodesList)):
         tree.insert(nodesList[node])
 
-    if checkIfBST(tree.root, MIN_INT, MAX_INT):
-        print("Yes")
-    else:
+    if not checkIfBST(tree.root, MIN_INT, MAX_INT) or len(nodesList) != len(set(nodesList)):
         print("No")
+    else:
+        print("Yes")
 
 
 if __name__ == "__main__":
