@@ -1,4 +1,21 @@
-from Library.Tree import BinarySearchTree
+
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+class Tree:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, value):
+        if self.root is None:
+            self.root = Node(value)
+        else:
+            self.insert(value)
+
 
 
 def check(root, visitedNodesValues):
@@ -8,10 +25,10 @@ def check(root, visitedNodesValues):
         check(root.right, visitedNodesValues)
 
 
-def getCheckIfBSTResult(tree):
+def getCheckIfBSTResult(root):
     inorderNodeValues = []
 
-    check(tree.root, inorderNodeValues)
+    check(root, inorderNodeValues)
 
     for i in range(0, len(inorderNodeValues) - 1):
         if inorderNodeValues[i] > inorderNodeValues[i + 1]:
@@ -20,19 +37,22 @@ def getCheckIfBSTResult(tree):
 
 
 def main():
-    nodesList = [4, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14, 16, 16]
+    #nodesList = [4, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14, 16, 16]
 
-    if len(nodesList) == len(set(nodesList)):
-        tree = BinarySearchTree.BinarySearchTree()
+    tree = Tree()
 
-        for node in range(len(nodesList)):
-            tree.insert(nodesList[node])
+    root = Node(10)
+    root.right = Node(15)
 
-        isBST = getCheckIfBSTResult(tree)
-        print("Yes" if isBST else "No")
+    root.left = Node(2)
 
-    else:
-        print("No")
+    #for node in range(len(nodesList)):
+        #tree.insert(nodesList[node])
+
+    isBST = getCheckIfBSTResult(root)
+    print("Yes" if isBST else "No")
+
+
 
 if __name__ == "__main__":
     main()
