@@ -1,8 +1,14 @@
-from Library.Tree import BinarySearchTree
 import sys
 
 MIN_INT = - sys.maxsize - 1
 MAX_INT = sys.maxsize
+
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
 
 
 def checkIfBST(node, smallestNum, biggestNum):
@@ -21,20 +27,14 @@ def returnCheckIfBST(node):
 
 
 def main():
-    nodesList = [4, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 14, 16, 16]
+    root = Node(10)
+    root.right = Node(12)
+    root.left = Node(2)
 
-    if len(nodesList) == len(set(nodesList)):
-        tree = BinarySearchTree.BinarySearchTree()
-        for node in range(len(nodesList)):
-            tree.insert(nodesList[node])
-
-        if checkIfBST(tree.root, MIN_INT, MAX_INT):
-            print("Yes")
-        else:
-            print("No")
+    if checkIfBST(root, MIN_INT, MAX_INT):
+        print("Yes")
     else:
         print("No")
-
 
 if __name__ == "__main__":
     main()

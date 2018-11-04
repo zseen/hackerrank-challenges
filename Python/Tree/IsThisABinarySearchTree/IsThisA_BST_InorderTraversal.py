@@ -26,7 +26,6 @@ def getCheckIfBSTResult(root):
 def main():
     root = Node(10)
     root.right = Node(1)
-
     root.left = Node(2)
 
     isBST = getCheckIfBSTResult(root)
