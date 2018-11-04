@@ -2,50 +2,47 @@
 
 import os
 import sys
+from collections import deque
 
 #
 # Complete the componentsInGraph function below.
 #
 
-class Node:
-    def __init__(self, id):
-        self.id = id
-        self.parent = None
+class NodeWithDistance:
+    def __init__(self, nodeId, distance):
+        self.nodeId = nodeId
+        self.distance = distance
 
 
-class UnionFind:
-    def __init__(self, numSets):
-        self.nodeIdToNode = {}
-        for i in range(1, numSets + 1):
-            self.nodeIdToNode[i] = Node(i)
+class Graph:
+    def __init__(self):
+        self.nodeIdToNeighbors = {}
 
-    def union(self, id1, id2):
-        p1 = self.find(id1)
-        p2 = self.find(id2)
+    def addNode(self, nodeID):
+        self.nodeIdToNeighbors[nodeID] = set()
 
-        p1.parent = p2
+    def addEdge(self, startNodeId, endNodeID):
+        self.nodeIdToNeighbors[startNodeId].add(endNodeID)
 
-    def find(self, id):
-        node = self.nodeIdToNode[id]
+    def BFS(self, startNodeId):
+        queue = deque()
+        startNodeWithDistance = NodeWithDistance(startNodeId, 0)
+        queue.appendleft(startNodeWithDistance)
+        visitedSet = set()
+        nodesWithDistances = []
 
-        potentialParent = node
+        while queue:
+            currentNodeWithDistance = queue.pop()
+            visitedSet.add(currentNodeWithDistance.nodeId)
+            nodesWithDistances.append(currentNodeWithDistance)
+            neighborNodes = self.nodeIdToNeighbors[currentNodeWithDistance.nodeId]
+            for neighborId in neighborNodes:
+                if neighborId not in visitedSet:
+                    neighborNodeWithDistance = NodeWithDistance(neighborId, currentNodeWithDistance.distance + 1)
+                    queue.appendleft(neighborNodeWithDistance)
+                    visitedSet.add(neighborNodeWithDistance.nodeId)
 
-        while potentialParent.parent is not None:
-            potentialParent = potentialParent.parent
-
-        return potentialParent
-
-
-def getNumComponents(numNodes, edges):
-    unionfind = UnionFind(numNodes)
-    numComponents = numNodes
-
-    for startId, endId in edges:
-        if unionfind.find(startId) != unionfind.find(endId):
-            unionfind.union(startId, endId)
-            numComponents -= 1
-
-    return numComponents
+        return nodesWithDistances
 
 
 
@@ -53,9 +50,7 @@ def getNumComponents(numNodes, edges):
 
 
 def componentsInGraph(gb):
-    #
-    # Write your code here.
-    pass
+     pass
 
 if __name__ == '__main__':
     sys.stdin = open("ComponentsInAGraph_input.txt")
@@ -67,8 +62,25 @@ if __name__ == '__main__':
     for _ in range(n):
         gb.append(list(map(int, input().rstrip().split())))
 
+    notNested = []
+    for inner_l in gb:
+        for item in inner_l:
+            notNested.append(item)
 
-    print(gb)
+
+    graph = Graph()
+    for nodeId in notNested:
+        graph.addNode(nodeId)
+
+    for graphEdges in gb:
+        graph.addEdge(graphEdges[0], graphEdges[1])
+        graph.addEdge(graphEdges[1], graphEdges[0])
+
+    l = graph.BFS(notNested[0])
+    print(l)
+
+
+
 
     #result = getNumComponents()
     #print(result)
