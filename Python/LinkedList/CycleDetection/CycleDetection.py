@@ -38,15 +38,15 @@ def print_singly_linked_list(node, sep, fptr):
 
 
 def has_cycle(head):
-    fastNode = head
-    slowNode = head
-    while :
-        fastNode = fastNode.next.next
-        slowNode = slowNode.next
-        if fastNode == slowNode:
-            return 1
-
-    return 0
+    if head:
+        fastNode = head
+        slowNode = head
+        while fastNode and fastNode.next:
+            fastNode = fastNode.next.next
+            slowNode = slowNode.next
+            if fastNode == slowNode:
+                return True
+    return False
 
 
 if __name__ == '__main__':
@@ -78,5 +78,4 @@ if __name__ == '__main__':
         temp.next = extra
 
         result = has_cycle(llist.head)
-
         print(result)
