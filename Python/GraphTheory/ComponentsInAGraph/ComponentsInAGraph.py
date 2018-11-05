@@ -38,7 +38,7 @@ class Graph:
 
         return visitedSet
 
-    def componentsInGraph(self):
+    def getSmallestAndBiggestComponentsSizes(self):
         initialNodesList = list(self.nodeIdToNeighbors.keys())
 
         biggestComponent = 0
@@ -46,11 +46,6 @@ class Graph:
 
         while initialNodesList:
             currentlyVisitedNodeIDsSet = self.BFS(initialNodesList[0])
-
-            for item in currentlyVisitedNodeIDsSet:
-                if item in initialNodesList:
-                    initialNodesList.remove(item)
-
             currentlyVisitedNodesNum = len(currentlyVisitedNodeIDsSet)
 
             if currentlyVisitedNodesNum > biggestComponent:
@@ -58,6 +53,10 @@ class Graph:
 
             if 1 < currentlyVisitedNodesNum < smallestComponent:
                 smallestComponent = currentlyVisitedNodesNum
+
+            for item in currentlyVisitedNodeIDsSet:
+                if item in initialNodesList:
+                    initialNodesList.remove(item)
 
         return [smallestComponent, biggestComponent]
 
@@ -73,8 +72,7 @@ def main():
 
     allNodesInEdgesList = []
     for subList in gb:
-        for item in subList:
-            allNodesInEdgesList.append(item)
+        allNodesInEdgesList.extend(subList)
 
     graph = Graph()
     for nodeId in allNodesInEdgesList:
@@ -84,7 +82,7 @@ def main():
         graph.addEdge(graphEdges[0], graphEdges[1])
         graph.addEdge(graphEdges[1], graphEdges[0])
 
-    smallestAndBiggestComponentList = graph.componentsInGraph()
+    smallestAndBiggestComponentList = graph.getSmallestAndBiggestComponentsSizes()
     print(smallestAndBiggestComponentList[0], smallestAndBiggestComponentList[1])
 
 
