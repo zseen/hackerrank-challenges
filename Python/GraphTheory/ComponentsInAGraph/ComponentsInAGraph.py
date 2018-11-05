@@ -45,46 +45,49 @@ class Graph:
         smallestComponent = sys.maxsize
 
         while initialNodesList:
-            currentlyVisitedNodeIDs = self.BFS(initialNodesList[0])
+            currentlyVisitedNodeIDsSet = self.BFS(initialNodesList[0])
 
-            for item in currentlyVisitedNodeIDs:
+            for item in currentlyVisitedNodeIDsSet:
                 if item in initialNodesList:
                     initialNodesList.remove(item)
 
-            if len(currentlyVisitedNodeIDs) > biggestComponent:
-                biggestComponent = len(currentlyVisitedNodeIDs)
+            currentlyVisitedNodesNum = len(currentlyVisitedNodeIDsSet)
 
-            if 1 < len(currentlyVisitedNodeIDs) < smallestComponent:
-                smallestComponent = len(currentlyVisitedNodeIDs)
+            if currentlyVisitedNodesNum > biggestComponent:
+                biggestComponent = currentlyVisitedNodesNum
+
+            if 1 < currentlyVisitedNodesNum < smallestComponent:
+                smallestComponent = currentlyVisitedNodesNum
 
         return [smallestComponent, biggestComponent]
 
 
-if __name__ == '__main__':
+def main():
     sys.stdin = open("ComponentsInAGraph_input.txt")
 
     n = int(input())
-
     gb = []
 
     for _ in range(n):
         gb.append(list(map(int, input().rstrip().split())))
 
-    notNested = []
-    for inner_l in gb:
-        for item in inner_l:
-            notNested.append(item)
-
+    allNodesInEdgesList = []
+    for subList in gb:
+        for item in subList:
+            allNodesInEdgesList.append(item)
 
     graph = Graph()
-    for nodeId in notNested:
+    for nodeId in allNodesInEdgesList:
         graph.addNode(nodeId)
 
     for graphEdges in gb:
         graph.addEdge(graphEdges[0], graphEdges[1])
         graph.addEdge(graphEdges[1], graphEdges[0])
 
-    l = graph.componentsInGraph()
+    smallestAndBiggestComponentList = graph.componentsInGraph()
+    print(smallestAndBiggestComponentList[0], smallestAndBiggestComponentList[1])
 
-    print(l)
+
+if __name__ == '__main__':
+    main()
 
