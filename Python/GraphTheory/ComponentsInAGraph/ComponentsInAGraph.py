@@ -4,14 +4,10 @@ import os
 import sys
 from collections import deque
 
-#
-# Complete the componentsInGraph function below.
-#
 
-class NodeWithDistance:
-    def __init__(self, nodeId, distance):
+class Node:
+    def __init__(self, nodeId):
         self.nodeId = nodeId
-        self.distance = distance
 
 
 class Graph:
@@ -26,31 +22,43 @@ class Graph:
 
     def BFS(self, startNodeId):
         queue = deque()
-        startNodeWithDistance = NodeWithDistance(startNodeId, 0)
-        queue.appendleft(startNodeWithDistance)
+        startNode = Node(startNodeId)
+        queue.appendleft(startNode)
         visitedSet = set()
-        nodesWithDistances = []
 
         while queue:
-            currentNodeWithDistance = queue.pop()
-            visitedSet.add(currentNodeWithDistance.nodeId)
-            nodesWithDistances.append(currentNodeWithDistance)
-            neighborNodes = self.nodeIdToNeighbors[currentNodeWithDistance.nodeId]
+            currentNode = queue.pop()
+            visitedSet.add(currentNode.nodeId)
+            neighborNodes = self.nodeIdToNeighbors[currentNode.nodeId]
             for neighborId in neighborNodes:
                 if neighborId not in visitedSet:
-                    neighborNodeWithDistance = NodeWithDistance(neighborId, currentNodeWithDistance.distance + 1)
-                    queue.appendleft(neighborNodeWithDistance)
-                    visitedSet.add(neighborNodeWithDistance.nodeId)
+                    neighborNode = Node(neighborId)
+                    queue.appendleft(neighborNode)
+                    visitedSet.add(neighborNode.nodeId)
 
-        return nodesWithDistances
+        return visitedSet
 
+    def componentsInGraph(self):
+        initialNodesList = list(self.nodeIdToNeighbors.keys())
 
+        biggestComponent = 0
+        smallestComponent = sys.maxsize
 
+        while initialNodesList:
+            currentlyVisitedNodeIDs = self.BFS(initialNodesList[0])
 
+            for item in currentlyVisitedNodeIDs:
+                if item in initialNodesList:
+                    initialNodesList.remove(item)
 
+            if len(currentlyVisitedNodeIDs) > biggestComponent:
+                biggestComponent = len(currentlyVisitedNodeIDs)
 
-def componentsInGraph(gb):
-     pass
+            if 1 < len(currentlyVisitedNodeIDs) < smallestComponent:
+                smallestComponent = len(currentlyVisitedNodeIDs)
+
+        return [smallestComponent, biggestComponent]
+
 
 if __name__ == '__main__':
     sys.stdin = open("ComponentsInAGraph_input.txt")
@@ -76,11 +84,7 @@ if __name__ == '__main__':
         graph.addEdge(graphEdges[0], graphEdges[1])
         graph.addEdge(graphEdges[1], graphEdges[0])
 
-    l = graph.BFS(notNested[0])
+    l = graph.componentsInGraph()
+
     print(l)
 
-
-
-
-    #result = getNumComponents()
-    #print(result)
