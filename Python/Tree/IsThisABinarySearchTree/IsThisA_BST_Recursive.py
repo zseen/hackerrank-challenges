@@ -11,19 +11,19 @@ class Node:
         self.right = None
 
 
-def checkIfBST(node, smallestNum, biggestNum):
+def checkRecursively(node, smallestNum, biggestNum):
     if node is None:
         return True
 
     if node.value <= smallestNum or node.value >= biggestNum:
         return False
 
-    return (checkIfBST(node.left, smallestNum, node.value) and
-            checkIfBST(node.right, node.value, biggestNum))
+    return (checkRecursively(node.left, smallestNum, node.value) and
+            checkRecursively(node.right, node.value, biggestNum))
 
 
-def returnCheckIfBST(node):
-    return checkIfBST(node, MIN_INT, MAX_INT)
+def getResultBST(node):
+    return checkRecursively(node, MIN_INT, MAX_INT)
 
 
 def main():
@@ -31,7 +31,7 @@ def main():
     root.right = Node(12)
     root.left = Node(2)
 
-    if checkIfBST(root, MIN_INT, MAX_INT):
+    if getResultBST(root):
         print("Yes")
     else:
         print("No")
