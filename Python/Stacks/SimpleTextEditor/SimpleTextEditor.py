@@ -18,10 +18,8 @@ class TextEditor:
         self.stringInListForm = self.stack[self.index]
 
     def printRequestedChar(self, charToPrintIndex):
-        if len(self.stringInListForm) >= charToPrintIndex:
-            print(self.stringInListForm[charToPrintIndex - 1])
-        else:
-            print("String is shorter than " + str(charToPrintIndex) + " characters.")
+        print(self.stringInListForm[charToPrintIndex - 1])
+       
 
     def undoLastModification(self):
         self.stack.pop()
