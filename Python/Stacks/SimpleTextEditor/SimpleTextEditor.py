@@ -1,63 +1,51 @@
 import sys
 
-class Stack:
+
+class TextEditor:
     def __init__(self):
-        self.string = ""
-        self.stack = []
+        self.stringInListForm = []
+        self.stack = [self.stringInListForm]
+        self.index = 0
 
     def appendString(self, ending):
-        self.string += str(ending)
-        self.stack.append(self.string)
-        #return self.string
+        self.stack.append(self.stringInListForm + list(ending))
+        self.index += 1
+        self.stringInListForm = self.stack[self.index]
 
-    def deleteEnd(self, charsNumToChop):
-        self.string = self.string[:-charsNumToChop]
-        self.stack.append(self.string)
-        #return self.string
+    def deleteFromEnd(self, charsNumToChop):
+        self.stack.append(self.stringInListForm[:-charsNumToChop])
+        self.index += 1
+        self.stringInListForm = self.stack[self.index]
 
-    def printRequestedChar(self, charToPrint):
-        print(self.string[charToPrint])
-        #return self.string
+    def printRequestedChar(self, charToPrintIndex):
+        if len(self.stringInListForm) >= charToPrintIndex:
+            print(self.stringInListForm[charToPrintIndex - 1])
+        else:
+            print("String is shorter than " + str(charToPrintIndex) + " characters.")
 
-
-    def undo(self):
+    def undoLastModification(self):
         self.stack.pop()
-        self.string = self.stack[-1]
-        #return self.string
-
-    def printString(self):
-        print(self.string)
+        self.index -= 1
+        self.stringInListForm = self.stack[self.index]
 
 
 def main():
     sys.stdin = open("SimpleTextEditor_input.txt")
 
-    string = Stack()
-
-
-
-
+    word = TextEditor()
 
     n = int(input().strip())
 
     for _ in range(n):
-        x = input().split()
-        if x[0] == '1':
-            string.appendString(x[1])
-            #string.printString()
-        elif x[0] == '2':
-            string.deleteEnd(int(x[1]))
-            #string.printString()
-        elif x[0] == '3':
-            string.printRequestedChar(int(x[1]) - 1)
-            #string.printString()
-        elif x[0] == '4':
-            string.undo()
-            #string.printString()
-
-
-
+        command = input().split()
+        if command[0] == '1':
+            word.appendString(command[1])
+        elif command[0] == '2':
+            word.deleteFromEnd(int(command[1]))
+        elif command[0] == '3':
+            word.printRequestedChar(int(command[1]))
+        elif command[0] == '4':
+            word.undoLastModification()
 
 if __name__ == "__main__":
     main()
-
