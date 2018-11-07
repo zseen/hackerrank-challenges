@@ -4,22 +4,21 @@ import sys
 class TextEditor:
     def __init__(self):
         self.stringInListForm = []
-        self.operatingStack = [self.stringInListForm]
+        self.operatingStack = []
 
     def appendString(self, ending):
-        self.operatingStack.append(self.stringInListForm + list(ending))
-        self.stringInListForm = self.operatingStack[-1]
+        self.operatingStack.append(self.stringInListForm)
+        self.stringInListForm = self.stringInListForm + list(ending)
 
     def deleteFromEnd(self, charsNumToSlice):
-        self.stringInListForm = self.stringInListForm[:-charsNumToSlice]
         self.operatingStack.append(self.stringInListForm)
+        self.stringInListForm = self.stringInListForm[:-charsNumToSlice]
 
     def printRequestedChar(self, charToPrintIndex):
         print(self.stringInListForm[charToPrintIndex - 1])
 
     def undoLastModification(self):
-        self.operatingStack.pop()
-        self.stringInListForm = self.operatingStack[-1]
+        self.stringInListForm = self.operatingStack.pop()
 
 
 def main():
