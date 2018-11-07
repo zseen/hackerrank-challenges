@@ -4,27 +4,23 @@ import sys
 class TextEditor:
     def __init__(self):
         self.stringInListForm = []
-        self.stack = [self.stringInListForm]
-        self.index = 0
+        self.operatingStack = [self.stringInListForm]
 
     def appendString(self, ending):
-        self.stack.append(self.stringInListForm + list(ending))
-        self.index += 1
-        self.stringInListForm = self.stack[self.index]
+        tempList = self.stringInListForm + list(ending)
+        self.stringInListForm = tempList
+        self.operatingStack.append(self.stringInListForm)
 
-    def deleteFromEnd(self, charsNumToChop):
-        self.stack.append(self.stringInListForm[:-charsNumToChop])
-        self.index += 1
-        self.stringInListForm = self.stack[self.index]
+    def deleteFromEnd(self, charsNumToSlice):
+        self.stringInListForm = self.stringInListForm[:-charsNumToSlice]
+        self.operatingStack.append(self.stringInListForm)
 
     def printRequestedChar(self, charToPrintIndex):
         print(self.stringInListForm[charToPrintIndex - 1])
-       
 
     def undoLastModification(self):
-        self.stack.pop()
-        self.index -= 1
-        self.stringInListForm = self.stack[self.index]
+        self.operatingStack.pop()
+        self.stringInListForm = self.operatingStack[-1]
 
 
 def main():
@@ -42,7 +38,7 @@ def main():
             word.deleteFromEnd(int(command[1]))
         elif command[0] == '3':
             word.printRequestedChar(int(command[1]))
-        elif command[0] == '4':
+        else:
             word.undoLastModification()
 
 if __name__ == "__main__":
