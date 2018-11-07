@@ -7,9 +7,8 @@ class TextEditor:
         self.operatingStack = [self.stringInListForm]
 
     def appendString(self, ending):
-        tempList = self.stringInListForm + list(ending)
-        self.stringInListForm = tempList
-        self.operatingStack.append(self.stringInListForm)
+        self.operatingStack.append(self.stringInListForm + list(ending))
+        self.stringInListForm = self.operatingStack[-1]
 
     def deleteFromEnd(self, charsNumToSlice):
         self.stringInListForm = self.stringInListForm[:-charsNumToSlice]
