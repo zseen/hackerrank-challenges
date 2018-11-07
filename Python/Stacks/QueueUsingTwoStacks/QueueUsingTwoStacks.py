@@ -3,25 +3,24 @@ import sys
 
 class QueueWithTwoStacks:
     def __init__(self):
-        self.appendingStack = []
-        self.poppingStack = []
+        self.pushStack = []
+        self.popStack = []
 
     def enqueue(self, item):
-        self.appendingStack.append(item)
+        self.pushStack.append(item)
 
-    def moveItemsFromAppendingToPoppingStackIfEmpty(self):
-        if not self.poppingStack:
-            while self.appendingStack:
-                self.poppingStack.append(self.appendingStack.pop())
-        return self.poppingStack
+    def preparePopStack(self):
+        if not self.popStack:
+            while self.pushStack:
+                self.popStack.append(self.pushStack.pop())
 
     def dequeue(self):
-        self.moveItemsFromAppendingToPoppingStackIfEmpty()
-        self.poppingStack.pop()
+        self.preparePopStack()
+        self.popStack.pop()
 
     def printFirstItemInQueue(self):
-        self.moveItemsFromAppendingToPoppingStackIfEmpty()
-        print(self.poppingStack[-1])
+        self.preparePopStack()
+        print(self.popStack[-1])
 
 
 def main():
