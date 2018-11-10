@@ -7,13 +7,13 @@ import re
 import sys
 import unittest
 
-# Complete the biggerIsGreater function below.
+
 def getNextBiggerPermutation(word):
     wordCharsList = list(word)
 
     for i in range(len(wordCharsList) - 2, -1, -1):
         if wordCharsList[i] < wordCharsList[i + 1]:
-            for j in range(len(wordCharsList)-1, i - 1, - 1):
+            for j in range(len(wordCharsList) - 1, i - 1, -1):
                 if wordCharsList[j] > wordCharsList[i]:
                     wordCharsList[i], wordCharsList[j] = wordCharsList[j], wordCharsList[i]
                     wordCharsList[i + 1:] = reversed(wordCharsList[i + 1:])
