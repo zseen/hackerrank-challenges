@@ -13,6 +13,7 @@ def pairs(difference, numbersList):
     for key in numbersDict:
         if key + difference in numbersDict:
             pairsCounter += 1
+
     return pairsCounter
 
 
