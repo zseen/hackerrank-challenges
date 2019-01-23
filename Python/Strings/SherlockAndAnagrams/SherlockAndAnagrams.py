@@ -10,20 +10,42 @@ from collections import Counter
 # Complete the sherlockAndAnagrams function below.
 def createSubStringsList(string):
     subStringsList = []
-    for i in range(0, len(string)):
-        for j in range(i, len(string)):
-            subStringsList.append(string[i:j + 1])
-    return subStringsList
+    for i in range(0, len(string) ):
+        for j in range(i, len(string) ):
+            subStringsList.append(''.join(sorted(string[i:j + 1])))
+    return sorted(subStringsList)
 
-def getCharCountInString(s):
+def getCharCountInStringsList(s):
+    charCountList = []
     st = createSubStringsList(s)
     for sbstr in st:
         c = Counter(sbstr)
-        print(c)
+        charCountList.append(c)
+    return charCountList
+
+def getPatternCode(string):
+    countersList = getCharCountInStringsList(string)
+    #print(len(countersList))
+    pass
+
+
+
+
 
 def sherlockAndAnagrams(string):
+    substrrlist = createSubStringsList(string)
 
-    return getCharCountInString(string)
+    anagramCounter = 0
+
+    c = Counter(substrrlist)
+    print(c)
+
+    for key, value in c.items():
+        if c[key] > 1:
+            anagramCounter += c[key]
+    return anagramCounter  / 2
+
+    #return getPatternCode(string)
 
 
 if __name__ == '__main__':
