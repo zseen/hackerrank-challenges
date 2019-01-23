@@ -8,44 +8,23 @@ import sys
 from collections import Counter
 
 # Complete the sherlockAndAnagrams function below.
-def createSubStringsList(string):
-    subStringsList = []
-    for i in range(0, len(string) ):
-        for j in range(i, len(string) ):
-            subStringsList.append(''.join(sorted(string[i:j + 1])))
-    return sorted(subStringsList)
-
-def getCharCountInStringsList(s):
-    charCountList = []
-    st = createSubStringsList(s)
-    for sbstr in st:
-        c = Counter(sbstr)
-        charCountList.append(c)
-    return charCountList
-
-def getPatternCode(string):
-    countersList = getCharCountInStringsList(string)
-    #print(len(countersList))
-    pass
-
-
-
 
 
 def sherlockAndAnagrams(string):
-    substrrlist = createSubStringsList(string)
+    subStringsDict = {}
+    count = 0
 
-    anagramCounter = 0
+    for i in range(0, len(string)):
+        for j in range(i + 1, len(string) + 1):
+            currentSortedSubString = ''.join(sorted(string[i:j]))
+            if currentSortedSubString in subStringsDict:
+                count += subStringsDict[currentSortedSubString]
+                subStringsDict[currentSortedSubString] += 1
 
-    c = Counter(substrrlist)
-    print(c)
+            else:
+                subStringsDict[currentSortedSubString] = 1
 
-    for key, value in c.items():
-        if c[key] > 1:
-            anagramCounter += c[key]
-    return anagramCounter  / 2
-
-    #return getPatternCode(string)
+    return count
 
 
 if __name__ == '__main__':
