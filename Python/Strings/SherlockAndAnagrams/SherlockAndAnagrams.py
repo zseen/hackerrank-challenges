@@ -2,8 +2,6 @@
 
 import sys
 
-# Complete the sherlockAndAnagrams function below.
-
 
 def sherlockAndAnagrams(string):
     subStringsDict = {}
