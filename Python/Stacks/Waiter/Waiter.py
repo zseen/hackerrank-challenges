@@ -7,23 +7,24 @@ from WaiterPrimes import first1200Primes as primes
 def waiter(numbersList, iterNum):
     divisibleNums = []
     numsOrderForPrintingList = []
+    remainingNumbersList = []
 
     for index in range(0, iterNum):
-        remainingNumbersList = numbersList
-        numbersList = []
+        numbersList.extend(remainingNumbersList)
+        remainingNumbersList = []
         divisibleNums.append([])
-        while len(remainingNumbersList) != 0:
-            currentNum = remainingNumbersList.pop()
+        while len(numbersList) != 0:
+            currentNum = numbersList.pop()
             if currentNum % primes[index] == 0:
                 divisibleNums[index].append(currentNum)
             else:
-                numbersList.append(currentNum)
+                remainingNumbersList.append(currentNum)
 
     for subList in divisibleNums:
         while len(subList) != 0:
             numsOrderForPrintingList.append(subList.pop())
 
-    numsOrderForPrintingList.extend(reversed(numbersList))
+    numsOrderForPrintingList.extend(reversed(remainingNumbersList))
 
     return numsOrderForPrintingList
 
