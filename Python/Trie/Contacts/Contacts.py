@@ -4,21 +4,14 @@ import os
 import sys
 
 
-def createWordsList(queries):
-    wordsList = []
-
-    for query in queries:
-        if query[0] == 'add':
-            wordsList.append(query[1])
-    return wordsList
-
-
 def findSubWordInWordsList(queries):
-    wl = createWordsList(queries)
+    wl = []
     cntList = []
 
     for query in queries:
-        if query[0] == 'find':
+        if query[0] == 'add':
+            wl.append(query[1])
+        elif query[0] == 'find':
             cnt = 0
             for item in wl:
                 if query[1] in item:
