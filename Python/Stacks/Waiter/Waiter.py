@@ -12,13 +12,15 @@ def waiter(numbersList, iterNum):
     for index in range(0, iterNum):
         remainingNumbersList = []
         currentDivisibleNums = []
-        divisibleNums.append(currentDivisibleNums)
+
         while len(numbersList) != 0:
             currentNum = numbersList.pop()
             if currentNum % primes[index] == 0:
                 currentDivisibleNums.append(currentNum)
             else:
                 remainingNumbersList.append(currentNum)
+
+        divisibleNums.append(currentDivisibleNums)
         numbersList = remainingNumbersList
 
     for subList in divisibleNums:
