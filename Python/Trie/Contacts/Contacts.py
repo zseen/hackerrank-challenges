@@ -1,40 +1,54 @@
 #!/bin/python3
 
-import os
 import sys
 
 
-def findSubWordInWordsList(queries):
-    wl = []
-    cntList = []
-
-    for query in queries:
-        if query[0] == 'add':
-            wl.append(query[1])
-        elif query[0] == 'find':
-            cnt = 0
-            for item in wl:
-                if query[1] in item:
-                    cnt += 1
-            cntList.append(cnt)
-
-    return cntList
+class Node:
+    def __init__(self):
+        self.children = {}
+        self.count = 0
 
 
-def contacts(queries):
-    return findSubWordInWordsList(queries)
+class Trie:
+    def __init__(self):
+        self.root = Node()
 
-if __name__ == '__main__':
+    def add(self, string):
+        currentNode = self.root
+
+        for char in string:
+            if not currentNode.children.get(char):
+                currentNode.children[char] = Node()
+
+            currentNode = currentNode.children[char]
+            currentNode.count += 1
+
+    def find(self, string):
+        currentNode = self.root
+
+        for char in string:
+            if not currentNode.children.get(char):
+                currentNodeCount = 0
+                return currentNodeCount
+
+            currentNode = currentNode.children[char]
+
+        return currentNode.count
+
+
+def main():
     sys.stdin = open("Contacts_input.txt")
 
     queries_rows = int(input())
+    trie = Trie()
 
-    queries = []
+    for i in range(queries_rows):
+        query = input().split()
+        if query[0] == 'add':
+            trie.add(query[1])
+        elif query[0] == 'find':
+            print(trie.find(query[1]))
 
-    for _ in range(queries_rows):
-        queries.append(input().rstrip().split())
-
-    #print(queries)
-
-    result = contacts(queries)
-    print(result)
+if __name__ == '__main__':
+    main()
+    
