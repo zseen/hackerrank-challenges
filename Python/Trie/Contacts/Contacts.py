@@ -28,8 +28,7 @@ class Trie:
 
         for char in string:
             if not currentNode.children.get(char):
-                currentNodeCount = 0
-                return currentNodeCount
+                return 0
 
             currentNode = currentNode.children[char]
 
