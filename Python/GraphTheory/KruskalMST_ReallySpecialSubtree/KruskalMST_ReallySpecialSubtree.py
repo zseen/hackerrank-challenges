@@ -1,11 +1,3 @@
-#KruskalMST_ReallySpecialSubtree.py
-
-#!/bin/python3
-
-import math
-import os
-import random
-import re
 import sys
 
 
@@ -61,12 +53,26 @@ class Graph:
         return self.vertex2
 
     def sortGraphByWeight(self):
-        self.edgesWithWeight.sort(key=lambda x:x[2])
+        self.edgesWithWeight.sort(key=lambda x: x[2])
 
-if __name__ == '__main__':
+
+def getMinimumWeight(mst, graph):
+    minimumWeightTotal = 0
+    for edge in graph.edgesWithWeight:
+        vertex1 = graph.getVertex1(edge)
+        vertex2 = graph.getVertex2(edge)
+        parent1 = mst.find(vertex1)
+        parent2 = mst.find(vertex2)
+        if parent1 != parent2:
+            minimumWeightTotal += graph.getEdgeWeight(edge)
+            mst.union(vertex1, vertex2)
+
+    return minimumWeightTotal
+
+
+def main():
     sys.stdin = open("KruskalMST_ReallySpecialSubtree_input.txt")
     g_nodes, g_edges = map(int, input().split())
-
     g_from = [0] * g_edges
     g_to = [0] * g_edges
     g_weight = [0] * g_edges
@@ -80,17 +86,8 @@ if __name__ == '__main__':
 
     graph.sortGraphByWeight()
 
-    minimumCost = 0
-    for edge in graph.edgesWithWeight:
-        vertex1 = graph.getVertex1(edge)
-        vertex2 = graph.getVertex2(edge)
-        parent1 = mst.find(vertex1)
-        parent2 = mst.find(vertex2)
-        if parent1 != parent2:
-            x = minimumCost
-            minimumCost += graph.getEdgeWeight(edge)
-            mst.union(vertex1, vertex2)
+    minimumWeight = getMinimumWeight(mst, graph)
+    print(minimumWeight)
 
-    print(minimumCost)
-
-
+if __name__ == '__main__':
+    main()
