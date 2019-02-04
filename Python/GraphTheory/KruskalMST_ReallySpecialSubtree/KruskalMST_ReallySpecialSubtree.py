@@ -42,13 +42,23 @@ class Graph:
     def __init__(self):
         self.edgesWithWeight = []
         self.edgeWeight = None
+        self.vertex1 = None
+        self.vertex2 = None
 
-    def addEdgesWithWeight(self, edgesWithWeight):
-        self.edgesWithWeight.append(edgesWithWeight)
+    def addEdgeWithWeight(self, edgeWithWeight):
+        self.edgesWithWeight.append(edgeWithWeight)
 
     def getEdgeWeight(self, edge):
         self.edgeWeight = edge[2]
         return self.edgeWeight
+
+    def getVertex1(self, edge):
+        self.vertex1 = edge[0]
+        return self.vertex1
+
+    def getVertex2(self, edge):
+        self.vertex2 = edge[1]
+        return self.vertex2
 
     def sortGraphByWeight(self):
         self.edgesWithWeight.sort(key=lambda x:x[2])
@@ -66,21 +76,20 @@ if __name__ == '__main__':
     graph = Graph()
     for i in range(g_edges):
         g_from[i], g_to[i], g_weight[i] = map(int, input().split())
-        graph.addEdgesWithWeight([g_from[i], g_to[i], g_weight[i]])
-
+        graph.addEdgeWithWeight([g_from[i], g_to[i], g_weight[i]])
 
     graph.sortGraphByWeight()
-    #print(graph.edgesWithWeight)
 
     minimumCost = 0
     for edge in graph.edgesWithWeight:
-        #print(edge)
-        vertex1, vertex2, weight = edge
+        vertex1 = graph.getVertex1(edge)
+        vertex2 = graph.getVertex2(edge)
         parent1 = mst.find(vertex1)
         parent2 = mst.find(vertex2)
         if parent1 != parent2:
+            x = minimumCost
             minimumCost += graph.getEdgeWeight(edge)
-            mst.union(vertex1,vertex2)
+            mst.union(vertex1, vertex2)
 
     print(minimumCost)
 
