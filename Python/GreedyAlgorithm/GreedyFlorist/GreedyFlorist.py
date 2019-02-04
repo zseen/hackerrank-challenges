@@ -1,38 +1,32 @@
-#!/bin/python3
-
-import math
-import os
-import random
-import re
 import sys
 
-# Complete the getMinimumCost function below.
+
 def getMinimumCost(friendsNum, flowersPricesList):
-    flowersPricesList = list(reversed(sorted(flowersPricesList)))
+    flowersPricesList = sorted(flowersPricesList, reverse=True)
     purchasingFriendID = 0
-    moneySpentTotal = 0
-    round = 0
-    stem = 1
+    minimumSpentTotal = 0
+    purchaseRound = 0
 
     for price in flowersPricesList:
-        moneySpentTotal += price * (round + stem)
+        minimumSpentTotal += (purchaseRound + 1) * price
 
-        purchasingFriendID += 1
-        if purchasingFriendID == friendsNum:
+        if purchasingFriendID + 1 == friendsNum:
             purchasingFriendID = 0
-            round += 1
+            purchaseRound += 1
+        else:
+            purchasingFriendID += 1
 
-    return moneySpentTotal
+    return minimumSpentTotal
 
 
-
-if __name__ == '__main__':
+def main():
     sys.stdin = open("GreedyFlorist_input.txt")
-
     nk = input().split()
-    flowersNum = int(nk[0])
     friendsNum = int(nk[1])
     flowersPricesList = list(map(int, input().rstrip().split()))
 
     minimumCost = getMinimumCost(friendsNum, flowersPricesList)
     print(minimumCost)
+
+if __name__ == '__main__':
+    main()
