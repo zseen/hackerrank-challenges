@@ -8,6 +8,7 @@ import random
 import re
 import sys
 
+
 class Node:
     def __init__(self, id):
         self.id = id
@@ -37,6 +38,20 @@ class UnionFind:
         return potentialParent
 
 
+class Graph:
+    def __init__(self):
+        self.edgesWithWeight = []
+        self.edgeWeight = None
+
+    def addEdgesWithWeight(self, edgesWithWeight):
+        self.edgesWithWeight.append(edgesWithWeight)
+
+    def getEdgeWeight(self, edge):
+        self.edgeWeight = edge[2]
+        return self.edgeWeight
+
+    def sortGraphByWeight(self):
+        self.edgesWithWeight.sort(key=lambda x:x[2])
 
 if __name__ == '__main__':
     sys.stdin = open("KruskalMST_ReallySpecialSubtree_input.txt")
@@ -48,20 +63,23 @@ if __name__ == '__main__':
 
     mst = UnionFind(g_nodes)
 
-    graph = []
+    graph = Graph()
     for i in range(g_edges):
         g_from[i], g_to[i], g_weight[i] = map(int, input().split())
-        graph.append([g_from[i], g_to[i], g_weight[i]])
+        graph.addEdgesWithWeight([g_from[i], g_to[i], g_weight[i]])
 
-    graph.sort(key=lambda x:x[2])
+
+    graph.sortGraphByWeight()
+    #print(graph.edgesWithWeight)
 
     minimumCost = 0
-    for edge in graph:
+    for edge in graph.edgesWithWeight:
+        #print(edge)
         vertex1, vertex2, weight = edge
         parent1 = mst.find(vertex1)
         parent2 = mst.find(vertex2)
         if parent1 != parent2:
-            minimumCost += edge[2]
+            minimumCost += graph.getEdgeWeight(edge)
             mst.union(vertex1,vertex2)
 
     print(minimumCost)
