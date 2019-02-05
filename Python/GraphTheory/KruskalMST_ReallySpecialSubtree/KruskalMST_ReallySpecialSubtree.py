@@ -30,42 +30,21 @@ class UnionFind:
         return potentialParent
 
 
-class Graph:
-    def __init__(self):
-        self.edgesWithWeight = []
-        self.edgeWeight = None
-        self.vertex1 = None
-        self.vertex2 = None
-
-    def addEdgeWithWeight(self, edgeWithWeight):
-        self.edgesWithWeight.append(edgeWithWeight)
-
-    def getEdgeWeight(self, edge):
-        self.edgeWeight = edge[2]
-        return self.edgeWeight
-
-    def getVertex1(self, edge):
-        self.vertex1 = edge[0]
-        return self.vertex1
-
-    def getVertex2(self, edge):
-        self.vertex2 = edge[1]
-        return self.vertex2
-
-    def sortGraphByWeight(self):
-        self.edgesWithWeight.sort(key=lambda x: x[2])
+class Edge:
+    def __init__(self, startVertex, endVertex, weight):
+        self.startVertex = startVertex
+        self.endVertex = endVertex
+        self.weight = weight
 
 
 def getMinimumWeight(mst, graph):
     minimumWeightTotal = 0
-    for edge in graph.edgesWithWeight:
-        vertex1 = graph.getVertex1(edge)
-        vertex2 = graph.getVertex2(edge)
-        parent1 = mst.find(vertex1)
-        parent2 = mst.find(vertex2)
+    for edge in graph:
+        parent1 = mst.find(edge.startVertex)
+        parent2 = mst.find(edge.endVertex)
         if parent1 != parent2:
-            minimumWeightTotal += graph.getEdgeWeight(edge)
-            mst.union(vertex1, vertex2)
+            minimumWeightTotal += edge.weight
+            mst.union(edge.startVertex, edge.endVertex)
 
     return minimumWeightTotal
 
@@ -79,15 +58,17 @@ def main():
 
     mst = UnionFind(g_nodes)
 
-    graph = Graph()
+    graph = []
     for i in range(g_edges):
         g_from[i], g_to[i], g_weight[i] = map(int, input().split())
-        graph.addEdgeWithWeight([g_from[i], g_to[i], g_weight[i]])
+        edge = Edge(g_from[i], g_to[i], g_weight[i])
+        graph.append(edge)
 
-    graph.sortGraphByWeight()
+    graph.sort(key=lambda e: e.weight)
 
     minimumWeight = getMinimumWeight(mst, graph)
     print(minimumWeight)
+
 
 if __name__ == '__main__':
     main()
