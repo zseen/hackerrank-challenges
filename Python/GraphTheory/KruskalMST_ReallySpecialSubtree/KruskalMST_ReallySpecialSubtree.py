@@ -37,14 +37,22 @@ class Edge:
         self.weight = weight
 
 
-def getMinimumWeight(mst, graph):
+def getMinimumWeight(edgesList):
+    allNodes = set()
+    for e in edgesList:
+        allNodes.add(e.startVertex)
+        allNodes.add(e.endVertex)
+
+    componentLookup = UnionFind(len(allNodes))
+    edgesList.sort(key=lambda e: e.weight)
+    
     minimumWeightTotal = 0
-    for edge in graph:
-        parent1 = mst.find(edge.startVertex)
-        parent2 = mst.find(edge.endVertex)
+    for edge in edgesList:
+        parent1 = componentLookup.find(edge.startVertex)
+        parent2 = componentLookup.find(edge.endVertex)
         if parent1 != parent2:
             minimumWeightTotal += edge.weight
-            mst.union(edge.startVertex, edge.endVertex)
+            componentLookup.union(edge.startVertex, edge.endVertex)
 
     return minimumWeightTotal
 
@@ -56,17 +64,13 @@ def main():
     g_to = [0] * g_edges
     g_weight = [0] * g_edges
 
-    mst = UnionFind(g_nodes)
-
-    graph = []
+    edgesList = []
     for i in range(g_edges):
         g_from[i], g_to[i], g_weight[i] = map(int, input().split())
         edge = Edge(g_from[i], g_to[i], g_weight[i])
-        graph.append(edge)
+        edgesList.append(edge)
 
-    graph.sort(key=lambda e: e.weight)
-
-    minimumWeight = getMinimumWeight(mst, graph)
+    minimumWeight = getMinimumWeight(edgesList)
     print(minimumWeight)
 
 
