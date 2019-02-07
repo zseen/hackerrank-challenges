@@ -13,30 +13,35 @@ def prims(nodesNum, graph, startNode):
 
 
 
-class Node:
-    def __init__(self, id):
-        self.id = id
-        self.connections = {}
 
 
+class Edge:
+    def __init__(self, nodes, weight):
+        self.nodes = nodes
+        self.weight = weight
 
 
 def getMST(nodesNum, graph, startNode):
-    #visitedNodesSet = set(startNode)
-    visitedNodesDict = {graph[startNode]: 0}
-    maxValue = sys.maxsize
+    visitedNodesSet = set()
+    visitedNodesSet.add(startNode)
+    minValue = sys.maxsize
+    lc = 0
 
-    while len(visitedNodesDict) != nodesNum:
-        lowestCost = (None, maxValue)
-        for node in visitedNodesDict:
-            for nextNode, weight in node.connections.items():
-                if nextNode not in visitedNodesDict and weight < lowestCost[1]:
-                    lowestCost = (nextNode, weight)
+    while len(visitedNodesSet) != nodesNum:
+        for edge in graph:
+            weight = minValue
+            for node in edge.nodes:
+                if node not in visitedNodesSet and edge.weight < weight:
+                    visitedNodesSet.add(node)
+                    lc += edge.weight
+                    weight = edge.weight
 
-        node, weight = lowestCost
-        visitedNodesDict[node] = weight
 
-    return sum(list(visitedNodesDict.values()))
+
+
+    return lc
+
+    #return sum(list(visitedNodesDict.values()))
 
 
 if __name__ == '__main__':
@@ -53,13 +58,16 @@ if __name__ == '__main__':
 
     for edge in edges:
         startVertex, endVertex, weight = edge[0], edge[1], edge[2]
-        if startVertex not in graph:
-            graph[startVertex] = Node(endVertex)
-        if endVertex not in graph:
-            graph[endVertex] = Node(startVertex)
+        e = Edge([startVertex, endVertex], weight)
+        graph[e] = e.weight
 
-        graph[startVertex].connections[graph[endVertex]] = weight
-        graph[endVertex].connections[graph[startVertex]] = weight
+
+
+
+
+
+
+
 
 
     startNode = int(input())
