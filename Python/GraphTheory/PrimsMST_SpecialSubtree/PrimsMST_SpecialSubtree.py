@@ -5,7 +5,6 @@ import os
 import random
 import re
 import sys
-from heapq import heappop, heappush
 
 
 def prims(nodesNum, graph, startNode):
@@ -19,44 +18,31 @@ class Edge:
         self.weight = weight
 
 
-def getMinimumWeightFromNodeEdge(node, edge, visitedNodesList, minValue):
-
-    return minValue
-
-
 def getMST(nodesNum, graph, startNode):
     visitedNodesList = list()
     visitedNodesList.append(startNode)
+    unvisitedNodesList = list()
+    for i in range(1, nodesNum):
+        unvisitedNodesList.append(i + 1)
+
     minimumWeightTotal = 0
     bestEdge = None
 
     while len(set(visitedNodesList)) != nodesNum:
+        minValue = sys.maxsize
+        for edge in graph:
+            currStart = edge.startVertex
+            currEnd = edge.endVertex
+            currWeight = edge.weight
+            if (currStart not in visitedNodesList or currEnd not in visitedNodesList) and (currStart in visitedNodesList or currEnd in visitedNodesList) and currWeight < minValue:
+                minValue = edge.weight
+                bestEdge = edge
+        minimumWeightTotal += bestEdge.weight
 
-        for node in visitedNodesList:
-            minValue = sys.maxsize
-            for edge in graph:
-                currStart = edge.startVertex
-                currEnd = edge.endVertex
-                currWeight = edge.weight
-                if (node == currStart or node == currEnd) and (
-                                currStart not in visitedNodesList or currEnd not in visitedNodesList) and edge.weight < minValue:
-                    minValue = edge.weight
-                    bestEdge = edge
-            minimumWeightTotal += bestEdge.weight
-            if node == bestEdge.endVertex:
-                visitedNodesList.append(bestEdge.startVertex)
-            else:
-                visitedNodesList.append(bestEdge.endVertex)
-
-
-
-
-
-
+        visitedNodesList.append(bestEdge.startVertex)
+        visitedNodesList.append(bestEdge.endVertex)
 
     return minimumWeightTotal
-
-
 
 
 if __name__ == '__main__':
