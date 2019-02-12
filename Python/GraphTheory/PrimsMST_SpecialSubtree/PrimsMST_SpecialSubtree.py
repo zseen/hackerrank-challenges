@@ -1,9 +1,3 @@
-#!/bin/python3
-
-import math
-import os
-import random
-import re
 import sys
 
 
@@ -14,39 +8,50 @@ class Edge:
         self.weight = weight
 
 
-def getMST(nodesNum, graph, startNode):
-    visitedNodesList = [startNode]
-    minimumWeightTotal = 0
-    bestEdge = None
+def getEdgesForSubgraphWithNodes(graph, nodesContainer):
+    edgesList = []
+    for startNode, edges in graph.items():
+        if startNode in nodesContainer:
+            for edge in edges:
+                edgesList.append(edge)
+    return edgesList
 
-    while len(set(visitedNodesList)) != nodesNum:
-        minValue = sys.maxsize
-        for edge in graph:
-            currStart = edge.startVertex
-            currEnd = edge.endVertex
-            currWeight = edge.weight
-            isOneNodeNotVisited = currStart not in visitedNodesList or currEnd not in visitedNodesList
-            isOneNodeVisited = currStart in visitedNodesList or currEnd in visitedNodesList
-            if isOneNodeNotVisited and isOneNodeVisited and currWeight < minValue:
-                minValue = edge.weight
+
+def getEdgeWithMinimumWeight(edges, visitedNodes):
+    bestEdge = Edge(None, None, sys.maxsize)
+    for edge in edges:
+        isOneNodeNotVisited = edge.startVertex not in visitedNodes or edge.endVertex not in visitedNodes
+        if isOneNodeNotVisited and edge.weight < bestEdge.weight:
                 bestEdge = edge
+
+    return bestEdge
+
+
+def getMST(nodesNum, graph, startNode):
+    visitedNodesSet = {startNode}
+    minimumWeightTotal = 0
+
+    while len(visitedNodesSet) != nodesNum:
+        edgesFromVisitedNodes = getEdgesForSubgraphWithNodes(graph, visitedNodesSet)
+
+        bestEdge = getEdgeWithMinimumWeight(edgesFromVisitedNodes, visitedNodesSet)
         minimumWeightTotal += bestEdge.weight
 
-        visitedNodesList.append(bestEdge.startVertex)
-        visitedNodesList.append(bestEdge.endVertex)
+        visitedNodesSet.add(bestEdge.startVertex)
+        visitedNodesSet.add(bestEdge.endVertex)
+
 
     return minimumWeightTotal
 
 
-if __name__ == '__main__':
+def main():
     sys.stdin = open("PrimsMST_SpecialSubtree_input.txt")
 
     nm = input().split()
     nodesNum = int(nm[0])
     edgesNum = int(nm[1])
     edges = []
-    #graph = {}
-    graph = []
+    graph = {}
 
     for _ in range(edgesNum):
         edges.append(list(map(int, input().rstrip().split())))
@@ -54,12 +59,17 @@ if __name__ == '__main__':
     for edge in edges:
         startVertex, endVertex, weight = edge[0], edge[1], edge[2]
         e = Edge(startVertex, endVertex, weight)
-        # if e.startVertex not in graph:
-        #     graph[e.startVertex] = []
-        # graph[e.startVertex].append(e)
-        graph.append(e)
+        if e.startVertex not in graph:
+            graph[e.startVertex] = []
+        if e.endVertex not in graph:
+            graph[e.endVertex] = []
+        graph[e.startVertex].append(e)
+        graph[e.endVertex].append(e)
 
     startNode = int(input())
 
     result = getMST(nodesNum, graph, startNode)
     print(result)
+
+if __name__ == '__main__':
+    main()
