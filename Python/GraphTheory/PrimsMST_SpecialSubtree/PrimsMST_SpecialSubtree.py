@@ -7,10 +7,6 @@ import re
 import sys
 
 
-def prims(nodesNum, graph, startNode):
-    return getMST(nodesNum, graph, startNode)
-
-
 class Edge:
     def __init__(self, startVertex, endVertex, weight):
         self.startVertex = startVertex
@@ -29,9 +25,9 @@ def getMST(nodesNum, graph, startNode):
             currStart = edge.startVertex
             currEnd = edge.endVertex
             currWeight = edge.weight
-            isNodeNotVisited = currStart not in visitedNodesList or currEnd not in visitedNodesList
-            isNodeVisited = currStart in visitedNodesList or currEnd in visitedNodesList
-            if isNodeNotVisited and isNodeVisited and currWeight < minValue:
+            isOneNodeNotVisited = currStart not in visitedNodesList or currEnd not in visitedNodesList
+            isOneNodeVisited = currStart in visitedNodesList or currEnd in visitedNodesList
+            if isOneNodeNotVisited and isOneNodeVisited and currWeight < minValue:
                 minValue = edge.weight
                 bestEdge = edge
         minimumWeightTotal += bestEdge.weight
@@ -65,5 +61,5 @@ if __name__ == '__main__':
 
     startNode = int(input())
 
-    result = prims(nodesNum, graph, startNode)
+    result = getMST(nodesNum, graph, startNode)
     print(result)
