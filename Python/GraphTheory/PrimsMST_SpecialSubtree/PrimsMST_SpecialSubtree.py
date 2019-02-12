@@ -17,26 +17,12 @@ def getEdgesForSubgraphWithNodes(graph, nodesContainer):
     return edgesList
 
 
-def removeEdgeFromGraph(graph, edge):
-    graph[edge.startVertex].remove(edge)
-    graph[edge.endVertex].remove(edge)
-
-
-def addEdgeVerticesToSet(nodesSet, edge):
-    nodesSet.add(edge.startVertex)
-    nodesSet.add(edge.endVertex)
-
-
-def getEdgeWithMinimumWeight(edges, visitedNodes, currentMinWeight):
-    bestEdge = None
+def getEdgeWithMinimumWeight(edges, visitedNodes):
+    bestEdge = Edge(None, None, sys.maxsize)
     for edge in edges:
-        currStart = edge.startVertex
-        currEnd = edge.endVertex
-        currEdgeWeight = edge.weight
-        isOneNodeNotVisited = currStart not in visitedNodes or currEnd not in visitedNodes
-        if isOneNodeNotVisited and currEdgeWeight < currentMinWeight:
-            currentMinWeight = currEdgeWeight
-            bestEdge = edge
+        isOneNodeNotVisited = edge.startVertex not in visitedNodes or edge.endVertex not in visitedNodes
+        if isOneNodeNotVisited and edge.weight < bestEdge.weight:
+                bestEdge = edge
 
     return bestEdge
 
@@ -46,14 +32,14 @@ def getMST(nodesNum, graph, startNode):
     minimumWeightTotal = 0
 
     while len(visitedNodesSet) != nodesNum:
-        largestPossibleWeight = sys.maxsize
         edgesFromVisitedNodes = getEdgesForSubgraphWithNodes(graph, visitedNodesSet)
 
-        bestEdge = getEdgeWithMinimumWeight(edgesFromVisitedNodes, visitedNodesSet, largestPossibleWeight)
+        bestEdge = getEdgeWithMinimumWeight(edgesFromVisitedNodes, visitedNodesSet)
         minimumWeightTotal += bestEdge.weight
 
-        addEdgeVerticesToSet(visitedNodesSet, bestEdge)
-        removeEdgeFromGraph(graph, bestEdge)
+        visitedNodesSet.add(bestEdge.startVertex)
+        visitedNodesSet.add(bestEdge.endVertex)
+
 
     return minimumWeightTotal
 
