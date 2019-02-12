@@ -8,11 +8,11 @@ class Edge:
         self.weight = weight
 
 
-def getEdgesListFromGraph(graph, nodesContainer):
+def getEdgesForSubgraphWithNodes(graph, nodesContainer):
     edgesList = []
-    for key, value in graph.items():
-        if key in nodesContainer:
-            for edge in value:
+    for startNode, edges in graph.items():
+        if startNode in nodesContainer:
+            for edge in edges:
                 edgesList.append(edge)
     return edgesList
 
@@ -47,7 +47,7 @@ def getMST(nodesNum, graph, startNode):
 
     while len(visitedNodesSet) != nodesNum:
         largestPossibleWeight = sys.maxsize
-        edgesFromVisitedNodes = getEdgesListFromGraph(graph, visitedNodesSet)
+        edgesFromVisitedNodes = getEdgesForSubgraphWithNodes(graph, visitedNodesSet)
 
         bestEdge = getEdgeWithMinimumWeight(edgesFromVisitedNodes, visitedNodesSet, largestPossibleWeight)
         minimumWeightTotal += bestEdge.weight
