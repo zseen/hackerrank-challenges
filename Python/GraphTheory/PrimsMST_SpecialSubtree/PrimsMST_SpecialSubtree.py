@@ -15,39 +15,32 @@ class Edge:
 
 
 def getMST(nodesNum, graph, startNode):
-    visitedNodesList = [startNode]
+    visitedNodesSet = set()
+    visitedNodesSet.add(startNode)
     minimumWeightTotal = 0
-    bestEdge = None
-    potentialEdges = []
-    node = None
 
-    while len(set(visitedNodesList)) != nodesNum:
-        potentialEdges = []
+    while len(visitedNodesSet) != nodesNum:
         minValue = sys.maxsize
-        for node in visitedNodesList:
-            for key, value in graph.items():
-                if node == key:
-                    for x in value:
-                        potentialEdges.append(x)
-            #print(potentialEdges)
+        potentialEdges = []
+        for key, value in graph.items():
+            if key in visitedNodesSet:
+                for edge in value:
+                    potentialEdges.append(edge)
 
         for edge in potentialEdges:
             currStart = edge.startVertex
             currEnd = edge.endVertex
             currWeight = edge.weight
-            isOneNodeNotVisited = currStart not in visitedNodesList or currEnd not in visitedNodesList
-            isOneNodeVisited = currStart in visitedNodesList or currEnd in visitedNodesList
+            isOneNodeNotVisited = currStart not in visitedNodesSet or currEnd not in visitedNodesSet
+            isOneNodeVisited = currStart in visitedNodesSet or currEnd in visitedNodesSet
             if isOneNodeNotVisited and isOneNodeVisited and currWeight < minValue:
                 minValue = currWeight
                 bestEdge = edge
         minimumWeightTotal += bestEdge.weight
 
 
-        if bestEdge.startVertex not in visitedNodesList:
-            visitedNodesList.append(bestEdge.startVertex)
-        if bestEdge.endVertex not in visitedNodesList:
-            visitedNodesList.append(bestEdge.endVertex)
-
+        visitedNodesSet.add(bestEdge.startVertex)
+        visitedNodesSet.add(bestEdge.endVertex)
 
         graph[bestEdge.startVertex].remove(bestEdge)
         graph[bestEdge.endVertex].remove(bestEdge)
