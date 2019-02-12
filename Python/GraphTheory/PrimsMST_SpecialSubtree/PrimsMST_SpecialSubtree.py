@@ -1,9 +1,3 @@
-#!/bin/python3
-
-import math
-import os
-import random
-import re
 import sys
 
 
@@ -14,42 +8,57 @@ class Edge:
         self.weight = weight
 
 
+def getEdgesListFromGraph(graph, nodesContainer):
+    edgesList = []
+    for key, value in graph.items():
+        if key in nodesContainer:
+            for edge in value:
+                edgesList.append(edge)
+    return edgesList
+
+
+def removeEdgeFromGraph(graph, edge):
+    graph[edge.startVertex].remove(edge)
+    graph[edge.endVertex].remove(edge)
+
+
+def addEdgeVerticesToSet(nodesSet, edge):
+    nodesSet.add(edge.startVertex)
+    nodesSet.add(edge.endVertex)
+
+
+def getEdgeWithMinimumWeight(edges, visitedNodes, currentMinWeight):
+    bestEdge = None
+    for edge in edges:
+        currStart = edge.startVertex
+        currEnd = edge.endVertex
+        currEdgeWeight = edge.weight
+        isOneNodeNotVisited = currStart not in visitedNodes or currEnd not in visitedNodes
+        if isOneNodeNotVisited and currEdgeWeight < currentMinWeight:
+            currentMinWeight = currEdgeWeight
+            bestEdge = edge
+
+    return bestEdge
+
+
 def getMST(nodesNum, graph, startNode):
-    visitedNodesSet = set()
-    visitedNodesSet.add(startNode)
+    visitedNodesSet = {startNode}
     minimumWeightTotal = 0
 
     while len(visitedNodesSet) != nodesNum:
-        minValue = sys.maxsize
-        potentialEdges = []
-        for key, value in graph.items():
-            if key in visitedNodesSet:
-                for edge in value:
-                    potentialEdges.append(edge)
+        largestPossibleWeight = sys.maxsize
+        edgesFromVisitedNodes = getEdgesListFromGraph(graph, visitedNodesSet)
 
-        for edge in potentialEdges:
-            currStart = edge.startVertex
-            currEnd = edge.endVertex
-            currWeight = edge.weight
-            isOneNodeNotVisited = currStart not in visitedNodesSet or currEnd not in visitedNodesSet
-            isOneNodeVisited = currStart in visitedNodesSet or currEnd in visitedNodesSet
-            if isOneNodeNotVisited and isOneNodeVisited and currWeight < minValue:
-                minValue = currWeight
-                bestEdge = edge
+        bestEdge = getEdgeWithMinimumWeight(edgesFromVisitedNodes, visitedNodesSet, largestPossibleWeight)
         minimumWeightTotal += bestEdge.weight
 
-
-        visitedNodesSet.add(bestEdge.startVertex)
-        visitedNodesSet.add(bestEdge.endVertex)
-
-        graph[bestEdge.startVertex].remove(bestEdge)
-        graph[bestEdge.endVertex].remove(bestEdge)
-
+        addEdgeVerticesToSet(visitedNodesSet, bestEdge)
+        removeEdgeFromGraph(graph, bestEdge)
 
     return minimumWeightTotal
 
 
-if __name__ == '__main__':
+def main():
     sys.stdin = open("PrimsMST_SpecialSubtree_input.txt")
 
     nm = input().split()
@@ -57,7 +66,6 @@ if __name__ == '__main__':
     edgesNum = int(nm[1])
     edges = []
     graph = {}
-    #graph = []
 
     for _ in range(edgesNum):
         edges.append(list(map(int, input().rstrip().split())))
@@ -71,9 +79,11 @@ if __name__ == '__main__':
             graph[e.endVertex] = []
         graph[e.startVertex].append(e)
         graph[e.endVertex].append(e)
-        #graph.append(e)
 
     startNode = int(input())
-    #print(graph)
+
     result = getMST(nodesNum, graph, startNode)
     print(result)
+
+if __name__ == '__main__':
+    main()
