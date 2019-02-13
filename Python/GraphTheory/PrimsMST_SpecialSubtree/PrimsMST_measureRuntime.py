@@ -1,4 +1,6 @@
 import sys
+import timeit
+import time
 
 
 class Edge:
@@ -55,7 +57,7 @@ def getMST(nodesNum, graph, startNode):
     return minimumWeightTotal
 
 
-def main():
+def parseInputAndReturnMinimumWeight():
     sys.stdin = open("PrimsMST_SpecialSubtree_input.txt")
 
     nm = input().split()
@@ -74,8 +76,26 @@ def main():
 
     startNode = int(input())
 
-    result = getMST(nodesNum, graph, startNode)
-    print(result)
+    return getMST(nodesNum, graph, startNode)
 
-if __name__ == '__main__':
-    main()
+
+def main():
+    minimumWeightMST = parseInputAndReturnMinimumWeight()
+
+
+runTimes = []
+testRange = 3
+for test in range(testRange):
+    start = time.clock()
+
+    if __name__ == '__main__':
+        main()
+
+    end = time.clock()
+    runTimes.append(end - start)
+
+print(sum(runTimes) / testRange) #7.129913764824698 when run 30 times
+
+
+
+
