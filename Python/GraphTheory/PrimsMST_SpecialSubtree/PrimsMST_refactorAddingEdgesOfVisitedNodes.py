@@ -1,5 +1,4 @@
 import sys
-import timeit
 import time
 
 
@@ -22,20 +21,22 @@ class Graph:
         self.edges[edge.startVertex].append(edge)
         self.edges[edge.endVertex].append(edge)
 
-    def getEdgesForSubgraphWithNodes(self, nodesContainer, edgesAlreadyFound):
+    def getEdgesForSubgraphWithNodes(self, nodesContainer, edgesAlreadyAddedSet):
         for startNode, edgesFromStartNode in self.edges.items():
             if startNode in nodesContainer:
                 for edge in edgesFromStartNode:
                     if edge.endVertex not in nodesContainer or edge.startVertex not in nodesContainer:
-                        edgesAlreadyFound.add(edge)
-        return edgesAlreadyFound
+                        edgesAlreadyAddedSet.add(edge)
+                    elif edge in edgesAlreadyAddedSet:
+                        edgesAlreadyAddedSet.remove(edge)
+
+        return edgesAlreadyAddedSet
 
 
 def getEdgeWithMinimumWeight(edges, visitedNodes):
     bestEdge = Edge(None, None, sys.maxsize)
     for edge in edges:
-        isOneNodeNotVisited = edge.startVertex not in visitedNodes or edge.endVertex not in visitedNodes
-        if isOneNodeNotVisited and edge.weight < bestEdge.weight:
+        if edge.weight < bestEdge.weight:
                 bestEdge = edge
 
     return bestEdge
@@ -59,7 +60,7 @@ def getMST(nodesNum, graph, startNode):
 
 
 def parseInputAndReturnMinimumWeight():
-    sys.stdin = open("PrimsMST_smallerInput.txt")
+    sys.stdin = open("PrimsMST_SpecialSubtree_input.txt")
 
     nm = input().split()
     nodesNum = int(nm[0])
@@ -82,25 +83,17 @@ def parseInputAndReturnMinimumWeight():
 
 def main():
     minimumWeightMST = parseInputAndReturnMinimumWeight()
-    print(minimumWeightMST)
-
-#
-# runTimes = []
-# testRange = 3
-# for test in range(testRange):
-#     start = time.clock()
-#
-#     if __name__ == '__main__':
-#         main()
-#
-#     end = time.clock()
-#     runTimes.append(end - start)
-#
-# print(sum(runTimes) / testRange)
-
-if __name__ == "__main__":
-    main()
 
 
+runTimes = []
+testRange = 2
+for test in range(testRange):
+    start = time.clock()
 
+    if __name__ == '__main__':
+        main()
 
+    end = time.clock()
+    runTimes.append(end - start)
+
+print(sum(runTimes) / testRange)
