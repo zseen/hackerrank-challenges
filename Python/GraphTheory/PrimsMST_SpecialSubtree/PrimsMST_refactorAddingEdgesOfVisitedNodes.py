@@ -12,6 +12,7 @@ class Edge:
 class Graph:
     def __init__(self):
         self.edges = {}
+        self.candidateEdgesSet = set()
 
     def addEdgeToGraph(self, edge):
         if edge.startVertex not in self.edges:
@@ -21,16 +22,17 @@ class Graph:
         self.edges[edge.startVertex].append(edge)
         self.edges[edge.endVertex].append(edge)
 
-    def getEdgesForSubgraphWithNodes(self, nodesContainer, edgesAlreadyAddedSet):
+    def addEdgesToCandidateEdgesSet(self, visitedNodesSet):
         for startNode, edgesFromStartNode in self.edges.items():
-            if startNode in nodesContainer:
+            if startNode in visitedNodesSet:
                 for edge in edgesFromStartNode:
-                    if edge.endVertex not in nodesContainer or edge.startVertex not in nodesContainer:
-                        edgesAlreadyAddedSet.add(edge)
-                    elif edge in edgesAlreadyAddedSet:
-                        edgesAlreadyAddedSet.remove(edge)
+                    if edge.endVertex not in visitedNodesSet or edge.startVertex not in visitedNodesSet:
+                        self.candidateEdgesSet.add(edge)
+                    elif edge in self.candidateEdgesSet:
+                        self.candidateEdgesSet.remove(edge)
 
-        return edgesAlreadyAddedSet
+    def getCandidateEdges(self):
+        return self.candidateEdgesSet
 
 
 def getEdgeWithMinimumWeight(edges, visitedNodes):
@@ -45,10 +47,10 @@ def getEdgeWithMinimumWeight(edges, visitedNodes):
 def getMST(nodesNum, graph, startNode):
     visitedNodesSet = {startNode}
     minimumWeightTotal = 0
-    potentialEdges = set()
 
     while len(visitedNodesSet) != nodesNum:
-        edgesFromVisitedNodes = graph.getEdgesForSubgraphWithNodes(visitedNodesSet, potentialEdges)
+        graph.addEdgesToCandidateEdgesSet(visitedNodesSet)
+        edgesFromVisitedNodes = graph.getCandidateEdges()
 
         bestEdge = getEdgeWithMinimumWeight(edgesFromVisitedNodes, visitedNodesSet)
         minimumWeightTotal += bestEdge.weight
@@ -86,7 +88,7 @@ def main():
 
 
 runTimes = []
-testRange = 2
+testRange = 1
 for test in range(testRange):
     start = time.clock()
 
