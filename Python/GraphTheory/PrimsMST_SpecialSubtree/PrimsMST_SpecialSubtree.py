@@ -11,19 +11,19 @@ class Edge:
 
 class Graph:
     def __init__(self):
-        self.edges = {}
+        self.nodeToEdges = {}
 
     def addEdgeToGraph(self, edge):
-        if edge.startVertex not in self.edges:
-            self.edges[edge.startVertex] = []
-        if edge.endVertex not in self.edges:
-            self.edges[edge.endVertex] = []
-        self.edges[edge.startVertex].append(edge)
-        self.edges[edge.endVertex].append(edge)
+        if edge.startVertex not in self.nodeToEdges:
+            self.nodeToEdges[edge.startVertex] = []
+        if edge.endVertex not in self.nodeToEdges:
+            self.nodeToEdges[edge.endVertex] = []
+        self.nodeToEdges[edge.startVertex].append(edge)
+        self.nodeToEdges[edge.endVertex].append(edge)
 
     def getEdgesForSubgraphWithNodes(self, nodesContainer):
         edgesList = []
-        for startNode, edgesFromStartNode in self.edges.items():
+        for startNode, edgesFromStartNode in self.nodeToEdges.items():
             if startNode in nodesContainer:
                 for edge in edgesFromStartNode:
                     edgesList.append(edge)
@@ -56,7 +56,7 @@ def getMST(nodesNum, graph, startNode):
     return minimumWeightTotal
 
 
-def parseInputAndReturnMinimumWeight():
+def solvePrimsMST():
     sys.stdin = open("PrimsMST_SpecialSubtree_input.txt")
 
     nm = input().split()
@@ -84,7 +84,7 @@ def main():
     for test in range(testRange):
         start = time.clock()
 
-        minimumWeightMST = parseInputAndReturnMinimumWeight()
+        minimumWeightMST = solvePrimsMST()
 
         end = time.clock()
         runTimes.append(end - start)
