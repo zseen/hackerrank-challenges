@@ -1,5 +1,4 @@
 import sys
-import timeit
 import time
 
 
@@ -86,7 +85,7 @@ def main():
         start = time.clock()
 
         minimumWeightMST = parseInputAndReturnMinimumWeight()
-        
+
         end = time.clock()
         runTimes.append(end - start)
 
