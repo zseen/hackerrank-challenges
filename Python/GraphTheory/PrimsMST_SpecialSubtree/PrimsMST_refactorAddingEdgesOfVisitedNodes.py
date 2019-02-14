@@ -23,19 +23,19 @@ class Graph:
         self.edges[edge.endVertex].append(edge)
 
     def addEdgesToCandidateEdgesSet(self, visitedNodesSet):
-        for startNode, edgesFromStartNode in self.edges.items():
-            if startNode in visitedNodesSet:
-                for edge in edgesFromStartNode:
-                    if edge.endVertex not in visitedNodesSet or edge.startVertex not in visitedNodesSet:
-                        self.candidateEdgesSet.add(edge)
-                    elif edge in self.candidateEdgesSet:
-                        self.candidateEdgesSet.remove(edge)
+        for startNode in visitedNodesSet:
+            edgesFromStartNode = self.edges[startNode]
+            for edge in edgesFromStartNode:
+                if edge.endVertex not in visitedNodesSet or edge.startVertex not in visitedNodesSet:
+                    self.candidateEdgesSet.add(edge)
+                elif edge in self.candidateEdgesSet:
+                    self.candidateEdgesSet.remove(edge)
 
     def getCandidateEdges(self):
         return self.candidateEdgesSet
 
 
-def getEdgeWithMinimumWeight(edges, visitedNodes):
+def getEdgeWithMinimumWeight(edges):
     bestEdge = Edge(None, None, sys.maxsize)
     for edge in edges:
         if edge.weight < bestEdge.weight:
@@ -52,7 +52,7 @@ def getMST(nodesNum, graph, startNode):
         graph.addEdgesToCandidateEdgesSet(visitedNodesSet)
         edgesFromVisitedNodes = graph.getCandidateEdges()
 
-        bestEdge = getEdgeWithMinimumWeight(edgesFromVisitedNodes, visitedNodesSet)
+        bestEdge = getEdgeWithMinimumWeight(edgesFromVisitedNodes)
         minimumWeightTotal += bestEdge.weight
 
         visitedNodesSet.add(bestEdge.startVertex)
