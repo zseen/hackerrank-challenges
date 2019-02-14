@@ -1,4 +1,5 @@
 import sys
+import time
 
 
 class Edge:
@@ -8,13 +9,25 @@ class Edge:
         self.weight = weight
 
 
-def getEdgesForSubgraphWithNodes(graph, nodesContainer):
-    edgesList = []
-    for startNode, edges in graph.items():
-        if startNode in nodesContainer:
-            for edge in edges:
-                edgesList.append(edge)
-    return edgesList
+class Graph:
+    def __init__(self):
+        self.nodeToEdges = {}
+
+    def addEdgeToGraph(self, edge):
+        if edge.startVertex not in self.nodeToEdges:
+            self.nodeToEdges[edge.startVertex] = []
+        if edge.endVertex not in self.nodeToEdges:
+            self.nodeToEdges[edge.endVertex] = []
+        self.nodeToEdges[edge.startVertex].append(edge)
+        self.nodeToEdges[edge.endVertex].append(edge)
+
+    def getEdgesForSubgraphWithNodes(self, nodesContainer):
+        edgesList = []
+        for startNode, edgesFromStartNode in self.nodeToEdges.items():
+            if startNode in nodesContainer:
+                for edge in edgesFromStartNode:
+                    edgesList.append(edge)
+        return edgesList
 
 
 def getEdgeWithMinimumWeight(edges, visitedNodes):
@@ -32,7 +45,7 @@ def getMST(nodesNum, graph, startNode):
     minimumWeightTotal = 0
 
     while len(visitedNodesSet) != nodesNum:
-        edgesFromVisitedNodes = getEdgesForSubgraphWithNodes(graph, visitedNodesSet)
+        edgesFromVisitedNodes = graph.getEdgesForSubgraphWithNodes(visitedNodesSet)
 
         bestEdge = getEdgeWithMinimumWeight(edgesFromVisitedNodes, visitedNodesSet)
         minimumWeightTotal += bestEdge.weight
@@ -40,18 +53,17 @@ def getMST(nodesNum, graph, startNode):
         visitedNodesSet.add(bestEdge.startVertex)
         visitedNodesSet.add(bestEdge.endVertex)
 
-
     return minimumWeightTotal
 
 
-def main():
+def solvePrimsMST():
     sys.stdin = open("PrimsMST_SpecialSubtree_input.txt")
 
     nm = input().split()
     nodesNum = int(nm[0])
     edgesNum = int(nm[1])
     edges = []
-    graph = {}
+    graph = Graph()
 
     for _ in range(edgesNum):
         edges.append(list(map(int, input().rstrip().split())))
@@ -59,17 +71,25 @@ def main():
     for edge in edges:
         startVertex, endVertex, weight = edge[0], edge[1], edge[2]
         e = Edge(startVertex, endVertex, weight)
-        if e.startVertex not in graph:
-            graph[e.startVertex] = []
-        if e.endVertex not in graph:
-            graph[e.endVertex] = []
-        graph[e.startVertex].append(e)
-        graph[e.endVertex].append(e)
+        graph.addEdgeToGraph(e)
 
     startNode = int(input())
 
-    result = getMST(nodesNum, graph, startNode)
-    print(result)
+    return getMST(nodesNum, graph, startNode)
+
+
+def main():
+    runTimes = []
+    testRange = 2
+    for test in range(testRange):
+        start = time.clock()
+
+        minimumWeightMST = solvePrimsMST()
+
+        end = time.clock()
+        runTimes.append(end - start)
+
+    print(round(sum(runTimes) / testRange, 2))
 
 if __name__ == '__main__':
     main()
