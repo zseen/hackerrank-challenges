@@ -22,14 +22,13 @@ class Graph:
         self.edges[edge.startVertex].append(edge)
         self.edges[edge.endVertex].append(edge)
 
-    def addEdgesToCandidateEdgesSet(self, visitedNodesSet):
-        for startNode in visitedNodesSet:
-            edgesFromStartNode = self.edges[startNode]
-            for edge in edgesFromStartNode:
-                if edge.endVertex not in visitedNodesSet or edge.startVertex not in visitedNodesSet:
-                    self.candidateEdgesSet.add(edge)
-                elif edge in self.candidateEdgesSet:
-                    self.candidateEdgesSet.remove(edge)
+    def addEdgesToCandidateEdgesSet(self, visitedNodesSet, nodeMostRecentlyVisited):
+        edgesFromMostRecentlyVisitedNode = self.edges[nodeMostRecentlyVisited]
+        for edge in edgesFromMostRecentlyVisitedNode:
+            if edge.endVertex not in visitedNodesSet or edge.startVertex not in visitedNodesSet:
+                self.candidateEdgesSet.add(edge)
+            elif edge in self.candidateEdgesSet:
+                self.candidateEdgesSet.remove(edge)
 
     def getCandidateEdges(self):
         return self.candidateEdgesSet
@@ -47,21 +46,29 @@ def getEdgeWithMinimumWeight(edges):
 def getMST(nodesNum, graph, startNode):
     visitedNodesSet = {startNode}
     minimumWeightTotal = 0
+    nodeMostRecentlyVisited = startNode
 
     while len(visitedNodesSet) != nodesNum:
-        graph.addEdgesToCandidateEdgesSet(visitedNodesSet)
+        graph.addEdgesToCandidateEdgesSet(visitedNodesSet, nodeMostRecentlyVisited)
         edgesFromVisitedNodes = graph.getCandidateEdges()
 
         bestEdge = getEdgeWithMinimumWeight(edgesFromVisitedNodes)
         minimumWeightTotal += bestEdge.weight
 
+        prevVisitedNodesSet = frozenset(visitedNodesSet)
+        nodeMostRecentlyVisited = None
+
         visitedNodesSet.add(bestEdge.startVertex)
         visitedNodesSet.add(bestEdge.endVertex)
+
+        mostRecentlyVisitedNodeSet = visitedNodesSet.difference(prevVisitedNodesSet)
+        for node in mostRecentlyVisitedNodeSet:
+            nodeMostRecentlyVisited = node
 
     return minimumWeightTotal
 
 
-def parseInputAndReturnMinimumWeight():
+def solvePrimsMST():
     sys.stdin = open("PrimsMST_SpecialSubtree_input.txt")
 
     nm = input().split()
@@ -84,18 +91,17 @@ def parseInputAndReturnMinimumWeight():
 
 
 def main():
-    minimumWeightMST = parseInputAndReturnMinimumWeight()
+    runTimes = []
+    testRange = 30
+    for test in range(testRange):
+        start = time.clock()
 
+        minimumWeightMST = solvePrimsMST()
 
-runTimes = []
-testRange = 1
-for test in range(testRange):
-    start = time.clock()
+        end = time.clock()
+        runTimes.append(end - start)
 
-    if __name__ == '__main__':
-        main()
+    print(round(sum(runTimes) / testRange, 2))
 
-    end = time.clock()
-    runTimes.append(end - start)
-
-print(sum(runTimes) / testRange)
+if __name__ == '__main__':
+    main()
