@@ -9,12 +9,13 @@ class Edge:
         self.weight = weight
 
 
-class Graph:
+class EdgesCollection:
     def __init__(self):
         self.edges = {}
         self.candidateEdgesSet = set()
+        self.bestEdge = None
 
-    def addEdgeToGraph(self, edge):
+    def addEdgeToCollection(self, edge):
         if edge.startVertex not in self.edges:
             self.edges[edge.startVertex] = []
         if edge.endVertex not in self.edges:
@@ -33,37 +34,33 @@ class Graph:
     def getCandidateEdges(self):
         return self.candidateEdgesSet
 
+    def getEdgeWithMinimumWeight(self, edges):
+        self.bestEdge = Edge(None, None, sys.maxsize)
+        for edge in edges:
+            if edge.weight < self.bestEdge.weight:
+                    self.bestEdge = edge
 
-def getEdgeWithMinimumWeight(edges):
-    bestEdge = Edge(None, None, sys.maxsize)
-    for edge in edges:
-        if edge.weight < bestEdge.weight:
-                bestEdge = edge
-
-    return bestEdge
+        return self.bestEdge
 
 
-def getMST(nodesNum, graph, startNode):
+def getMST(nodesNum, edgesCollection, startNode):
     visitedNodesSet = {startNode}
     minimumWeightTotal = 0
     nodeMostRecentlyVisited = startNode
 
     while len(visitedNodesSet) != nodesNum:
-        graph.addEdgesToCandidateEdgesSet(visitedNodesSet, nodeMostRecentlyVisited)
-        edgesFromVisitedNodes = graph.getCandidateEdges()
+        edgesCollection.addEdgesToCandidateEdgesSet(visitedNodesSet, nodeMostRecentlyVisited)
+        edgesFromVisitedNodes = edgesCollection.getCandidateEdges()
 
-        bestEdge = getEdgeWithMinimumWeight(edgesFromVisitedNodes)
+        bestEdge = edgesCollection.getEdgeWithMinimumWeight(edgesFromVisitedNodes)
         minimumWeightTotal += bestEdge.weight
 
-        prevVisitedNodesSet = frozenset(visitedNodesSet)
-        nodeMostRecentlyVisited = None
-
-        visitedNodesSet.add(bestEdge.startVertex)
-        visitedNodesSet.add(bestEdge.endVertex)
-
-        mostRecentlyVisitedNodeSet = visitedNodesSet.difference(prevVisitedNodesSet)
-        for node in mostRecentlyVisitedNodeSet:
-            nodeMostRecentlyVisited = node
+        if bestEdge.startVertex not in visitedNodesSet:
+            nodeMostRecentlyVisited = bestEdge.startVertex
+            visitedNodesSet.add(bestEdge.startVertex)
+        else:
+            nodeMostRecentlyVisited = bestEdge.endVertex
+            visitedNodesSet.add(bestEdge.endVertex)
 
     return minimumWeightTotal
 
@@ -75,7 +72,7 @@ def solvePrimsMST():
     nodesNum = int(nm[0])
     edgesNum = int(nm[1])
     edges = []
-    graph = Graph()
+    edgesCollection = EdgesCollection()
 
     for _ in range(edgesNum):
         edges.append(list(map(int, input().rstrip().split())))
@@ -83,11 +80,11 @@ def solvePrimsMST():
     for edge in edges:
         startVertex, endVertex, weight = edge[0], edge[1], edge[2]
         e = Edge(startVertex, endVertex, weight)
-        graph.addEdgeToGraph(e)
+        edgesCollection.addEdgeToCollection(e)
 
     startNode = int(input())
 
-    return getMST(nodesNum, graph, startNode)
+    return getMST(nodesNum, edgesCollection, startNode)
 
 
 def main():
@@ -105,3 +102,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
