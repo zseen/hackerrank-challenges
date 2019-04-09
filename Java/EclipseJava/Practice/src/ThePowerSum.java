@@ -8,7 +8,13 @@ import java.util.regex.*;
 
 
 public class ThePowerSum {
-     static int powerSum(int total, int power, int base) 
+
+    static int powerSum(int total, int power)
+        {
+            return runPowerSum(total, power, 1);
+        }
+
+    static int runPowerSum(int total, int power, int base) 
      {
         int baseToPower = (int)Math.pow(base, power);
 
@@ -22,10 +28,10 @@ public class ThePowerSum {
         }
         else
         {
-            return powerSum(total, power, base + 1) + powerSum(total - baseToPower, power, base + 1);
-        }
+            return runPowerSum(total, power, base + 1) + runPowerSum(total - baseToPower, power, base + 1);
+        }   
      }
-      
+
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
@@ -36,10 +42,8 @@ public class ThePowerSum {
 
         int N = scanner.nextInt();
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-        
-        int base = 1;
 
-        int result = powerSum(X, N, base);
+        int result = powerSum(X, N);
 
         bufferedWriter.write(String.valueOf(result));
         bufferedWriter.newLine();
@@ -47,5 +51,7 @@ public class ThePowerSum {
         bufferedWriter.close();
 
         scanner.close();
+
     }
+
 }
