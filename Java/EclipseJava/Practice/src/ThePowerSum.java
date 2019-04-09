@@ -10,11 +10,11 @@ import java.util.regex.*;
 public class ThePowerSum {
 
     static int powerSum(int total, int power)
-        {
-            return runPowerSum(total, power, 1);
-        }
+	{
+		return powerSumRecursive(total, power, 1);
+	}
 
-    static int runPowerSum(int total, int power, int base) 
+    static int powerSumRecursive(int total, int power, int base) 
      {
         int baseToPower = (int)Math.pow(base, power);
 
@@ -28,7 +28,7 @@ public class ThePowerSum {
         }
         else
         {
-            return runPowerSum(total, power, base + 1) + runPowerSum(total - baseToPower, power, base + 1);
+            return powerSumRecursive(total, power, base + 1) + powerSumRecursive(total - baseToPower, power, base + 1);
         }   
      }
 
@@ -51,7 +51,5 @@ public class ThePowerSum {
         bufferedWriter.close();
 
         scanner.close();
-
     }
-
 }
