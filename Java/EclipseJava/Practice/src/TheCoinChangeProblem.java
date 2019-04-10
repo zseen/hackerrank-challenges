@@ -1,12 +1,12 @@
 public class TheCoinChangeProblem
 {
     static HashMap hashMap = new HashMap();
-    
+
     static long getWays(int totalMoney, long[] coins)
     {
-    	return getWaysRecursive(totalMoney, coins, 0);
+        return getWaysRecursive(totalMoney, coins, 0);
     }
-    
+
     static long getWaysRecursive(int totalMoney, long[] coins, int index)
     {
         if (totalMoney == 0)
@@ -24,9 +24,9 @@ public class TheCoinChangeProblem
         {
             return HashMap.get(key);
         }
-        
+
         long waysToPay = 0;
-        
+
         int maxAmountToPayWithCoinType = 0;
         while (maxAmountToPayWithCoinType <= totalMoney)
         {
@@ -41,8 +41,8 @@ public class TheCoinChangeProblem
 
     public static void main(String[] args)
     {
-    	int totalMoneyToPay = 15;
-    	long[] coins = {49, 22, 45, 6, 11, 20, 30, 10, 46, 8, 32, 48, 2, 41, 43, 5, 39, 16, 28, 44, 14, 4, 27, 36};
+        int totalMoneyToPay = 15;
+        long[] coins = {49, 22, 45, 6, 11, 20, 30, 10, 46, 8, 32, 48, 2, 41, 43, 5, 39, 16, 28, 44, 14, 4, 27, 36};
         long ways = getWays(totalMoneyToPay, coins);
         System.out.println(ways);
     }
