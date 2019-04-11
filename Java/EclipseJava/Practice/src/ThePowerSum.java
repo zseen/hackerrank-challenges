@@ -7,7 +7,7 @@ import java.util.concurrent.*;
 import java.util.regex.*;
 
 
-public class ThePowerSum 
+public class ThePowerSum
 {
     static int powerSum(int total, int power)
     {
@@ -22,11 +22,11 @@ public class ThePowerSum
         {
             return 1;
         }
-            else if (baseToPower > total)
+        else if (baseToPower > total)
         {
             return 0;
         }
-            else
+        else
         {
             return powerSumRecursive(total, power, base + 1) + powerSumRecursive(total - baseToPower, power, base + 1);
         }
