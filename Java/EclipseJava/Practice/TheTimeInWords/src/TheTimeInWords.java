@@ -99,11 +99,24 @@ public class TheTimeInWords {
         return minuteWord;
     }
 
-    public static void main(String[] args) throws IOException {
-        int h = 12;
-        int m = 10;
+	private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException
+    {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int h = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        int m = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
         String result = getTimeInWords(h, m);
-        System.out.println(result);
+
+        bufferedWriter.write(result);
+        bufferedWriter.newLine();
+        bufferedWriter.close();
+        
+        scanner.close();
     }
 }
