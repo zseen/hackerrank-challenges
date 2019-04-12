@@ -5,128 +5,105 @@ import java.text.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.*;
-import java.text.DecimalFormat;
 
 public class TheTimeInWords {
-	
-	static final String[] singleDigits = new String[]{ "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
-	static final String[] twoDigits = new String[]{"ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
 
-    // Complete the timeInWords function below.
-    static String timeInWords(int h, int m)
+    static final String[] singleDigitNumsInWordFormat = new String[]{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+    static final String[] twoDigitsNumsUpToIncNineteenInWordFormat = new String[]{"ten", "eleven", "twelve", "thirteen", "fourteen", "quarter", "sixteen", "seventeen", "eighteen", "nineteen"};
+
+    static String getTimeInWords(int hour, int min)
     {
-    	if (m == 0 || m == 15 || m == 30 || m == 45)
-    	{
-    		return getMultipleOf15MinutesWithHour(h, m);
-    	}
-    	 
-    	return getFullTimeExpression(h, m);
-    
-    }
-    
-    private static String getFullTimeExpression(int h, int m)
-    {	
-    	int correctedHour = h;
-    	int correctedMinute = m;
-    	String timePosition = "past ";
-    	String minuteCase = " minutes ";
-    	
-    	if (m > 30)
-    	{
-    		// Example: "3 hours 40 minutes" will have the value of "20 to 4", so the hour and minutes need to be corrected accordingly
-    		correctedHour = h + 1; // The value of the next hour is h + 1
-    		correctedMinute = 60 - m; // The minutes to the next hours are 60 (minutes) - m
-    		timePosition = "to ";
-    	}
-    	
-    	if (correctedMinute == 1)
-		{
-			minuteCase = " minute ";
-		}
-	
-    	
-    	String hour = getHourString(correctedHour);
-    	String minute = getMinutesString(correctedMinute);
-    	
-    	return minute + minuteCase + timePosition + hour;
-    }
-    
-    private static String getHourString(int h)
-    {
-    	String hourInWord;
-    	
-    	if (h <= 9)
-    	{
-    	    hourInWord = singleDigits[h];
-    	}
-    	else
-    	{
-    		hourInWord = twoDigits[h % 10];
-    	}
-    	
-    	return hourInWord;
-    }
-    
-    private static String getMinutesString(int m)
-    {
-    	String minuteInWord;
-    	
-    	if (m <= 9)
-    	{
-    		minuteInWord = singleDigits[m];
-    	}
-    	else
-    	{
-    		if (m < 20)
-    		{
-    			minuteInWord = twoDigits[m % 10];
-    		}
-    		else
-    		{
-    			int secondDigitInt = m % 20;
-    			String secondDigitString = singleDigits[secondDigitInt];
-    			minuteInWord = "twenty " + secondDigitString;
-    		}
-    	}
-    	
-    	return minuteInWord;
-    }
-    
-    private static String getMultipleOf15MinutesWithHour(int h, int m)
-    {
-    	String minuteInWords = "";
-    	int correctedHour = h;
-    	
-    	if (m == 0)
-    	{
-    		return getHourString(h) + " o' clock";
-    	}
-    	else if (m == 15)
-    	{
-    		minuteInWords = "quarter past ";
-    	}
-    	else if (m == 30)
-    	{
-    		minuteInWords = "half past ";
-    	}
-    	else if (m == 45)
-    	{
-    		minuteInWords = "quarter to ";
-    		correctedHour += 1;
-    	}
-    	
-    	return minuteInWords + getHourString(correctedHour);
+        if (hour > 12 || min > 59)
+        {
+            throw new IllegalArgumentException("Hour should be <= 12 and minute should be <= 59");
+        }
+
+        if (min == 0)
+        {
+            return  getHourString(hour) + " o' clock";
+        }
+
+        return getFullTimeExpression(hour, min);
     }
 
-    private static final Scanner scanner = new Scanner(System.in);
+    private static String getFullTimeExpression(int hour, int min)
+    {
+        String timePosition = "past ";
+        String minuteCase = " minutes ";
+
+        if (min == 15 || min == 45 || min == 30)
+        {
+            minuteCase = " ";  // Word "minutes" does not appear in expression "quarter to/past or half past"
+        }
+
+        if (min > 30)
+        {
+            // Example: "3 hours 40 minutes" will have the value of "20 to 4", so the hour and minutes need to be corrected
+            hour += 1; // The value of the next hour is hour + 1
+            min = 60 - min; // The minutes to the next hours are 60 (minutes) - min
+            timePosition = "to ";
+        }
+
+        if (min == 1) // "min" can either be originally 1, or as a result of 59 subtracted from 60, that's why it is checked here
+        {
+            minuteCase = " minute ";
+        }
+
+        String hourWord = getHourString(hour);
+        String minuteWord = getMinutesString(min);
+
+        return minuteWord + minuteCase + timePosition + hourWord;
+    }
+
+    private static String getHourString(int hour)
+    {
+        String hourInWord;
+
+        if (hour <= 9)
+        {
+            hourInWord = singleDigitNumsInWordFormat[hour - 1]; // Correct the index, e.g., 3 is at index 2 in array sinlgeDigits
+        }
+        else
+        {
+            hourInWord = twoDigitsNumsUpToIncNineteenInWordFormat[hour % 10];
+        }
+
+        return hourInWord;
+    }
+
+    private static String getMinutesString(int min)
+    {
+        if (min <= 9)
+        {
+            return singleDigitNumsInWordFormat[min - 1];
+        }
+
+        if (min < 20)
+        {
+            return twoDigitsNumsUpToIncNineteenInWordFormat[min % 10];
+        }
+
+        String minuteWord;
+
+        if (min < 30)
+        {
+            int secondDigitInt = min % 20;
+            String secondDigitString = singleDigitNumsInWordFormat[secondDigitInt - 1];
+            minuteWord = "twenty " + secondDigitString;
+        }
+        else
+        {
+            minuteWord = "half"; // If min is 30, the expression will be "half (past)"
+        }
+
+        return minuteWord;
+    }
 
     public static void main(String[] args) throws IOException {
-        int h = 1;
-        int m = 00;
+        int h = 12;
+        int m = 10;
 
-        String result = timeInWords(h, m);
+        String result = getTimeInWords(h, m);
         System.out.println(result);
-
-        scanner.close();
     }
 }
