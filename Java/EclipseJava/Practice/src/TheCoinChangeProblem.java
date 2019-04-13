@@ -5,7 +5,7 @@ public class TheCoinChangeProblem
         return countWaysOfPayingWithCoinsRecursive(totalMoney, coins, 0, new HashMap<String, Long>());
     }
 
-    static long countWaysOfPayingWithCoinsRecursive(int totalMoney, long[] coins, int index, HashMap<String, Long> amountToWaysCountMap)
+    static long countWaysOfPayingWithCoinsRecursive(int totalMoney, long[] coins, int index, Map<String, Long> amountToWaysCountMap)
     {
         if (totalMoney == 0)
         {
