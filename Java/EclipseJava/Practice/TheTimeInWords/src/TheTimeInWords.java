@@ -56,7 +56,7 @@ public class TheTimeInWords
 
     private static String getHourString(int hour)
     {
-        return numsInWordFormatUpToIncTwenty[hour - 1]; // Correct the index, e.g., 3 is at index 2 in array sinlgeDigits
+        return numsInWordFormatUpToIncTwenty[hour - 1]; // Correct the index, e.g., 3 is at index 2 in array numsInWordFormatUpToIncTwenty
     }
 
     private static String getMinutesString(int min)
