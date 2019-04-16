@@ -93,9 +93,7 @@ public class TheTimeInWords
 
         bufferedWriter.write(result);
         bufferedWriter.newLine();
-
         bufferedWriter.close();
-
         scanner.close();
     }
 }
